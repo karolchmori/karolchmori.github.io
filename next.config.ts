@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+});
+
+
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
@@ -11,12 +16,6 @@ const nextConfig: NextConfig = {
   }
 };
 
-// Define MDX options here
-const withMDX = createMDX({
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-});
+
 
 export default withMDX(nextConfig);
