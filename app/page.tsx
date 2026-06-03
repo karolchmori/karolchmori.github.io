@@ -2,7 +2,7 @@
 
 import { MDXProvider } from "@mdx-js/react"; // 1. Import Provider
 import ProjectCard from "./components/ProjectCard";
-import FirstPost from "../content/first_post.mdx";
+import FirstPost from "./content/first_post.mdx";
 
 // 2. Define the components you want available
 const components = {

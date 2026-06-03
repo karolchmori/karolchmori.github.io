@@ -13,7 +13,19 @@ const nextConfig: NextConfig = {
 
   experimental: {
     turbo: false,
-  }
+  }, 
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.mdx$/,
+      use: [
+        {
+          loader: "@mdx-js/loader",
+        },
+      ],
+    });
+
+    return config;
+  },
 };
 
 
