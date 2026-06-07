@@ -1,0 +1,30 @@
+---
+import { SITE_TITLE } from '../consts';
+
+
+
+---
+<a href="/" class="site-logo">
+    {SITE_TITLE}
+</a>
+
+<style>
+    .site-logo {
+		text-decoration: none;
+        color: white; /* Match your header theme */
+        font-family: 'SandorTrial', sans-serif;
+        font-weight: 400;
+        font-size: 40pt; /* Initial big size */
+        transition: font-size 0.3s ease; /* Smooth transition */
+        margin-left: 0.5em;
+        margin-top: 0.1em;
+		
+	}
+    .site-logo:hover {
+		color: #C33F6A;
+		font-weight: 300;
+	}
+    :global(header.scrolled) .site-logo {
+        font-size: 30pt;
+    }
+</style>

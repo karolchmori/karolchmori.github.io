@@ -139,3 +139,20 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+
+@font-face {
+  font-family: 'Roboto-Thin';
+  src: url('../assets/fonts/Roboto-Thin.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SandorTrial';
+  src: url('../assets/fonts/SandorTrial.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
