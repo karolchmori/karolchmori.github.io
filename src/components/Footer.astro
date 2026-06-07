@@ -28,12 +28,18 @@ import Icon_Email from '../assets/icons/AS_Email.svg';
 		
 		bottom: 0;
 		right: 0;
-		padding: 1em;
+		
 		width: 100%;
 		position: fixed;
 		z-index: 1000;
 		background: transparent;
 		text-align: center;
+
+		--padding: 1em;
+		padding-bottom: calc(2em + env(safe-area-inset-bottom));
+		padding-top: 2em;
+		padding-left: 2em;
+		padding-right: 2em;
 	}
 
 	footer img {
