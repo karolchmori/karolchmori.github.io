@@ -15,8 +15,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<div class="home-container">
 					<main>
 			<section class="home-hero">
-
-
+				<a class="home-backcards">
+					<img src="src/assets/elements/Main_BackCards.png" />
+					
+				</a>
+				<a class="home-maincard">
+					<img src="src/assets/elements/Main_FrontCard.png" />
+				</a>
 			</section>
 			<section class="home-transition">
 
@@ -29,7 +34,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 		</div>
 
-		<!-- <Footer /> -->
+		<Footer />
 	</body>
 </html>
 
@@ -46,7 +51,22 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	.home-hero {
 		min-height: 100vh;
 		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		
 	}
+
+	.home-backcards, .home-maincard {
+		position: absolute; /* This pulls them out of the vertical stack */
+		scale: 80%;
+	}
+
+	/* Optional: Layering */
+	.home-backcards { z-index: 1; }
+	.home-maincard { z-index: 2; }
+
 
 	.home-transition {
 		min-height: 54vh;
