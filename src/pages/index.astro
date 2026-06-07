@@ -60,8 +60,12 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 	}
 
 	.home-backcards, .home-maincard {
-		position: absolute; /* This pulls them out of the vertical stack */
-		scale: 80%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%)
+					scale(clamp(0.5, 100vh / 1000px, 1));
+
 	}
 
 	/* Optional: Layering */
@@ -70,10 +74,13 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 
 	@media (max-width: 768px) {
 		.home-backcards {
+			position: absolute; /* This pulls them out of the vertical stack */
 			scale: 80%;
 		}	
+
 		.home-maincard {
-			scale: 70%;
+			position: absolute; /* This pulls them out of the vertical stack */
+			scale: 75%;
 		}	
 		
 	}
