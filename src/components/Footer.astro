@@ -1,20 +1,28 @@
+---
+import Icon_Github from '../assets/icons/AS_Github.svg';
+import Icon_Linkedin from '../assets/icons/AS_Linkedin.svg';
+import Icon_Email from '../assets/icons/AS_Email.svg';
+
+---
 
 <footer>
 	<div class="social-links">
 		<a href="YOUR_LINK_HERE" target="_blank">
 		<span class="sr-only">Go to my GitHub</span>
-		<img src="../assets/icons/AS_Github.svg" alt="GitHub icon" width="27" height="27" />
+		<img src={Icon_Github.src} alt="GitHub icon" width="27" height="27" />
 	</a>
 	<a href="YOUR_LINK_HERE" target="_blank">
 		<span class="sr-only">Go to my LinkedIn</span>
-		<img src="../assets/icons/AS_Linkedin.svg" alt="LinkedIn icon" width="27" height="27" />
+		<img src={Icon_Linkedin.src} alt="LinkedIn icon" width="27" height="27" />
 	</a>
 	<a href="YOUR_LINK_HERE" target="_blank">
 		<span class="sr-only">Go to my LinkedIn</span>
-		<img src="../assets/icons/AS_Email.svg" alt="Email icon" width="35" height="35"  />
+		<img src={Icon_Email.src} alt="Email icon" width="35" height="35"  />
 	</a>
 	</div>
 </footer>
+
+
 <style>
 	footer {
 		

@@ -3,6 +3,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import MainBackCards from '../assets/elements/Main_BackCards.png';
+import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 ---
 
 <!doctype html>
@@ -16,11 +18,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					<main>
 			<section class="home-hero">
 				<a class="home-backcards">
-					<img src="../assets/elements/Main_BackCards.png" />
-					
+					<img src={MainBackCards.src} alt="" />
 				</a>
 				<a class="home-maincard">
-					<img src="../assets/elements/Main_FrontCard.png" />
+					<img src={MainFrontCard.src} alt="" />
 				</a>
 			</section>
 			<section class="home-transition">
