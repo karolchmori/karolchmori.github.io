@@ -56,7 +56,7 @@ import HeaderLink from './HeaderLink.astro';
 			background-image: url('../assets/BG/Phone_TopMenu_BG.png');
 			background-position: 5% 5%;
 			background-repeat: no-repeat;
-			background-size: auto;
+			background-size: cover;
 			opacity: 0.97;
 		}
 
@@ -136,6 +136,17 @@ import HeaderLink from './HeaderLink.astro';
 			navPages.classList.remove('is-open');
 			document.body.style.overflow = ''; // Re-enable scrolling
 		});
+
+		const links = navPages.querySelectorAll('a');
+	
+		links.forEach(link => {
+			link.addEventListener('click', () => {
+				navPages.classList.remove('is-open');
+				document.body.style.overflow = '';
+			});
+		});
 	}
+
+
 
 </script>
