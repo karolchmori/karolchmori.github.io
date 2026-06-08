@@ -1,34 +1,18 @@
 ---
-import Icon_Github from '../assets/icons/AS_Github.svg';
-import Icon_Linkedin from '../assets/icons/AS_Linkedin.svg';
-import Icon_Email from '../assets/icons/AS_Email.svg';
-
+import SocialLinks from '../components/SocialLinks.astro';
 ---
 
 <footer>
-	<div class="social-links">
-		<a href="YOUR_LINK_HERE" target="_blank">
-		<span class="sr-only">Go to my GitHub</span>
-		<img src={Icon_Github.src} alt="GitHub icon" width="27" height="27" />
-	</a>
-	<a href="YOUR_LINK_HERE" target="_blank">
-		<span class="sr-only">Go to my LinkedIn</span>
-		<img src={Icon_Linkedin.src} alt="LinkedIn icon" width="27" height="27" />
-	</a>
-	<a href="YOUR_LINK_HERE" target="_blank">
-		<span class="sr-only">Go to my LinkedIn</span>
-		<img src={Icon_Email.src} alt="Email icon" width="35" height="35"  />
-	</a>
+	<div class="footer-social">
+		<SocialLinks orientation="horizontal"/>
 	</div>
 </footer>
 
 
 <style>
 	footer {
-		
 		bottom: 0;
 		right: 0;
-		
 		width: 100%;
 		position: fixed;
 		z-index: 1000;
@@ -41,32 +25,11 @@ import Icon_Email from '../assets/icons/AS_Email.svg';
 		padding-right: 1em;
 	}
 
-	footer img {
-		border-radius: 3px;
-	}
-
-	.social-links {
-		display: flex;
-		justify-content: right;
-		align-items: center;
-		gap: 0.5em;
-		margin-top: 1em;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: rgb(var(--gray));
-	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
-	}
-
 	@media (max-width: 768px) {
-		.social-links {
+
+		.footer-social {
 			display: none;
 		}
-
 	}
-
-
 
 </style>

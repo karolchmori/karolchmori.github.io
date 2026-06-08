@@ -1,0 +1,58 @@
+---
+import Icon_Github from '../assets/icons/AS_Github.svg';
+import Icon_Linkedin from '../assets/icons/AS_Linkedin.svg';
+import Icon_Email from '../assets/icons/AS_Email.svg';
+
+interface Props {
+    orientation?: 'horizontal' | 'vertical';
+    size?: number;
+    gap?: string;
+        
+}
+
+const { orientation = 'horizontal', size = 27, gap = '0.5em'} = Astro.props;
+---
+
+<div class={`social-links ${orientation}`} style={`--custom-gap: ${gap};`} >
+	<a href="YOUR_LINK_HERE" target="_blank">
+		<span class="sr-only">Go to my GitHub</span>
+		<img src={Icon_Github.src} alt="GitHub icon" width={size} height={size} />
+	</a>
+	<a href="YOUR_LINK_HERE" target="_blank">
+		<span class="sr-only">Go to my LinkedIn</span>
+		<img src={Icon_Linkedin.src} alt="LinkedIn icon" width={size} height={size} />
+	</a>
+	<a href="YOUR_LINK_HERE" target="_blank">
+		<span class="sr-only">Send me an email</span>
+		<img src={Icon_Email.src} alt="Email icon" width={size*1.3} height={size*1.3}  />
+	</a>
+</div>
+
+<style>
+
+    .social-links {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        gap: var(--custom-gap);
+        margin-top: 1em;
+    }
+
+    .social-links img {
+		border-radius: 3px;
+	}
+
+    .social-links a:hover {
+        filter: brightness(1.3);
+    }
+
+    .horizontal {
+        flex-direction: row;
+    }
+
+    .vertical {
+        flex-direction: column;
+    }
+
+
+</style>
