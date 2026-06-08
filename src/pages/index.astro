@@ -36,6 +36,14 @@ import "../styles/animations.css";
 
 
 			</section>
+			<section class="home-credits">
+
+
+			</section>
+			<section class="home-ending">
+
+
+			</section>
 		</main>
 
 		</div>
@@ -46,19 +54,65 @@ import "../styles/animations.css";
 
 
 <style> 
+
+	/* -------------------------------------------------------------- */ 
+	/* ---------------------- MAIN SECTIONS ------------------------- */ 
+	/* -------------------------------------------------------------- */ 
+	
 	.home-container {
-		background-image: url('../assets/BG/MainHomeAll_BG_High.jpg');
+		background-image: url('../assets/BG/BG_MainHome_High.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: top center;
 	}
 
-
 	.home-hero {
 		position: relative;
   		min-height: 100vh;
-		
 	}
+
+	.home-transition {
+		min-height: 44vh;
+		width: 100%;
+	}
+
+	.home-portfolio {
+		min-height: 100vh;
+		width: 100%;
+	}
+
+	.home-credits {
+		min-height: 100vh;
+		width: 100%;
+	}
+
+	.home-ending {
+		min-height: 44vh;
+		width: 100%;
+	}
+
+	section {
+		display: block; 
+	}
+
+
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	main {
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+
+	/* -------------------------------------------------------------- */ 
+	/* ------------------------ HERO CONFIG ------------------------- */ 
+	/* -------------------------------------------------------------- */ 
+
 
 	.home-backcards img,
 	.home-maincard img {
@@ -98,6 +152,14 @@ import "../styles/animations.css";
 		/* Filter */ 
 		filter: drop-shadow(0 0 10px #ff7ec7);
 	}
+
+
+
+
+
+	/* -------------------------------------------------------------- */ 
+	/* ------------------- PHONE MODIFICATIONS ---------------------- */ 
+	/* -------------------------------------------------------------- */ 
 	
 
 	@media (max-width: 768px) {
@@ -124,31 +186,7 @@ import "../styles/animations.css";
 
 
 
-	.home-transition {
-		min-height: 54vh;
-		width: 100%;
-	}
-
-	.home-portfolio {
-		min-height: 100vh;
-		width: 100%;
-	}
-
-	section {
-		display: block; 
-	}
 
 
-	body {
-		margin: 0;
-		padding: 0;
-	}
-
-	main {
-		width: 100%;
-		max-width: 100%;
-		margin: 0;
-		padding: 0;
-	}
 
 </style>
