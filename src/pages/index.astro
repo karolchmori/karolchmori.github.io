@@ -5,6 +5,8 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import MainBackCards from '../assets/elements/Main_BackCards.png';
 import MainFrontCard from '../assets/elements/Main_FrontCard.png';
+import ScrollDownArrow from '../assets/icons/AS_DownArrow.svg';
+import "../styles/animations.css";
 ---
 
 <!doctype html>
@@ -23,6 +25,9 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 				<a class="home-maincard">
 					<img src={MainFrontCard.src} alt="" />
 				</a>
+				<div class="scroll-arrow">
+					<img src={ScrollDownArrow.src} alt="" />
+				</div>
 			</section>
 			<section class="home-transition">
 
@@ -63,6 +68,11 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 		display: block;
 	}
 
+	.scroll-arrow img {
+		width: 40px;
+		height: auto;
+	}
+
 	.home-backcards, .home-maincard {
 		position: absolute;
 		top: 50%;
@@ -72,9 +82,22 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 						min(calc(100vh / 771px), calc(100vw / 300px)), 
 						0.75));
 		transform-origin: center;
-
 	}
 
+	.scroll-arrow {
+		/* Transform */ 
+		position: absolute;
+		bottom: 7%;
+		left: 50%;
+		z-index: 5;
+		
+		/* Animation */ 
+		--bounce-height: 10px;
+		animation: bounce 2s infinite;
+
+		/* Filter */ 
+		filter: drop-shadow(0 0 10px #ff7ec7);
+	}
 	
 
 	@media (max-width: 768px) {
@@ -87,7 +110,6 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 						min(calc(100vh / 771px), calc(100vw / 300px)), 
 						0.55));
 			transform-origin: center;
-
 		}
 
 	}
