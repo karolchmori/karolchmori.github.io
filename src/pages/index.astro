@@ -5,7 +5,7 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import MainBackCards from '../assets/elements/Main_BackCards.png';
 import MainFrontCard from '../assets/elements/Main_FrontCard.png';
-import MainFrontCardFilter from '../assets/elements/Main_FrontCard_Cover.svg';
+import PlayButton from '../assets/icons/AS_PlayButton.svg';
 import ScrollDownArrow from '../assets/icons/AS_DownArrow.svg';
 import "../styles/animations.css";
 import Vignette from '../components/props/Vignette.astro';
@@ -24,10 +24,15 @@ import Vignette from '../components/props/Vignette.astro';
 				<a class="home-backcards">
 					<img src={MainBackCards.src} alt="" />
 				</a>
-				<a class="home-maincard">
-					<img src={MainFrontCard.src} alt="" />
-					<img class="home-maincardCover" src={MainFrontCardFilter.src} alt="" />
-				</a>
+				<div class="home-maincard">
+					<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
+
+					<a class="home-showreelPlay">
+						<img src={PlayButton.src} alt="" />
+					</a>
+				</div>
+				
+
 				<div class="scroll-arrow">
 					<img src={ScrollDownArrow.src} alt="" />
 				</div>
@@ -131,6 +136,12 @@ import Vignette from '../components/props/Vignette.astro';
 		height: 3.2vh;
 	}
 
+	.home-showreelPlay img {
+		width: auto;
+		height: 15vh;
+		
+	}
+
 	.home-backcards, .home-maincard {
 		position: absolute;
 		top: 50%;
@@ -143,14 +154,28 @@ import Vignette from '../components/props/Vignette.astro';
 	}
 
 
-	.home-maincardCover {
+	.home-showreelPlay {
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-49%, -49%) scale(99%);
+		transform: translate(-50%, -50%);
 		transform-origin: center;
+		pointer-events: none;
 		opacity: 0;
+		transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+		
 	}
+
+	.home-maincard:hover .home-maincard-bg {
+		filter: blur(3px);
+	}
+
+
+	.home-maincard:hover .home-showreelPlay {
+		opacity: 1 !important;
+		pointer-events: auto;
+	}
+
 
 
 	.scroll-arrow {
@@ -166,12 +191,10 @@ import Vignette from '../components/props/Vignette.astro';
 
 		/* Filter */ 
 		filter: drop-shadow(0 0 10px #ff7ec7);
+		
 	}
 
 
-	.home-maincard:hover .home-maincardCover {
-		animation: revealOpacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-	}
 
 
 
