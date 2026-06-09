@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../consts';
 import MainBackCards from '../assets/elements/Main_BackCards.png';
 import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 import PlayButton from '../assets/icons/AS_PlayButton.svg';
@@ -33,7 +33,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 						</span>
 
 					</a>
-					<VideoModal trigger="#mainCard" videoUrl="https://player.vimeo.com/video/1179394334" />
+					<VideoModal trigger="#mainCard" platform="vimeo" idVideo={DEMOREEL}/>
 					<div class="scroll-arrow">
 						<img src={ScrollDownArrow.src} alt="" />
 					</div>

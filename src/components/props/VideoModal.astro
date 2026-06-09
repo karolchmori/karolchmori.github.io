@@ -1,17 +1,23 @@
 ---
 // VideoModal.astro
+import { getVideoUrl } from "../../lib/video";
+
+
 interface Props {
 	trigger: string;
-	videoUrl: string;
+	platform: "vimeo" | "youtube";
+    idVideo: string;
 }
 
-const { trigger, videoUrl } = Astro.props;
+const { trigger, platform, idVideo } = Astro.props;
+
+const src = getVideoUrl(platform, idVideo);
 ---
 
 <div class="video-overlay" data-modal>
 	<div class="video-container">
 		<iframe
-			src={videoUrl}
+			src={src}
 			frameborder="0"
 			allow="fullscreen; picture-in-picture"
 		/>
@@ -29,7 +35,7 @@ const { trigger, videoUrl } = Astro.props;
 		background: rgba(0, 0, 0, 0.8);
 		z-index: 9999;
 
-		/* IMPORTANT: prevents it from affecting layout when hidden */
+		/* Prevents affecting other layouts when is hidden */
 		visibility: hidden;
 		opacity: 0;
 		pointer-events: none;
@@ -43,7 +49,7 @@ const { trigger, videoUrl } = Astro.props;
 	}
 
 	.video-container {
-		width: min(900px, 90vw);
+		width: min(1800px, 90vw);
 		aspect-ratio: 16 / 9;
 		position: relative;
 	}
@@ -79,4 +85,5 @@ const { trigger, videoUrl } = Astro.props;
 	document.addEventListener("keydown", (e) => {
 		if (e.key === "Escape") close();
 	});
+    
 </script>
