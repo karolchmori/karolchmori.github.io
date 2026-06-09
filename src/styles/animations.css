@@ -14,3 +14,14 @@
         transform: translateY(calc(var(--bounce-height, 10px) * -0.5));
     }
 }
+
+
+@keyframes revealOpacity {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

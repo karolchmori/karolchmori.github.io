@@ -170,7 +170,7 @@ import Vignette from '../components/props/Vignette.astro';
 
 
 	.home-maincard:hover .home-maincardCover {
-		opacity: 1;
+		animation: revealOpacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	}
 
 
@@ -194,6 +194,11 @@ import Vignette from '../components/props/Vignette.astro';
 			opacity: 0;
 		}
 
+		.home-maincardCover {
+			animation: revealOpacity 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+			animation-delay: 5s;
+		}
+
 		.scroll-arrow {
 			bottom: 18%;
 			left: 47%;
@@ -205,9 +210,5 @@ import Vignette from '../components/props/Vignette.astro';
 
 
 	}
-
-
-
-
 
 </style>
