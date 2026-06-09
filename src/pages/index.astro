@@ -9,6 +9,7 @@ import PlayButton from '../assets/icons/AS_PlayButton.svg';
 import ScrollDownArrow from '../assets/icons/AS_DownArrow.svg';
 import "../styles/animations.css";
 import Vignette from '../components/props/Vignette.astro';
+import VideoModal from '../components/props/VideoModal.astro';
 ---
 
 <!doctype html>
@@ -30,8 +31,9 @@ import Vignette from '../components/props/Vignette.astro';
 						<span class="home-showreelPlay">
 							<img src={PlayButton.src} alt="" />
 						</span>
+
 					</a>
-					
+					<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1179394334?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:50%;height:50%;" title="Karol Ch. Mori | DemoReel 2026 April"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 					<div class="scroll-arrow">
 						<img src={ScrollDownArrow.src} alt="" />
@@ -152,19 +154,6 @@ import Vignette from '../components/props/Vignette.astro';
 		transform-origin: center;
 	}
 
-
-	.home-showreelPlay {
-		position: absolute;
-		top: 48%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		transform-origin: center;
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-		
-	}
-
 	.home-maincard:hover .home-maincard-bg {
 		filter: blur(3px) brightness(70%);
 	}
@@ -175,6 +164,20 @@ import Vignette from '../components/props/Vignette.astro';
 		pointer-events: auto;
 	}
 
+
+
+	.home-showreelVideo iframe {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	.home-showreel {
+		position:relative;
+		top:0;
+		left:25%;
+	}
 
 
 	.scroll-arrow {
