@@ -25,3 +25,9 @@
 		opacity: 1;
 	}
 }
+
+@keyframes revealBlur {
+    to {
+        filter: blur(3px) brightness(70%);
+    }
+}

@@ -36,7 +36,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 					<div class="video-overlay" id="videoOverlay">
 						<div class="video-container">
 							<iframe
-							src="https://player.vimeo.com/video/1179394334?autoplay=0"
+							src="https://player.vimeo.com/video/1179394334?autoplay=1"
 							frameborder="0"
 							allow="autoplay; fullscreen; picture-in-picture"
 							></iframe>
@@ -184,7 +184,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 
 
 	.home-maincard:hover .home-showreelPlay {
-		opacity: 1 !important;
+		opacity: 1;
 		pointer-events: auto;
 	}
 
@@ -259,14 +259,20 @@ import VideoModal from '../components/props/VideoModal.astro';
 
 		.home-maincard:hover .home-showreelPlay {
 			opacity: 0;
+			
+		}
+
+		.home-maincard-bg {
+			animation: revealBlur 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+			animation-delay: 4s;
 		}
 
 		.home-showreelPlay {
 			animation: revealOpacity 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-			animation-delay: 5s;
+			animation-delay: 4s;
 			top: 45%;
 		}
-		
+
 
 		.scroll-arrow {
 			bottom: 18%;

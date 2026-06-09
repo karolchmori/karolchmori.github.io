@@ -151,6 +151,30 @@ hr {
 }
 
 @font-face {
+  font-family: 'Roboto-Light';
+  src: url('../assets/fonts/Roboto-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../assets/fonts/Roboto-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('../assets/fonts/Roboto-Medium.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'SandorTrial';
   src: url('../assets/fonts/SandorTrial.woff2') format('woff2');
   font-weight: normal;
