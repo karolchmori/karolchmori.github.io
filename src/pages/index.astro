@@ -25,7 +25,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 					<a class="home-backcards">
 						<img src={MainBackCards.src} alt="" />
 					</a>
-					<a class="home-maincard">
+					<a class="home-maincard" id="mainCard">
 						<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
 
 						<span class="home-showreelPlay">
@@ -33,7 +33,15 @@ import VideoModal from '../components/props/VideoModal.astro';
 						</span>
 
 					</a>
-					<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1179394334?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:50%;height:50%;" title="Karol Ch. Mori | DemoReel 2026 April"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+					<div class="video-overlay" id="videoOverlay">
+						<div class="video-container">
+							<iframe
+							src="https://player.vimeo.com/video/1179394334?autoplay=0"
+							frameborder="0"
+							allow="autoplay; fullscreen; picture-in-picture"
+							></iframe>
+						</div>
+					</div>
 
 					<div class="scroll-arrow">
 						<img src={ScrollDownArrow.src} alt="" />
@@ -111,6 +119,10 @@ import VideoModal from '../components/props/VideoModal.astro';
 		padding: 0;
 	}
 
+	body.no-scroll {
+		overflow: hidden;
+	}
+
 	main {
 		width: 100%;
 		max-width: 100%;
@@ -143,7 +155,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 		
 	}
 
-	.home-backcards, .home-maincard {
+	.home-backcards, .home-maincard{
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -152,6 +164,18 @@ import VideoModal from '../components/props/VideoModal.astro';
 						min(calc(100vh / 771px), calc(100vw / 300px)), 
 						0.75));
 		transform-origin: center;
+	}
+
+	.home-showreelPlay {
+		position: absolute;
+		top: 48%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		transform-origin: center;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+		
 	}
 
 	.home-maincard:hover .home-maincard-bg {
@@ -164,21 +188,43 @@ import VideoModal from '../components/props/VideoModal.astro';
 		pointer-events: auto;
 	}
 
+	/* ---------------------- VIDEO OVERLAY ----------------------- */ 
 
+	.video-overlay {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.8);
+		z-index: 9999;
 
-	.home-showreelVideo iframe {
+		/* IMPORTANT: prevents it from affecting layout when hidden */
+		visibility: hidden;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.2s ease;
+	}
+
+	.video-overlay.is-open {
+		visibility: visible;
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.video-container {
+		width: min(900px, 90vw);
+		aspect-ratio: 16 / 9;
+		position: relative;
+	}
+
+	.video-container iframe {
 		width: 100%;
 		height: 100%;
-		position: absolute;
-		pointer-events: none;
+		border: 0;
 	}
 
-	.home-showreel {
-		position:relative;
-		top:0;
-		left:25%;
-	}
-
+	/* ---------------------- VIDEO OVERLAY ----------------------- */ 
 
 	.scroll-arrow {
 		/* Transform */ 
@@ -195,10 +241,6 @@ import VideoModal from '../components/props/VideoModal.astro';
 		filter: drop-shadow(0 0 10px #ff7ec7);
 		
 	}
-
-
-
-
 
 
 	/* -------------------------------------------------------------- */ 
@@ -241,3 +283,38 @@ import VideoModal from '../components/props/VideoModal.astro';
 	}
 
 </style>
+
+
+<script>
+	const card = document.getElementById("mainCard");
+	const overlay = document.getElementById("videoOverlay");
+
+	function openModal() {
+		if (overlay) {
+			overlay.classList.add("is-open");
+			document.body.classList.add("no-scroll");
+		}
+		
+	}
+
+	function closeModal() {
+		if (overlay) {
+			overlay.classList.remove("is-open");
+			document.body.classList.remove("no-scroll");
+		}
+		
+	}
+
+	if (card && overlay) {
+		card.addEventListener("click", openModal);
+
+		overlay.addEventListener("click", (e) => {
+			if (e.target === overlay) closeModal();
+		});
+
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "Escape") closeModal();
+		});
+	}
+	
+</script>
