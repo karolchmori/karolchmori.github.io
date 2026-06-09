@@ -19,41 +19,40 @@ import Vignette from '../components/props/Vignette.astro';
 	<body>
 		<Header />
 		<div class="home-container">
-					<main>
-			<section class="home-hero">
-				<a class="home-backcards">
-					<img src={MainBackCards.src} alt="" />
-				</a>
-				<div class="home-maincard">
-					<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
-
-					<a class="home-showreelPlay">
-						<img src={PlayButton.src} alt="" />
+			<main>
+				<section class="home-hero">
+					<a class="home-backcards">
+						<img src={MainBackCards.src} alt="" />
 					</a>
-				</div>
-				
+					<a class="home-maincard">
+						<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
 
-				<div class="scroll-arrow">
-					<img src={ScrollDownArrow.src} alt="" />
-				</div>
-			</section>
-			<section class="home-transition">
+						<span class="home-showreelPlay">
+							<img src={PlayButton.src} alt="" />
+						</span>
+					</a>
+					
 
-			</section>
-			<section class="home-portfolio">
+					<div class="scroll-arrow">
+						<img src={ScrollDownArrow.src} alt="" />
+					</div>
+				</section>
+				<section class="home-transition">
 
-
-			</section>
-			<section class="home-credits">
-
-
-			</section>
-			<section class="home-ending">
+				</section>
+				<section class="home-portfolio">
 
 
-			</section>
-		</main>
+				</section>
+				<section class="home-credits">
 
+
+				</section>
+				<section class="home-ending">
+
+
+				</section>
+			</main>
 		</div>
 
 		<Footer class="home-social"/>
@@ -138,7 +137,7 @@ import Vignette from '../components/props/Vignette.astro';
 
 	.home-showreelPlay img {
 		width: auto;
-		height: 15vh;
+		height: 18vh;
 		
 	}
 
@@ -156,7 +155,7 @@ import Vignette from '../components/props/Vignette.astro';
 
 	.home-showreelPlay {
 		position: absolute;
-		top: 50%;
+		top: 48%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		transform-origin: center;
@@ -167,7 +166,7 @@ import Vignette from '../components/props/Vignette.astro';
 	}
 
 	.home-maincard:hover .home-maincard-bg {
-		filter: blur(3px);
+		filter: blur(3px) brightness(70%);
 	}
 
 
@@ -220,6 +219,10 @@ import Vignette from '../components/props/Vignette.astro';
 		.home-maincardCover {
 			animation: revealOpacity 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 			animation-delay: 5s;
+		}
+
+		.home-showreelPlay {
+			top: 40%;
 		}
 
 		.scroll-arrow {
