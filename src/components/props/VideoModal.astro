@@ -1,45 +1,82 @@
 ---
-const id = "video-modal";
+// VideoModal.astro
+interface Props {
+	trigger: string;
+	videoUrl: string;
+}
+
+const { trigger, videoUrl } = Astro.props;
 ---
 
-<div class="modal hidden" id={id}>
-  <div class="modal-content">
-    <button class="close" data-close>✕</button>
-
-    <iframe
-      id="video-frame"
-      src=""
-      allow="autoplay; encrypted-media"
-      allowfullscreen
-    ></iframe>
-  </div>
+<div class="video-overlay" data-modal>
+	<div class="video-container">
+		<iframe
+			src={videoUrl}
+			frameborder="0"
+			allow="fullscreen; picture-in-picture"
+		/>
+	</div>
 </div>
 
-<script is:inline>
-  const modal = document.getElementById("video-modal");
-  const frame = document.getElementById("video-frame");
-  const closeBtn = modal.querySelector("[data-close]");
+<style>
 
-  function openVideo(url) {
-    frame.src = url + "?autoplay=1";
-    modal.classList.remove("hidden");
-  }
+    .video-overlay {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.8);
+		z-index: 9999;
 
-  function closeVideo() {
-    frame.src = "";
-    modal.classList.add("hidden");
-  }
+		/* IMPORTANT: prevents it from affecting layout when hidden */
+		visibility: hidden;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.2s ease;
+	}
 
-  // expose globally so buttons can use it
-  window.openVideo = openVideo;
+	.video-overlay.is-open {
+		visibility: visible;
+		opacity: 1;
+		pointer-events: auto;
+	}
 
-  closeBtn.addEventListener("click", closeVideo);
+	.video-container {
+		width: min(900px, 90vw);
+		aspect-ratio: 16 / 9;
+		position: relative;
+	}
 
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeVideo();
-  });
+	.video-container iframe {
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeVideo();
-  });
+</style>
+
+<script define:vars={{ trigger }}>
+	const button = document.querySelector(trigger);
+	const overlay = document.querySelector("[data-modal]");
+
+	function open() {
+		overlay?.classList.add("is-open");
+		document.body.classList.add("no-scroll");
+	}
+
+	function close() {
+		overlay?.classList.remove("is-open");
+		document.body.classList.remove("no-scroll");
+	}
+
+	button?.addEventListener("click", open);
+
+	overlay?.addEventListener("click", (e) => {
+		if (e.target === overlay) close();
+	});
+
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") close();
+	});
 </script>
