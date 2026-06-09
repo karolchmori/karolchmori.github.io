@@ -8,7 +8,7 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 import MainFrontCardFilter from '../assets/elements/Main_FrontCard_Cover.svg';
 import ScrollDownArrow from '../assets/icons/AS_DownArrow.svg';
 import "../styles/animations.css";
-import Vignette from '../components/Vignette.astro';
+import Vignette from '../components/props/Vignette.astro';
 ---
 
 <!doctype html>
@@ -26,6 +26,7 @@ import Vignette from '../components/Vignette.astro';
 				</a>
 				<a class="home-maincard">
 					<img src={MainFrontCard.src} alt="" />
+					<img class="home-maincardCover" src={MainFrontCardFilter.src} alt="" />
 				</a>
 				<div class="scroll-arrow">
 					<img src={ScrollDownArrow.src} alt="" />
@@ -139,9 +140,18 @@ import Vignette from '../components/Vignette.astro';
 						min(calc(100vh / 771px), calc(100vw / 300px)), 
 						0.75));
 		transform-origin: center;
-		
-		
 	}
+
+
+	.home-maincardCover {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-49%, -49%) scale(99%);
+		transform-origin: center;
+		opacity: 0;
+	}
+
 
 	.scroll-arrow {
 		/* Transform */ 
@@ -159,8 +169,8 @@ import Vignette from '../components/Vignette.astro';
 	}
 
 
-	.home-maincard:hover {
-		filter: drop-shadow(0 0 10px #ff7ec7);
+	.home-maincard:hover .home-maincardCover {
+		opacity: 1;
 	}
 
 
@@ -172,12 +182,16 @@ import Vignette from '../components/Vignette.astro';
 	
 
 	@media (max-width: 768px) {
-		.home-backcards, .home-maincard, .home-maincardCover {
+		.home-backcards, .home-maincard {
 			top: 46%;
 			transform: translate(-50%, -50%) 
 						scale(clamp(0.1, 
 						min(calc(100vh / 771px), calc(100vw / 300px)), 
 						0.55));
+		}
+
+		.home-maincard:hover .home-maincardCover {
+			opacity: 0;
 		}
 
 		.scroll-arrow {

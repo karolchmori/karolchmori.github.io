@@ -3,7 +3,7 @@ interface Props {
   opacity?: number;
 }
 
-const { opacity = 0.8 } = Astro.props;
+const { opacity = 0.9 } = Astro.props;
 ---
 
 <div class="vignette" style={`--vignette-opacity: ${opacity};`} />
@@ -18,12 +18,12 @@ const { opacity = 0.8 } = Astro.props;
       ellipse 200% 70% at 50% 58%,
       transparent 0%,
       transparent 70%,
-      rgba(66, 12, 48, 0) 55%,
-      rgba(12, 9, 12, 0.85) 80%,
+      rgba(233, 155, 207, 0) 55%,
+      rgba(12, 9, 12, 0.755) 80%,
       rgba(0, 0, 0, 0.912) 100%
     );
 
     opacity: var(--vignette-opacity);
-    z-index: 50;
+    z-index: 100;
   }
 </style>
