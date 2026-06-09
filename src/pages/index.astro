@@ -33,9 +33,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 						</span>
 
 					</a>
-					<VideoModal trigger="#mainCard"
-						videoUrl="https://player.vimeo.com/video/1179394334"
-					/>
+					<VideoModal trigger="#mainCard" videoUrl="https://player.vimeo.com/video/1179394334" />
 					<div class="scroll-arrow">
 						<img src={ScrollDownArrow.src} alt="" />
 					</div>
@@ -112,10 +110,6 @@ import VideoModal from '../components/props/VideoModal.astro';
 		padding: 0;
 	}
 
-	body.no-scroll {
-		overflow: hidden;
-	}
-
 	main {
 		width: 100%;
 		max-width: 100%;
@@ -181,42 +175,6 @@ import VideoModal from '../components/props/VideoModal.astro';
 		pointer-events: auto;
 	}
 
-	/* ---------------------- VIDEO OVERLAY ----------------------- */ 
-
-	.video-overlay {
-		position: fixed;
-		inset: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(0, 0, 0, 0.8);
-		z-index: 9999;
-
-		/* IMPORTANT: prevents it from affecting layout when hidden */
-		visibility: hidden;
-		opacity: 0;
-		pointer-events: none;
-		transition: opacity 0.2s ease;
-	}
-
-	.video-overlay.is-open {
-		visibility: visible;
-		opacity: 1;
-		pointer-events: auto;
-	}
-
-	.video-container {
-		width: min(900px, 90vw);
-		aspect-ratio: 16 / 9;
-		position: relative;
-	}
-
-	.video-container iframe {
-		width: 100%;
-		height: 100%;
-		border: 0;
-	}
-
 	/* ---------------------- Scroll Arrow ----------------------- */ 
 
 	.scroll-arrow {
@@ -256,12 +214,12 @@ import VideoModal from '../components/props/VideoModal.astro';
 		}
 
 		.home-maincard-bg {
-			animation: revealBlur 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+			animation: revealBlur 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 			animation-delay: 4s;
 		}
 
 		.home-showreelPlay {
-			animation: revealOpacity 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+			animation: revealOpacity 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 			animation-delay: 4s;
 			top: 45%;
 		}
@@ -279,38 +237,3 @@ import VideoModal from '../components/props/VideoModal.astro';
 	}
 
 </style>
-
-
-<script>
-	const card = document.getElementById("mainCard");
-	const overlay = document.getElementById("videoOverlay");
-
-	function openModal() {
-		if (overlay) {
-			overlay.classList.add("is-open");
-			document.body.classList.add("no-scroll");
-		}
-		
-	}
-
-	function closeModal() {
-		if (overlay) {
-			overlay.classList.remove("is-open");
-			document.body.classList.remove("no-scroll");
-		}
-		
-	}
-
-	if (card && overlay) {
-		card.addEventListener("click", openModal);
-
-		overlay.addEventListener("click", (e) => {
-			if (e.target === overlay) closeModal();
-		});
-
-		document.addEventListener("keydown", (e) => {
-			if (e.key === "Escape") closeModal();
-		});
-	}
-	
-</script>
