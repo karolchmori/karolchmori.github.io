@@ -10,14 +10,14 @@ interface Props {
 	viewPercent?: number;
 }
 
-const { trigger, platform, idVideo, viewPercent = 90} = Astro.props;
+const { trigger, platform, idVideo, viewPercent = 85} = Astro.props;
 
 const src = getVideoUrl(platform, idVideo);
 
 ---
 
 <div class="video-overlay" data-modal>
-	<div class="video-container" style={`--viewPer: ${viewPercent}`}>
+	<div class="video-container" style={`--viewPer: ${viewPercent/100}`}>
 		<iframe
 			data-src={src}
 			src={src}
