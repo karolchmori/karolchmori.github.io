@@ -7,16 +7,17 @@ interface Props {
 	trigger: string;
 	platform: "vimeo" | "youtube";
     idVideo: string;
+	viewPercent?: number;
 }
 
-const { trigger, platform, idVideo } = Astro.props;
+const { trigger, platform, idVideo, viewPercent = 90} = Astro.props;
 
 const src = getVideoUrl(platform, idVideo);
 
 ---
 
 <div class="video-overlay" data-modal>
-	<div class="video-container">
+	<div class="video-container" style={`--viewPer: ${viewPercent}`}>
 		<iframe
 			data-src={src}
 			src={src}
@@ -51,7 +52,7 @@ const src = getVideoUrl(platform, idVideo);
 	}
 
 	.video-container {
-		width: min(90vw, calc(90vh * 16 / 9));
+		width: min(var(--viewPer) * 100vw, calc(var(--viewPer) * 100vh * 16 / 9));
 		aspect-ratio: 16 / 9;
 		position: relative;
 	}
