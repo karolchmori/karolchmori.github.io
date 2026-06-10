@@ -65,13 +65,16 @@ const src = getVideoUrl(platform, idVideo);
 <script define:vars={{ trigger }}>
 	const button = document.querySelector(trigger);
 	const overlay = document.querySelector("[data-modal]");
+	const iframe = overlay.querySelector("iframe");
 
 	function open() {
+		iframe.src = src;
 		overlay?.classList.add("is-open");
 		document.body.classList.add("no-scroll");
 	}
 
 	function close() {
+		iframe.src = "";
 		overlay?.classList.remove("is-open");
 		document.body.classList.remove("no-scroll");
 	}
