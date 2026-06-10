@@ -1,8 +1,5 @@
 ---
 import { SITE_TITLE } from '../consts';
-
-
-
 ---
 <a href="/" class="site-logo">
     {SITE_TITLE}
@@ -11,13 +8,13 @@ import { SITE_TITLE } from '../consts';
 <style>
     .site-logo {
 		text-decoration: none;
-        color: white; /* Match your header theme */
+        color: #f1eaec; 
         font-family: 'SandorTrial', sans-serif;
         font-weight: 400;
-        font-size: 40pt; /* Initial big size */
+        font-size: min(0.07 * 90vw, calc(0.07 * 90vh));
         transition: font-size 0.3s ease; /* Smooth transition */
         margin-left: 0.5em;
-        margin-top: 0.1em;
+        margin-top: 0.05em;
 		
 	}
     .site-logo:hover {
@@ -25,20 +22,7 @@ import { SITE_TITLE } from '../consts';
 		font-weight: 300;
 	}
     :global(header.scrolled) .site-logo {
-        font-size: 30pt;
+        font-size: min(0.05 * 90vw, calc(0.05 * 90vh));
     }
-
-
-    @media (max-width: 768px) {
-		.site-logo {
-			font-size: 33pt;
-		}
-
-        :global(header.scrolled) .site-logo {
-            font-size: 28pt;
-        }
-		
-	}
-
 
 </style>
