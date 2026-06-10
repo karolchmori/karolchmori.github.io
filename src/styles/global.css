@@ -98,6 +98,7 @@ img {
 	max-width: 100%;
 	height: auto;
 	border-radius: 8px;
+	-webkit-user-drag: none;
 }
 code {
 	padding: 2px 5px;
