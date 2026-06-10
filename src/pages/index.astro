@@ -6,10 +6,10 @@ import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../consts';
 import MainBackCards from '../assets/elements/Main_BackCards.png';
 import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 import PlayButton from '../assets/icons/AS_PlayButton.svg';
-import ScrollDownArrow from '../assets/icons/AS_DownArrow.svg';
 import "../styles/animations.css";
 import Vignette from '../components/props/Vignette.astro';
 import VideoModal from '../components/props/VideoModal.astro';
+import ArrowButton from '../components/props/ArrowButton.astro';
 ---
 
 <!doctype html>
@@ -27,19 +27,18 @@ import VideoModal from '../components/props/VideoModal.astro';
 					</a>
 					<a class="home-maincard" id="mainCard">
 						<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
-
 						<span class="home-showreelPlay">
 							<img src={PlayButton.src} alt="" />
 						</span>
-
 					</a>
 					<VideoModal trigger="#mainCard" platform="vimeo" idVideo={DEMOREEL}/>
-					<div class="scroll-arrow">
-						<img src={ScrollDownArrow.src} alt="" />
+					
+					<div class="scroll-arrow"> 
+						<ArrowButton variant='glow'/>
 					</div>
 				</section>
 				<section class="home-transition">
-
+					
 				</section>
 				<section class="home-portfolio">
 
@@ -100,7 +99,8 @@ import VideoModal from '../components/props/VideoModal.astro';
 	}
 
 	section {
-		display: block; 
+		display: block;
+		scroll-snap-align: start;
 	}
 
 
@@ -121,7 +121,6 @@ import VideoModal from '../components/props/VideoModal.astro';
 	/* ------------------------ HERO CONFIG ------------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-
 	.home-backcards img,
 	.home-maincard img {
 		width: auto;
@@ -130,15 +129,9 @@ import VideoModal from '../components/props/VideoModal.astro';
 		display: block;
 	}
 
-	.scroll-arrow img {
-		width: auto;
-		height: 3.2vh;
-	}
-
 	.home-showreelPlay img {
 		width: auto;
 		height: 18vh;
-		
 	}
 
 	.home-backcards, .home-maincard{
@@ -166,6 +159,7 @@ import VideoModal from '../components/props/VideoModal.astro';
 
 	.home-maincard:hover .home-maincard-bg {
 		filter: blur(3px) brightness(70%);
+		cursor: pointer;
 	}
 
 
@@ -173,10 +167,10 @@ import VideoModal from '../components/props/VideoModal.astro';
 		opacity: 1;
 		filter: blur(0.7px);
 		pointer-events: auto;
+		cursor: pointer;
 	}
 
 	/* ---------------------- Scroll Arrow ----------------------- */ 
-
 	.scroll-arrow {
 		/* Transform */ 
 		position: absolute;
@@ -186,13 +180,8 @@ import VideoModal from '../components/props/VideoModal.astro';
 		
 		/* Animation */ 
 		--bounce-height: 10px;
-		animation: bounce 2s infinite;
-
-		/* Filter */ 
-		filter: drop-shadow(0 0 10px #ff7ec7);
-		
+		animation: bounce 2s infinite;		
 	}
-
 
 	/* -------------------------------------------------------------- */ 
 	/* ------------------- PHONE MODIFICATIONS ---------------------- */ 
@@ -210,7 +199,6 @@ import VideoModal from '../components/props/VideoModal.astro';
 
 		.home-maincard:hover .home-showreelPlay {
 			opacity: 0;
-			
 		}
 
 		.home-maincard-bg {
@@ -237,3 +225,17 @@ import VideoModal from '../components/props/VideoModal.astro';
 	}
 
 </style>
+
+
+
+<script>
+	const arrow = document.querySelector(".scroll-arrow");
+	const portfolio = document.querySelector(".home-portfolio");
+
+	arrow?.addEventListener("click", () => {
+		portfolio?.scrollIntoView({
+		behavior: "smooth",
+		block: "start",
+		});
+	});
+</script>

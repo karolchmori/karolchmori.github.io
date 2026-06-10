@@ -1,0 +1,63 @@
+---
+// ArrowButton.astro
+import ScrollDownArrow from '../../assets/icons/AS_DownArrow.svg';
+
+interface Props {
+    heightVh?: number;
+	angle?: number;
+    variant?: 'enabled' | 'glow' | 'disabled';
+}
+
+const {heightVh = 3.2, angle = 0, variant = 'enabled'} = Astro.props;
+
+---
+
+
+<div class={`scroll-arrow ${variant}`} style={`--height-vh: ${heightVh}vh; --angle: ${angle} deg;`}>
+    <div class="icon-wrapper">
+        <img src={ScrollDownArrow.src} alt="" />
+    </div>
+</div>
+
+<style>
+    .scroll-arrow img {
+		width: auto;
+		height: var(--height-vh);
+	}
+
+    .scroll-arrow {
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .scroll-arrow:hover {
+        transform: translateY(2px) scale(1.05);
+    }
+
+
+    .icon-wrapper {
+        transform: rotate(var(--angle));
+    }
+
+    /* --------------------- STATES ---------------------*/
+
+    /* active */
+    .scroll-arrow.enabled {
+        filter: none;
+        opacity: 1;
+    }
+
+    /* glow state */
+    .scroll-arrow.glow {
+        filter: drop-shadow(0 0 10px #ff7ec7);
+    }
+
+    /* disabled state */
+    .scroll-arrow.disabled {
+        opacity: 0.3;
+        filter: brightness(80%);
+        pointer-events: none;
+    }
+
+
+</style>
