@@ -12,11 +12,13 @@ interface Props {
 const { trigger, platform, idVideo } = Astro.props;
 
 const src = getVideoUrl(platform, idVideo);
+
 ---
 
 <div class="video-overlay" data-modal>
 	<div class="video-container">
 		<iframe
+			data-src={src}
 			src={src}
 			frameborder="0"
 			allow="fullscreen; picture-in-picture"
@@ -62,7 +64,7 @@ const src = getVideoUrl(platform, idVideo);
 
 </style>
 
-<script define:vars={{ trigger }}>
+<script define:vars={{ trigger, src }}>
 	const button = document.querySelector(trigger);
 	const overlay = document.querySelector("[data-modal]");
 	const iframe = overlay.querySelector("iframe");
