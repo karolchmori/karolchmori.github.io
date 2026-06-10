@@ -8,11 +8,12 @@ interface Props {
 	platform: "vimeo" | "youtube";
     idVideo: string;
 	viewPercent?: number;
+	autoplay?: number;
 }
 
-const { trigger, platform, idVideo, viewPercent = 85} = Astro.props;
+const { trigger, platform, idVideo, viewPercent = 85, autoplay = 1} = Astro.props;
 
-const src = getVideoUrl(platform, idVideo);
+const src = getVideoUrl(platform, idVideo, autoplay);
 
 ---
 
@@ -22,7 +23,7 @@ const src = getVideoUrl(platform, idVideo);
 			data-src={src}
 			src={src}
 			frameborder="0"
-			allow="fullscreen; picture-in-picture"
+			allow="autoplay; fullscreen; picture-in-picture"
 		/>
 	</div>
 </div>
