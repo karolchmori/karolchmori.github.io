@@ -100,9 +100,15 @@ const totalTools = activeTools.length;
 	}
 
 	.home-portfolio {
+		position: relative;
 		min-height: 100vh;
 		width: 100%;
 		background-color: rgba(72, 255, 0, 0.13);
+
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.home-credits {
@@ -209,30 +215,32 @@ const totalTools = activeTools.length;
 
 	.chip-container {
 		position: relative;
-		top: 15vh;
-		left: 50vw;
-		width: 100px;
+
+		width: 100vw;
 		height: 100px;
-		background-color: blue;		
+
+		bottom: 25vh;
+
+		background-color: blue;
+
+		overflow: visible;
 	}
 
 	.radial-item {
 		position: absolute;
-		
+		width: 100px;
+		height: 100px;
 
+		--t: calc(var(--index) / (var(--total) - 1));
+		--stepWidth: 70vw;
+		--arcHeight: 100px;
 
+		/* center the whole arc horizontally */
+		left: calc(50% - var(--stepWidth) / 2 + var(--t) * var(--stepWidth));
+		/* arc curve */
+		top: calc(120px + sin(var(--t) * 3.1415) * (-1 * var(--arcHeight)));
 
-		
-		--denominator: calc(var(--total) - 1);
-		--step: calc(100deg / var(--denominator));
-		--current-angle: calc(-60deg + (var(--step) * var(--index)));
-
-		transform-origin: center 350px;
-		transform: rotate(var(--current-angle));
-		background-color: red;
-		width: 64px;
-    	height: 64px;
-		
+		transform: translate(-50%, -50%);
 	}
 
 
