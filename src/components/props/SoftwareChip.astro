@@ -1,0 +1,36 @@
+---
+import type { SoftwareTool } from '../../objects/SoftwareTool';
+
+
+// Define the expected props for the component
+interface Props {
+  tool: SoftwareTool;
+}
+
+const { tool } = Astro.props;
+
+---
+
+<div class="software-chip" data-path={tool.pagesPath}>
+  <div class="icon-wrapper">
+    <img src={tool.iconPath} alt="" />
+  </div>
+</div>
+
+
+<style>
+    .software-chip img {
+		width: auto;
+		height: 10vh;
+	}
+    
+    .software-chip {
+        cursor: pointer;
+    }
+
+    .software-chip:hover {
+        transform: translateY(2px) scale(1.05);
+    }
+
+
+</style>

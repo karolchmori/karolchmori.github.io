@@ -3,13 +3,23 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../consts';
+import "../styles/animations.css";
+
 import MainBackCards from '../assets/elements/Main_BackCards.png';
 import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 import PlayButton from '../assets/icons/AS_PlayButton.svg';
-import "../styles/animations.css";
+
+
 import Vignette from '../components/props/Vignette.astro';
 import VideoModal from '../components/props/VideoModal.astro';
 import ArrowButton from '../components/props/ArrowButton.astro';
+import SoftwareChip from '../components/props/SoftwareChip.astro';
+
+import { getActiveTools } from '../data/ToolLibrary';
+const activeTools = getActiveTools();
+const totalTools = activeTools.length;
+
+
 ---
 
 <!doctype html>
@@ -40,7 +50,13 @@ import ArrowButton from '../components/props/ArrowButton.astro';
 					
 				</section>
 				<section class="home-portfolio">
-
+					<div class="chip-container" style={`--total: ${totalTools};`}>
+						{activeTools.map((singleTool, i) => (
+							<div class="radial-item" style={`--index: ${i};`}>
+								<SoftwareChip tool={singleTool} />
+							</div>
+						))}
+					</div>
 
 				</section>
 				<section class="home-credits">
@@ -60,6 +76,7 @@ import ArrowButton from '../components/props/ArrowButton.astro';
 
 
 <style> 
+
 
 	/* -------------------------------------------------------------- */ 
 	/* ---------------------- MAIN SECTIONS ------------------------- */ 
@@ -85,6 +102,7 @@ import ArrowButton from '../components/props/ArrowButton.astro';
 	.home-portfolio {
 		min-height: 100vh;
 		width: 100%;
+		background-color: rgba(72, 255, 0, 0.13);
 	}
 
 	.home-credits {
@@ -181,6 +199,42 @@ import ArrowButton from '../components/props/ArrowButton.astro';
 		--bounce-height: 10px;
 		animation: bounce 2s infinite;		
 	}
+
+
+
+
+	/* -------------------------------------------------------------- */ 
+	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
+	/* -------------------------------------------------------------- */ 
+
+	.chip-container {
+		position: relative;
+		top: 15vh;
+		left: 50vw;
+		width: 100px;
+		height: 100px;
+		background-color: blue;		
+	}
+
+	.radial-item {
+		position: absolute;
+		
+
+
+
+		
+		--denominator: calc(var(--total) - 1);
+		--step: calc(100deg / var(--denominator));
+		--current-angle: calc(-60deg + (var(--step) * var(--index)));
+
+		transform-origin: center 350px;
+		transform: rotate(var(--current-angle));
+		background-color: red;
+		width: 64px;
+    	height: 64px;
+		
+	}
+
 
 	/* -------------------------------------------------------------- */ 
 	/* ------------------- PHONE MODIFICATIONS ---------------------- */ 
