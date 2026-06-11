@@ -7,18 +7,18 @@ import SocialLinks from '../components/props/SocialLinks.astro';
 <header>
 	<nav>
 		<Logo />
-		<button class="hamburger" aria-label="Menu">☰</button>
+		<a class="hamburger" aria-label="Menu">☰</a>
 		<div class="navigator-pages">
 			<div class="menu-logo">
                 <Logo/>
             </div>
-			<button class="menu-close">✕</button>
+			<a class="menu-close">✕</a>
 			<HeaderLink href="/about">About</HeaderLink>
 			<HeaderLink href="/work">Work</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 
 			<div class="menu-social">
-				<SocialLinks orientation="horizontal" size={30} gap="0.7em"/>
+				<SocialLinks orientation="horizontal" size={30} gap={0.5}/>
 			</div>
 			
 		</div>
@@ -58,13 +58,14 @@ import SocialLinks from '../components/props/SocialLinks.astro';
 
 
 		.hamburger { 
+			position: absolute;
 			display: block;
 			background: none;
 			color: white;
 			border: none;
 			font-size: 30px;
-			top: 5%;
-		
+			top: 5.5%;
+			right: 3%;	
 		}
 
 		.menu-close { 
@@ -74,7 +75,7 @@ import SocialLinks from '../components/props/SocialLinks.astro';
 			color: white;
 			font-size: 30px;
 			position: absolute;
-			top: 2.5%;
+			top: 1.6%;
 			right: 3%; /*Probably change to 2.5 when we take the desktop scroll?*/
 		}
 		

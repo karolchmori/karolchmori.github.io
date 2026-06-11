@@ -6,14 +6,14 @@ import Icon_Email from '../../assets/icons/AS_Email.svg';
 interface Props {
     orientation?: 'horizontal' | 'vertical';
     size?: number;
-    gap?: string;
+    gap?: number;
         
 }
 
-const { orientation = 'horizontal', size = 27, gap = '0.5em'} = Astro.props;
+const { orientation = 'horizontal', size = 27, gap = 0.5} = Astro.props;
 ---
 
-<div class={`social-links ${orientation}`} style={`--custom-gap: ${gap};`} >
+<div class={`social-links ${orientation}`} style={`--custom-gap: ${gap}em;`} >
 	<a href="YOUR_LINK_HERE" target="_blank">
 		<span class="sr-only">Go to my GitHub</span>
 		<img src={Icon_Github.src} alt="GitHub icon" width={size} height={size} />
