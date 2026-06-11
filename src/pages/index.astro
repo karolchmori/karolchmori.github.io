@@ -219,7 +219,7 @@ const totalTools = activeTools.length;
 		width: 100vw;
 		height: 100px;
 
-		bottom: 25vh;
+		bottom: 33vh;
 
 		background-color: blue;
 
@@ -233,14 +233,15 @@ const totalTools = activeTools.length;
 
 		--t: calc(var(--index) / (var(--total) - 1));
 		--stepWidth: 70vw;
-		--arcHeight: 100px;
+		--arcHeight: clamp(30px, 8vh, 140px);
 
-		/* center the whole arc horizontally */
+		/* Center the arc horizontally */
 		left: calc(50% - var(--stepWidth) / 2 + var(--t) * var(--stepWidth));
-		/* arc curve */
+		/* Arc Curve */
 		top: calc(120px + sin(var(--t) * 3.1415) * (-1 * var(--arcHeight)));
 
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%); /* Center picture in block */
+		background-color: red;
 	}
 
 
