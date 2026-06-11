@@ -221,19 +221,23 @@ const totalTools = activeTools.length;
 
 		bottom: 33vh;
 
-		background-color: blue;
-
 		overflow: visible;
 	}
 
 	.radial-item {
 		position: absolute;
-		width: 100px;
-		height: 100px;
 
 		--t: calc(var(--index) / (var(--total) - 1));
+		
 		--stepWidth: 70vw;
+		--step: calc(var(--stepWidth) / (var(--total) - 1));
+
 		--arcHeight: clamp(30px, 8vh, 140px);
+
+		--size: clamp(40px, calc(var(--step) * 0.45), 150px);
+
+		width: var(--size);
+		height: var(--size);
 
 		/* Center the arc horizontally */
 		left: calc(50% - var(--stepWidth) / 2 + var(--t) * var(--stepWidth));
@@ -241,7 +245,6 @@ const totalTools = activeTools.length;
 		top: calc(120px + sin(var(--t) * 3.1415) * (-1 * var(--arcHeight)));
 
 		transform: translate(-50%, -50%); /* Center picture in block */
-		background-color: red;
 	}
 
 
