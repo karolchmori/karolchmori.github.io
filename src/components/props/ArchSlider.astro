@@ -5,10 +5,11 @@ export interface Props {
     widthRes?: number;
     heightRes?: number;
     cards?: string[];
+    totalItems?: number;
 
 }
 
-const {widthRes = 70, heightRes = 20} = Astro.props;
+const {widthRes = 70, heightRes = 20, totalItems = 15} = Astro.props;
 
 const cards = [
   "Text1",
@@ -24,7 +25,7 @@ const cards = [
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
                 {cards.map((card, i) => (
-                    <a class="handle" style={`--i:${i}; --total:15;`}>
+                    <a class="handle" style={`--i:${i}; --total:${totalItems};`}>
                         {card}
                     </a>
                 ))}
