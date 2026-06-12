@@ -1,210 +1,63 @@
 ---
-// ArchedSlider.astro
-interface Item {
-  id: string | number;
-  icon?: string;
-  label?: string;
-}
+// ArchSlider.astro
 
-interface Props {
-  items: Item[];
-  itemSize?: number; // px
-  gap?: number; // px
-  renderItem?: (item: Item) => any;
+// 1. Define the TypeScript interface for our props
+export interface Props {
+  cards?: string[];
 }
-
-const { items, itemSize = 90, gap = 8 , renderItem} = Astro.props;
 ---
+<div class="slider-container">
+    <div class="slider-viewport" >
+        <div class="slider-wrapper">
+            <div class="slider-circle">
 
-<div class="arch-slider-wrapper">
-  <div class="arch-slider-viewport">
-    <ul class="arch-slider-track" id="arch-track" data-item-size={itemSize} data-gap={gap}>
-      {items.map((item) => (
-        <li class="arch-slider-item" style={`width:${itemSize}px; height:${itemSize}px;`}>
-            {renderItem ? renderItem(item) : (
-            <div class="arch-slider-default-item">
-                {item.label && <span class="label">{item.label}</span>}
             </div>
-            )}
-        </li>
-        ))}
-    </ul>
-  </div>
-
-  <div class="arch-slider-controls">
-    <button class="arch-btn" id="arch-prev" aria-label="Previous">◀</button>
-    <button class="arch-btn" id="arch-next" aria-label="Next">▶</button>
-  </div>
+        </div>
+    </div>
 </div>
 
+
 <style>
-  .arch-slider-wrapper {
-    width: 100%;
-    position: relative;
-    background-color: red;
-  }
 
-  .arch-slider-viewport {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    /* extra top padding so arc-raised items aren't clipped */
-    padding-top: 1px;
-  }
+    .slider-container {
+        width: 70vw;
+        border: 10px solid purple;
+        background-color: transparent;
+    }
 
-  .arch-slider-track {
-    position: relative;
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    .slider-viewport {
+        position: relative;
+        overflow: visible; /* Later hidden */
+        width: 100%;
+        height: 250px; 
+        
+        background-color: red;
 
-    cursor: grab;
-    user-select: none;
-    touch-action: pan-y;
+        /* Center objects */
+        display: flex;
+        justify-content: center;
 
-  }
+    }
 
-  .arch-slider-track:active {
-    cursor: grabbing;
-  }
+    .slider-wrapper {
+        --circle-size: 30vw;
+        width: var(--circle-size);
+        height: var(--circle-size);
 
-  .arch-slider-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    flex-shrink: 0;
-    border-radius: 50%;
-    overflow: hidden;
-    transition: transform 0.05s linear;
-  }
+        position: relative;
 
-  .arch-slider-default-item {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #333;
-    color: #fff;
-    font-size: 14px;
-  }
+        overflow: visible;
+        background-color: rgba(0, 0, 255, 0.528);
+    }
 
+    .slider-circle {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+
+        /* Remove the solid background color */
+        background-color: rgba(128, 128, 128, 0.598);
+        border-top: 4px solid #e0e0e0; 
+    }
 
 </style>
-
-<script>
-  function initArchSlider(root: HTMLElement) {
-    const track = root.querySelector<HTMLUListElement>('.arch-slider-track');
-    const viewport = root.querySelector<HTMLDivElement>('.arch-slider-viewport');
-    const prevBtn = root.querySelector<HTMLButtonElement>('#arch-prev');
-    const nextBtn = root.querySelector<HTMLButtonElement>('#arch-next');
-    if (!track || !viewport) return;
-
-    const items = Array.from(track.children) as HTMLElement[];
-    const itemSize = parseFloat(track.dataset.itemSize || '90');
-    const gap = parseFloat(track.dataset.gap || '8');
-    const arc = parseFloat(track.dataset.arc || '60');
-    const step = itemSize + gap;
-    const totalWidth = items.length * step;
-
-    // total track "virtual" width and viewport height
-    track.style.height = `${itemSize + arc}px`;
-
-    let offset = 0; // px, positive moves content right -> shows earlier items
-    const maxOffset = 0;
-    const minOffset = -(totalWidth - viewport.clientWidth);
-
-    function clamp(val: number) {
-      return Math.min(maxOffset, Math.max(minOffset, val));
-    }
-
-    function layout() {
-
-        if (viewport) {
-            const viewportWidth = viewport.clientWidth;
-            const center = viewportWidth / 2;
-
-            items.forEach((item, i) => {
-                const x = i * step + offset;
-                const itemCenter = x + itemSize / 2;
-
-                // normalized distance from viewport center, range roughly [-1, 1]
-                const t = (itemCenter - center) / center;
-                const tClamped = Math.max(-1, Math.min(1, t));
-
-                // arc: y = arc * t^2 (parabola - higher at edges, lower in center)
-                const y = arc * tClamped * tClamped;
-
-
-                item.style.transform = `translate(${x}px, ${y}px)`;
-            });
-            }
-
-            layout();
-        }
-      
-
-    // recompute on resize
-    const ro = new ResizeObserver(() => layout());
-    ro.observe(viewport);
-
-    // --- drag / swipe ---
-    let dragging = false;
-    let startX = 0;
-    let startOffset = 0;
-
-    function onPointerDown(e: PointerEvent) {
-      dragging = true;
-      startX = e.clientX;
-      startOffset = offset;
-      track!.style.transition = 'none';
-      track!.setPointerCapture(e.pointerId);
-    }
-
-    function onPointerMove(e: PointerEvent) {
-      if (!dragging) return;
-      const dx = e.clientX - startX;
-      offset = clamp(startOffset + dx);
-      layout();
-    }
-
-    function onPointerUp(e: PointerEvent) {
-      if (!dragging) return;
-      dragging = false;
-      track!.releasePointerCapture(e.pointerId);
-    }
-
-    track.addEventListener('pointerdown', onPointerDown);
-    track.addEventListener('pointermove', onPointerMove);
-    track.addEventListener('pointerup', onPointerUp);
-    track.addEventListener('pointercancel', onPointerUp);
-
-    // --- wheel scroll (horizontal) ---
-    viewport.addEventListener(
-      'wheel',
-      (e) => {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-          e.preventDefault();
-          offset = clamp(offset - e.deltaX);
-          layout();
-        }
-      },
-      { passive: false }
-    );
-
-    // --- buttons ---
-    prevBtn?.addEventListener('click', () => {
-      offset = clamp(offset + step * 2);
-      layout();
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      offset = clamp(offset - step * 2);
-      layout();
-    });
-  }
-
-  document.querySelectorAll<HTMLElement>('.arch-slider-wrapper').forEach(initArchSlider);
-</script>
