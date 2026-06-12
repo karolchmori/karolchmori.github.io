@@ -1,8 +1,6 @@
 ---
 // ArchSlider.astro
 
-
-// 1. Define the TypeScript interface for our props
 export interface Props {
     widthRes?: number;
     heightRes?: number;
@@ -86,7 +84,12 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
 <script>
     const wrapper = document.getElementById("wrapper");
     const handles = document.querySelectorAll<HTMLElement>(".handle");
+
+    /* Layout definition */
     
+    
+
+    /* Rotation definition */
     let baseRotation = 0;
     let isDragging = false;
     let maxAngle = 90;
@@ -98,8 +101,11 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
         handles.forEach((handle) => {
             attatchEvents(handle, wrapper);
         });
-
     }
+
+
+
+    /* --------------- Rotation Functions --------------- */
 
     function getAngle(e: PointerEvent, centerX: number, centerY: number) {
         return Math.atan2(e.clientY - centerY, e.clientX - centerX);
@@ -145,7 +151,7 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
             wrapper.style.transform = `rotate(${rotationDeg}deg)`;
         });
 
-        handle.addEventListener("pointerup", (e) => {
+        handle.addEventListener("pointerup", () => {
             isDragging = false;
         });
 
