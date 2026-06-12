@@ -11,6 +11,9 @@ export interface Props {
 }
 
 const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
+
+
+
 ---
 <div class="slider-container" style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh;`}>
     <div class="slider-viewport" >
@@ -18,6 +21,7 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
             <div class="slider-circle">
                 <a class="handle">Text1</a>
                 <a class="handle">Text2</a>
+                <a class="handle">Text3</a>
             </div>
         </div>
     </div>
@@ -66,13 +70,13 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
         border-top: 4px solid #e0e0e0; 
     }
 
-    #handle {
+    .handle {
         cursor: grab;
         user-select: none;
         touch-action: none;
     }
 
-    #handle:active {
+    .handle:active {
         cursor: grabbing;
     }
 
@@ -81,12 +85,13 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
 
 <script>
     const wrapper = document.getElementById("wrapper");
-    //const handle = document.getElementById("handle");
     const handles = document.querySelectorAll<HTMLElement>(".handle");
     
-    let startAngle = 0;
     let baseRotation = 0;
     let isDragging = false;
+    let maxAngle = 90;
+    let minAngle = -20;
+    let lastAngle = 0;
         
 
     if (handles && wrapper) {
@@ -95,7 +100,6 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
         });
 
     }
-    
 
     function getAngle(e: PointerEvent, centerX: number, centerY: number) {
         return Math.atan2(e.clientY - centerY, e.clientX - centerX);
@@ -111,41 +115,37 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
 
     function attatchEvents(handle: HTMLElement, wrapper: HTMLElement){
 
-
         handle.addEventListener("pointerdown", (e) => {
             isDragging = true;
             handle.setPointerCapture(e.pointerId);
-
             const center = getCenter(wrapper);
 
-            startAngle = getAngle(e, center.x, center.y);
+            lastAngle = getAngle(e, center.x, center.y);
         });
 
         handle.addEventListener("pointermove", (e) => {
             if (!isDragging) return;
 
             const center = getCenter(wrapper);
-
             const currentAngle = getAngle(e, center.x, center.y);
+            let delta = currentAngle - lastAngle;
+            if (delta > Math.PI) delta -= 2 * Math.PI;
+            if (delta < -Math.PI) delta += 2 * Math.PI;
 
-            const delta = currentAngle - startAngle;
+            lastAngle = currentAngle;
 
-            const rotationDeg = baseRotation + delta * (180 / Math.PI);
+            let rotationDeg = baseRotation + delta * (180 / Math.PI);
+
+            // clamp result only
+            if (rotationDeg > maxAngle) rotationDeg = maxAngle;
+            if (rotationDeg < minAngle) rotationDeg = minAngle;
+            
+            baseRotation = rotationDeg;
 
             wrapper.style.transform = `rotate(${rotationDeg}deg)`;
         });
 
         handle.addEventListener("pointerup", (e) => {
-            if (!isDragging) return;
-
-            const center = getCenter(wrapper);
-
-            const currentAngle = getAngle(e, center.x, center.y);
-
-            const delta = currentAngle - startAngle;
-
-            baseRotation += delta * (180 / Math.PI);
-
             isDragging = false;
         });
 
@@ -153,7 +153,5 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
             isDragging = false;
         });
     }
-
-
 
 </script>
