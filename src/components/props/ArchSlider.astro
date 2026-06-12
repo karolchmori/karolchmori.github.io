@@ -25,10 +25,7 @@ const cards = [
             <div class="slider-circle">
                 {cards.map((card, i) => (
                     <a class="handle" style={`--i:${i}; --total:15;`}>
-                        <span class="handle-content">
-                            {card}
-                        </span>
-                        
+                        {card}
                     </a>
                 ))}
             </div>
@@ -89,6 +86,9 @@ const cards = [
 
     .handle {
         background-color: white;
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
 
         /* Position Definition */
         position: absolute;
@@ -97,24 +97,9 @@ const cards = [
 
         transform:
             rotate(calc(var(--i) * 360deg / var(--total)))
-            translate(calc(var(--circle-size)/2.8));
+            translate(calc(var(--circle-size)/2.8)) rotate(90deg);
 
         transform-origin: center;
-    }
-
-    .handle-content {
-        display: block;
-        cursor: grab;
-        user-select: none;
-        touch-action: none;
-        background-color: red;
-
-        /*transform: rotate(calc( -1 * var(--start-angle) - (var(--i) * 360deg / var(--total)))); */
-
-        transform: rotate(90deg);
-
-        transform-origin: center;
-        
     }
 
 
