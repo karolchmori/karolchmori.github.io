@@ -1,12 +1,18 @@
 ---
 // ArchSlider.astro
 
+
 // 1. Define the TypeScript interface for our props
 export interface Props {
-  cards?: string[];
+    widthRes?: number;
+    heightRes?: number;
+    cards?: string[];
+
 }
+
+const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
 ---
-<div class="slider-container">
+<div class="slider-container" style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh;`}>
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
@@ -20,7 +26,7 @@ export interface Props {
 <style>
 
     .slider-container {
-        width: 70vw;
+        width: var(--widthRes);
         border: 10px solid purple;
         background-color: transparent;
     }
@@ -29,7 +35,7 @@ export interface Props {
         position: relative;
         overflow: visible; /* Later hidden */
         width: 100%;
-        height: 250px; 
+        height: var(--heightRes);
         
         background-color: red;
 
