@@ -8,18 +8,29 @@ export interface Props {
 
 }
 
-const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
+const {widthRes = 70, heightRes = 20} = Astro.props;
 
-
+const cards = [
+  "Text1",
+  "Text2",
+  "Text3",
+  "Text4",
+  "Text5"
+];
 
 ---
 <div class="slider-container" style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh;`}>
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
-                <a class="handle">Text1</a>
-                <a class="handle">Text2</a>
-                <a class="handle">Text3</a>
+                {cards.map((card, i) => (
+                    <a class="handle" style={`--i:${i}; --total:15;`}>
+                        <span class="handle-content">
+                            {card}
+                        </span>
+                        
+                    </a>
+                ))}
             </div>
         </div>
     </div>
@@ -59,9 +70,17 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     }
 
     .slider-circle {
+        /* Circle Definition */
+        position: relative;
         width: 100%;
         height: 100%;
         border-radius: 50%;
+
+        /* Circle position */
+        --start-angle: -130deg;
+        --step: calc(360deg / var(--total)); 
+        transform: rotate(var(--start-angle));
+        
 
         /* Remove the solid background color */
         background-color: rgba(128, 128, 128, 0.598);
@@ -69,10 +88,35 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     }
 
     .handle {
+        background-color: white;
+
+        /* Position Definition */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        transform:
+            rotate(calc(var(--i) * 360deg / var(--total)))
+            translate(calc(var(--circle-size)/2.8));
+
+        transform-origin: center;
+    }
+
+    .handle-content {
+        display: block;
         cursor: grab;
         user-select: none;
         touch-action: none;
+        background-color: red;
+
+        /*transform: rotate(calc( -1 * var(--start-angle) - (var(--i) * 360deg / var(--total)))); */
+
+        transform: rotate(90deg);
+
+        transform-origin: center;
+        
     }
+
 
     .handle:active {
         cursor: grabbing;
@@ -85,56 +129,22 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     const wrapper = document.getElementById("wrapper");
     const handles = document.querySelectorAll<HTMLElement>(".handle");
 
-    /* Layout definition */
-    let totalSlots = 10;
-    let step = 360 / totalSlots;
-    
-
     /* Rotation definition */
     let baseRotation = 0;
     let isDragging = false;
-    let maxAngle = 90;
-    let minAngle = -20;
+    let maxAngle = 20;
+    let minAngle = -70;
     let lastAngle = 0;
         
 
     if (handles && wrapper) {
-        const radius = wrapper.offsetWidth / 2;
 
         handles.forEach((handle) => {
             attatchEvents(handle, wrapper);
+
         });
     
 
-        /* --------------- Layout Functions --------------- */
-        const itemsArray = Array.from(handles);
-        const startSlot = 0;
-
-        const itemsWithSlots = itemsArray.map((el, i) => {
-                                    return { el, slot: startSlot + i}; });
-
-        placeItems(radius, itemsWithSlots);
-
-    }
-
-    function placeItems(radius: number, items: {slot: number, el: HTMLElement}[]) {
-        
-
-        items.forEach(({ slot, el }) => {
-            const angle = (slot * step) * Math.PI / 180;
-
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
-
-            el.style.position = "absolute";
-            el.style.left = "50%";
-            el.style.top = "50%";
-
-            el.style.transform = `
-                translate(${x}px, ${y}px)
-                translate(-50%, -50%)
-            `;
-        });
     }
 
 
