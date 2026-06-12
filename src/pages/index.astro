@@ -19,21 +19,6 @@ import { getActiveTools } from '../data/ToolLibrary';
 import ArchSlider from '../components/props/ArchSlider.astro';
 const activeTools = getActiveTools();
 const totalTools = activeTools.length;
-
-const items = [
-  { id: 1, label: 'M' },
-  { id: 2, label: 'N' },
-  { id: 3, label: 'O' },
-  { id: 3, label: 'A' },
-  { id: 3, label: 'B' },
-  { id: 3, label: 'C' },
-  { id: 3, label: 'D' },
-  { id: 3, label: 'E' },
-  { id: 3, label: 'F' },
-  { id: 3, label: 'G' },
-  { id: 3, label: 'H' },
-  // ...
-];
 ---
 
 <!doctype html>
@@ -64,7 +49,7 @@ const items = [
 				</section>
 				
 				<section class="home-portfolio">
-					<ArchSlider/>
+					<ArchSlider />
 					<div class="chip-container" style={`--total: ${totalTools};`}>
 						{activeTools.map((singleTool, i) => (
 							<div class="radial-item" style={`--index: ${i};`}>

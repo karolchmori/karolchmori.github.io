@@ -82,9 +82,12 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     const wrapper = document.getElementById("wrapper");
     const handle = document.getElementById("handle");
 
-    let isDragging = false;
-    let startAngle = 0;
-    let baseRotation = 0;
+    if (handle && wrapper) {
+        attatchEvents(handle, wrapper);
+
+    }
+
+    
 
     function getAngle(e: PointerEvent, centerX: number, centerY: number) {
         return Math.atan2(e.clientY - centerY, e.clientX - centerX);
@@ -98,7 +101,11 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
         };
     }
 
-    if (handle && wrapper) {
+    function attatchEvents(handle: HTMLElement, wrapper: HTMLElement){
+        let isDragging = false;
+        let startAngle = 0;
+        let baseRotation = 0;
+
         handle.addEventListener("pointerdown", (e) => {
             isDragging = true;
             handle.setPointerCapture(e.pointerId);
@@ -140,5 +147,7 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
             isDragging = false;
         });
     }
+
+
 
 </script>
