@@ -83,29 +83,56 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     const handle = document.getElementById("handle");
 
     let isDragging = false;
-    let angle = 0;
-    let startX = 0;
+    let startAngle = 0;
+    let baseRotation = 0;
+
+    function getAngle(e: PointerEvent, centerX: number, centerY: number) {
+        return Math.atan2(e.clientY - centerY, e.clientX - centerX);
+    }
+
+    function getCenter(el: HTMLElement) {
+        const rect = el.getBoundingClientRect();
+        return {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+        };
+    }
 
     if (handle && wrapper) {
         handle.addEventListener("pointerdown", (e) => {
             isDragging = true;
-            startX = e.clientX;
             handle.setPointerCapture(e.pointerId);
+
+            const center = getCenter(wrapper);
+
+            startAngle = getAngle(e, center.x, center.y);
         });
 
         handle.addEventListener("pointermove", (e) => {
             if (!isDragging) return;
 
-            const deltaX = e.clientX - startX;
+            const center = getCenter(wrapper);
 
-            angle += deltaX * 0.5; // rotation sensitivity
+            const currentAngle = getAngle(e, center.x, center.y);
 
-            wrapper.style.transform = `rotate(${angle}deg)`;
+            const delta = currentAngle - startAngle;
 
-            startX = e.clientX;
+            const rotationDeg = baseRotation + delta * (180 / Math.PI);
+
+            wrapper.style.transform = `rotate(${rotationDeg}deg)`;
         });
 
-        handle.addEventListener("pointerup", () => {
+        handle.addEventListener("pointerup", (e) => {
+            if (!isDragging) return;
+
+            const center = getCenter(wrapper);
+
+            const currentAngle = getAngle(e, center.x, center.y);
+
+            const delta = currentAngle - startAngle;
+
+            baseRotation += delta * (180 / Math.PI);
+
             isDragging = false;
         });
 
