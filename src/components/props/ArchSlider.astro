@@ -86,7 +86,8 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     const handles = document.querySelectorAll<HTMLElement>(".handle");
 
     /* Layout definition */
-    
+    let totalSlots = 10;
+    let step = 360 / totalSlots;
     
 
     /* Rotation definition */
@@ -98,11 +99,43 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
         
 
     if (handles && wrapper) {
+        const radius = wrapper.offsetWidth / 2;
+
         handles.forEach((handle) => {
             attatchEvents(handle, wrapper);
         });
+    
+
+        /* --------------- Layout Functions --------------- */
+        const itemsArray = Array.from(handles);
+        const startSlot = 0;
+
+        const itemsWithSlots = itemsArray.map((el, i) => {
+                                    return { el, slot: startSlot + i}; });
+
+        placeItems(radius, itemsWithSlots);
+
     }
 
+    function placeItems(radius: number, items: {slot: number, el: HTMLElement}[]) {
+        
+
+        items.forEach(({ slot, el }) => {
+            const angle = (slot * step) * Math.PI / 180;
+
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+
+            el.style.position = "absolute";
+            el.style.left = "50%";
+            el.style.top = "50%";
+
+            el.style.transform = `
+                translate(${x}px, ${y}px)
+                translate(-50%, -50%)
+            `;
+        });
+    }
 
 
     /* --------------- Rotation Functions --------------- */
