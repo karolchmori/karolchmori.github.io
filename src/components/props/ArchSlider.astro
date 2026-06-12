@@ -16,7 +16,8 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
-                <a id="handle">Text</a>
+                <a class="handle">Text1</a>
+                <a class="handle">Text2</a>
             </div>
         </div>
     </div>
@@ -80,13 +81,20 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
 
 <script>
     const wrapper = document.getElementById("wrapper");
-    const handle = document.getElementById("handle");
+    //const handle = document.getElementById("handle");
+    const handles = document.querySelectorAll<HTMLElement>(".handle");
+    
+    let startAngle = 0;
+    let baseRotation = 0;
+    let isDragging = false;
+        
 
-    if (handle && wrapper) {
-        attatchEvents(handle, wrapper);
+    if (handles && wrapper) {
+        handles.forEach((handle) => {
+            attatchEvents(handle, wrapper);
+        });
 
     }
-
     
 
     function getAngle(e: PointerEvent, centerX: number, centerY: number) {
@@ -102,9 +110,7 @@ const {widthRes = 70, heightRes = 20, cards = null} = Astro.props;
     }
 
     function attatchEvents(handle: HTMLElement, wrapper: HTMLElement){
-        let isDragging = false;
-        let startAngle = 0;
-        let baseRotation = 0;
+
 
         handle.addEventListener("pointerdown", (e) => {
             isDragging = true;
