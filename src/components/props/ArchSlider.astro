@@ -8,9 +8,9 @@ export interface Props {
 ---
 <div class="slider-container">
     <div class="slider-viewport" >
-        <div class="slider-wrapper">
+        <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
-
+                <a id="handle">Text</a>
             </div>
         </div>
     </div>
@@ -44,9 +44,8 @@ export interface Props {
         width: var(--circle-size);
         height: var(--circle-size);
 
-        position: relative;
+        transform-origin: center center;
 
-        overflow: visible;
         background-color: rgba(0, 0, 255, 0.528);
     }
 
@@ -60,4 +59,53 @@ export interface Props {
         border-top: 4px solid #e0e0e0; 
     }
 
+    #handle {
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
+    }
+
+    #handle:active {
+        cursor: grabbing;
+    }
+
 </style>
+
+
+<script>
+    const wrapper = document.getElementById("wrapper");
+    const handle = document.getElementById("handle");
+
+    let isDragging = false;
+    let angle = 0;
+    let startX = 0;
+
+    if (handle && wrapper) {
+        handle.addEventListener("pointerdown", (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            handle.setPointerCapture(e.pointerId);
+        });
+
+        handle.addEventListener("pointermove", (e) => {
+            if (!isDragging) return;
+
+            const deltaX = e.clientX - startX;
+
+            angle += deltaX * 0.5; // rotation sensitivity
+
+            wrapper.style.transform = `rotate(${angle}deg)`;
+
+            startX = e.clientX;
+        });
+
+        handle.addEventListener("pointerup", () => {
+            isDragging = false;
+        });
+
+        handle.addEventListener("pointercancel", () => {
+            isDragging = false;
+        });
+    }
+
+</script>
