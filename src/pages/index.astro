@@ -48,6 +48,7 @@ const activeTools = getActiveTools();
 				</section>
 				<section class="home-transition"/>
 				<section class="home-portfolio">
+					
 					<HorizontalCarousel>
 						{activeTools.map(tool => <SoftwareChip tool={tool} />)}
 					</HorizontalCarousel>
@@ -137,27 +138,32 @@ const activeTools = getActiveTools();
 	/* ------------------------ HERO CONFIG ------------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-	.home-backcards img,
-	.home-maincard img {
+	.home-maincard img{
 		width: auto;
-		height: 100vh;
-		max-width: none;
+		height: auto;
+		max-width: 65vw;
+		max-height: 65vh;
+		display: block;
+	}
+
+	.home-backcards img {
+		width: auto;
+		height: auto;
+		max-width: 75vw;
+		max-height: 70vh;
 		display: block;
 	}
 
 	.home-showreelPlay img {
 		width: auto;
-		height: 18vh;
+		height: 14vh;
 	}
 
-	.home-backcards, .home-maincard{
+	.home-backcards, .home-maincard {
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		--scale: clamp(0.20, calc(60vh / 900px), calc(60vw / 380px));
-
-		transform: translate(-50%, -50%) scale(calc(var(--scale)));
-		transform-origin: center;
+		transform: translate(-50%, -50%);
 	}
 
 	.home-showreelPlay {
@@ -173,7 +179,7 @@ const activeTools = getActiveTools();
 	}
 
 	.home-maincard:hover .home-maincard-bg {
-		filter: blur(3px) brightness(70%);
+		filter: blur(2px) brightness(70%);
 		cursor: pointer;
 	}
 
@@ -216,13 +222,8 @@ const activeTools = getActiveTools();
 	
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
-		.home-backcards, .home-maincard {
-			top: 46%;
-			--scale: min(calc(60vh / 900px), calc(50vw / 380px));
-		}
-
 		.home-maincard:hover .home-showreelPlay {
-			opacity: 0;
+			opacity: 1;
 		}
 
 		.home-maincard-bg {
@@ -242,15 +243,6 @@ const activeTools = getActiveTools();
 		}
 
 		.home-social { display: none; }
-
-		.home-softslider-desktop { display: none; }
-
-		.home-softslider-phone {
-			display: flex;
-			position: absolute;
-			top: 10%;
-		}
-
 
 	}
 

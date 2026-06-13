@@ -28,6 +28,6 @@
 
 @keyframes revealBlur {
     to {
-        filter: blur(3px) brightness(70%);
+        filter: blur(2px) brightness(70%);
     }
 }
