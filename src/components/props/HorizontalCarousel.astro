@@ -63,6 +63,7 @@ const useButtons = navigation === "buttons";
         overflow-y: hidden;
 
         scrollbar-width: none;
+        scroll-snap-type: x mandatory;
 
         cursor: grab;
         user-select: none;
@@ -218,6 +219,7 @@ const useButtons = navigation === "buttons";
         mo.observe(track, { childList: true, subtree: true });
 
         // Initial check
+        track.scrollLeft = 0;
         update();
 
         // Click-and-drag scrolling for desktop
