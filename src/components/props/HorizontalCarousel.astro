@@ -44,7 +44,7 @@ const useButtons = navigation === "buttons";
     .carousel-wrapper {
         position: relative;
         width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * var(--gap));
-        max-width: 100%;   
+        max-width: 100%; 
     }
 
     .carousel-buttons {
@@ -55,7 +55,6 @@ const useButtons = navigation === "buttons";
         gap: 1.5rem;
     }
 
-
     .carousel-track {
         display: flex;
         gap: var(--gap);
@@ -63,9 +62,8 @@ const useButtons = navigation === "buttons";
         overflow-y: hidden;
 
         scrollbar-width: none;
-        scroll-snap-type: x mandatory;
 
-        cursor: grab;
+        cursor: pointer;
         user-select: none;
 
         padding-left: var(--gapPad);
@@ -140,6 +138,8 @@ const useButtons = navigation === "buttons";
 
     [data-carousel-btn] {
         transition: opacity 0.2s ease, filter 0.2s ease;
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     [data-carousel-btn] :global(.scroll-arrow) {
@@ -195,8 +195,8 @@ const useButtons = navigation === "buttons";
             const wasAtStart = wrapper.classList.contains("at-start");
             const wasAtEnd = wrapper.classList.contains("at-end");
 
-            wrapper.classList.toggle("at-start", atStart || noOverflow);
-            wrapper.classList.toggle("at-end", atEnd || noOverflow);
+            wrapper.classList.toggle("at-start", atStart);
+            wrapper.classList.toggle("at-end", atEnd);
             wrapper.classList.toggle("no-overflow", noOverflow);
 
             if (atEnd && !wasAtEnd) {

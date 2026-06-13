@@ -18,25 +18,16 @@ const { tool } = Astro.props;
 </div>
 
 
+
 <style>
-    .software-chip img {
-		max-width: 90%;
-        max-height: 90%;
-        width: auto;
-        height: auto;
-	}
-    
+
     .software-chip {
-        cursor: pointer;
-        width: 190%;
+        cursor: inherit;
+        width: 100%;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-
-    .software-chip:hover {
-        transform: translateY(2px) scale(1.05);
     }
 
     .icon-wrapper {
@@ -47,5 +38,89 @@ const { tool } = Astro.props;
         justify-content: center;
     }
 
+    .software-chip img {
+		max-width: 70%;
+        max-height: 70%;
+        width: auto;
+        height: auto;
+        transition: filter 0.3s ease;
+        filter: brightness(0.7);
+	}
+
+
+    /* Chip states */
+
+    .software-chip.selected img {
+        filter: drop-shadow(0 0 6px #ff7ec7) brightness(1.2);
+        transform: translateY(-3px) scale(1.05);
+        
+    }
+
+    .software-chip.pulse img {
+        animation: chip-pulse 2s ease-in-out infinite;
+    }
+    
+ 
+    .software-chip:hover {
+        transform: translateY(-3px) scale(1.05);
+    }
+
+
+    @keyframes chip-pulse {
+        0%, 100% {
+            filter: brightness(0.7) drop-shadow(0 0 2px #ff7ec7aa);
+        }
+        50% {
+            filter: brightness(0.9) drop-shadow(0 0 7px #ff7ec7);
+        }
+    }
+
 
 </style>
+
+<script>
+    document.querySelectorAll<HTMLElement>('.software-chip').forEach((chip, index) => {
+        let startX = 0;
+        let startY = 0;
+        let moved = false;
+
+        if (index === 0 && !document.querySelector('.software-chip.selected')) {
+        chip.classList.add('pulse');
+        }
+
+        chip.addEventListener('pointerdown', (e) => {
+            startX = e.clientX;
+            startY = e.clientY;
+            moved = false;
+        });
+
+        chip.addEventListener('pointermove', (e) => {
+            if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
+                moved = true;
+            }
+        });
+
+        chip.addEventListener('click', () => {
+            if (moved) return;
+
+            clearSelection();
+            selectChip(chip);
+
+            const path = chip.dataset.path;
+            window.dispatchEvent(new CustomEvent('tool:selected', { detail: { path } }));
+        });
+    });
+
+    function clearSelection() {
+        document.querySelectorAll('.software-chip.selected, .software-chip.pulse')
+            .forEach(c => c.classList.remove('selected', 'pulse'));
+    }
+
+    function selectChip(chip: HTMLElement) {
+        chip.classList.add('selected');
+    }
+
+
+
+
+</script>
