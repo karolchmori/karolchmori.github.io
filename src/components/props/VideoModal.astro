@@ -11,14 +11,14 @@ interface Props {
 	autoplay?: number;
 }
 
-const { trigger, platform, idVideo, viewPercent = 85, autoplay = 1} = Astro.props;
+const { trigger, platform, idVideo, viewPercent = 80, autoplay = 1} = Astro.props;
 
 const src = getVideoUrl(platform, idVideo, autoplay);
 
 ---
 
 <div class="video-overlay" data-modal>
-	<div class="video-container" style={`--viewPerVw: ${viewPercent/100}vw; --viewPerVh: ${viewPercent/100}vh;`}>
+	<div class="video-container" style={`--viewPer: ${viewPercent/100}`}>
 		<iframe
 			data-src={src}
 			src={src}
@@ -53,7 +53,7 @@ const src = getVideoUrl(platform, idVideo, autoplay);
 	}
 
 	.video-container {
-		width: min(var(--viewPerVw), calc(var(--viewPerVh) * 16 / 9));
+		width: min(var(--viewPer) * 100vw, calc(var(--viewPer) * 100vh * 16 / 9));
 		aspect-ratio: 16 / 9;
 		position: relative;
 	}
