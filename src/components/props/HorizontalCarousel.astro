@@ -13,7 +13,7 @@ interface Props {
 const {
     itemsVisible = 4,
     itemSize = "15vh",
-    gap = 1,
+    gap = 0.5,
     navigation = "buttons",
     class: className = "",
 } = Astro.props;
@@ -136,48 +136,7 @@ const useButtons = navigation === "buttons";
         opacity: 1;
     }
 
-    [data-carousel-btn] {
-        transition: opacity 0.2s ease, filter 0.2s ease;
-        user-select: none;
-        -webkit-user-select: none;
-    }
 
-    [data-carousel-btn] :global(.scroll-arrow) {
-        
-        transition: filter 0.2s ease, opacity 0.2s ease;
-    }
-
-    .carousel-wrapper.at-start [data-carousel-btn="prev"],
-    .carousel-wrapper.at-end [data-carousel-btn="next"] {
-        pointer-events: none;
-        opacity: 0.3;
-        filter: brightness(80%);
-    }
-
-    .carousel-wrapper.no-overflow [data-carousel-btn] {
-        pointer-events: none;
-    }
-
-    .carousel-wrapper.no-overflow [data-carousel-btn] :global(.scroll-arrow){
-        opacity: 0;
-        transition: opacity 0.2s ease;
-    }
-
-    /* Glow states stay the same */
-    .carousel-wrapper.at-start [data-carousel-btn="next"] :global(.scroll-arrow), 
-    .carousel-wrapper.at-end [data-carousel-btn="prev"] :global(.scroll-arrow) {
-        filter: drop-shadow(0 0 10px #ff7ec7);
-    }
-  
-    /* Middle state: reset both to normal */
-    .carousel-wrapper:not(.at-start):not(.at-end) [data-carousel-btn="prev"] :global(.scroll-arrow),
-    .carousel-wrapper:not(.at-start):not(.at-end) [data-carousel-btn="next"] :global(.scroll-arrow) {
-        filter: none;
-        opacity: 1;
-        transition: opacity 0.2s ease;
-    }
-
-  
 
 </style>
 
@@ -185,6 +144,18 @@ const useButtons = navigation === "buttons";
     function initCarousel(track: HTMLElement) {
         const wrapper = track.parentElement as HTMLElement;
         const THRESHOLD = 2; // px tolerance
+
+        const prevBtn = wrapper.querySelector<HTMLElement>('[data-carousel-btn="prev"]');
+        const nextBtn = wrapper.querySelector<HTMLElement>('[data-carousel-btn="next"]');
+        
+            
+        function setArrowState(btn: HTMLElement | null, state: 'enabled' | 'glow' | 'disabled' | 'hidden') {
+            if (!btn) return;
+            const arrow = btn.querySelector<HTMLElement>('.scroll-arrow');
+            arrow?.classList.remove('enabled', 'glow', 'disabled', 'hidden');
+            arrow?.classList.add(state);
+            btn.style.pointerEvents = (state === 'disabled' || state === 'hidden') ? 'none' : '';
+        }
 
         function update() {
             const { scrollLeft, scrollWidth, clientWidth } = track;
@@ -195,9 +166,19 @@ const useButtons = navigation === "buttons";
             const wasAtStart = wrapper.classList.contains("at-start");
             const wasAtEnd = wrapper.classList.contains("at-end");
 
-            wrapper.classList.toggle("at-start", atStart);
-            wrapper.classList.toggle("at-end", atEnd);
-            wrapper.classList.toggle("no-overflow", noOverflow);
+            if (noOverflow) {
+                setArrowState(prevBtn, 'hidden');
+                setArrowState(nextBtn, 'hidden');
+            } else if (atStart) {
+                setArrowState(prevBtn, 'disabled');
+                setArrowState(nextBtn, 'glow');
+            } else if (atEnd) {
+                setArrowState(prevBtn, 'glow');
+                setArrowState(nextBtn, 'disabled');
+            } else {
+                setArrowState(prevBtn, 'enabled');
+                setArrowState(nextBtn, 'enabled');
+            }
 
             if (atEnd && !wasAtEnd) {
                 wrapper.dispatchEvent(new CustomEvent("carousel:end", { bubbles: true }));
