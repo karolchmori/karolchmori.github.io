@@ -105,6 +105,10 @@ img {
 	height: auto;
 	border-radius: 8px;
 	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
 }
 code {
 	padding: 2px 5px;
