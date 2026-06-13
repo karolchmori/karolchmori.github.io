@@ -164,7 +164,7 @@ const useButtons = navigation === "buttons";
 
         function setArrowState(btn: HTMLElement | null, state: 'enabled' | 'glow' | 'disabled' | 'hidden') {
             if (!btn) return;
-            const arrow = btn.querySelector<HTMLElement>('.scroll-arrow');
+            const arrow = btn.querySelector<HTMLElement>('.arrow-btn');
             arrow?.classList.remove('enabled', 'glow', 'disabled', 'hidden');
             arrow?.classList.add(state);
             btn.style.pointerEvents = (state === 'disabled' || state === 'hidden') ? 'none' : '';

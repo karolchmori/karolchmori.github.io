@@ -13,19 +13,19 @@ const {heightVh = 3.2, angle = 0, variant = 'enabled'} = Astro.props;
 ---
 
 
-<div class={`scroll-arrow ${variant}`} style={`--height-vh: ${heightVh}vh; --angle: ${angle}deg;`}>
+<div class={`arrow-btn ${variant}`} style={`--height-vh: ${heightVh}vh; --angle: ${angle}deg;`}>
     <div class="icon-wrapper">
         <img src={ScrollDownArrow.src} alt="" />
     </div>
 </div>
 
 <style>
-    .scroll-arrow img {
+    .arrow-btn img {
 		width: auto;
 		height: var(--height-vh);
 	}
 
-    .scroll-arrow {
+    .arrow-btn {
         cursor: pointer;
         transition: transform 0.2s ease, filter 0.2s ease;
     }
@@ -38,24 +38,24 @@ const {heightVh = 3.2, angle = 0, variant = 'enabled'} = Astro.props;
     /* --------------------- STATES ---------------------*/
 
     /* active */
-    .scroll-arrow.enabled {
+    .arrow-btn.enabled {
         filter: none;
         opacity: 1;
     }
 
     /* glow state */
-    .scroll-arrow.glow {
+    .arrow-btn.glow {
         filter: drop-shadow(0 0 10px var(--color-primary-glow));
     }
 
     /* disabled state */
-    .scroll-arrow.disabled {
+    .arrow-btn.disabled {
         opacity: 0.3;
         filter: brightness(80%);
         pointer-events: none;
     }
 
-    .scroll-arrow.hidden {
+    .arrow-btn.hidden {
         opacity: 0;
         pointer-events: none;
     }
