@@ -1,8 +1,12 @@
 ---
+import ArrowButton from './ArrowButton.astro';
+
 interface Props {
     itemsVisible?: number;
-    itemSize?: string; // e.g. "80px"
-    gap?: number; // e.g. "12px"
+    itemSize?: string;
+    gap?: number; 
+    navigation?: "gradient" | "buttons";
+    buttonPosition?: "above" | "below";
     class?: string;
 }
 
@@ -10,18 +14,26 @@ const {
     itemsVisible = 4,
     itemSize = "15vh",
     gap = 1,
+    navigation = "buttons",
     class: className = "",
 } = Astro.props;
 
 const gapPad = gap * 2;
+const useButtons = navigation === "buttons";
 ---
 
-<div class={`carousel-wrapper ${className}`}>
+<div class={`carousel-wrapper ${className}`} data-nav={navigation}>
     <div
         class="carousel-track" data-carousel
         style={`--items-visible:${itemsVisible}; --item-size:${itemSize}; --gap:${gap}vw; --gapPad:${gapPad}vh;`}>
         <slot />
     </div>
+    {useButtons && (
+        <div class="carousel-buttons">
+            <div data-carousel-btn="prev"><ArrowButton angle={90} /></div>
+            <div data-carousel-btn="next"><ArrowButton angle={-90} /></div>
+        </div>
+    )}
 </div>
 
 <style>
@@ -29,13 +41,20 @@ const gapPad = gap * 2;
         overflow-x: hidden;
     }
 
-
     .carousel-wrapper {
         position: relative;
         width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * var(--gap));
-        max-width: 100%;
-
+        max-width: 100%;   
     }
+
+    .carousel-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 1.25em;
+        gap: 1.5rem;
+    }
+
 
     .carousel-track {
         display: flex;
@@ -88,14 +107,15 @@ const gapPad = gap * 2;
         transition: opacity 0.2s ease;
     }
 
-    .carousel-wrapper::before {
-        
+
+    /* Gradient config */
+    [data-nav="gradient"].carousel-wrapper::before {
         left: 0;
         background: linear-gradient(to right, var(--carousel-fade-color, #000000a1), transparent);
         opacity: 0;
     }
 
-    .carousel-wrapper::after {
+    [data-nav="gradient"].carousel-wrapper::after {
         right: 0;
         background: linear-gradient(to left, var(--carousel-fade-color, #000000a1), transparent);
         opacity: 1;
@@ -116,6 +136,41 @@ const gapPad = gap * 2;
     .carousel-wrapper:not(.at-end)::after {
         opacity: 1;
     }
+
+    [data-carousel-btn] :global(.scroll-arrow) {
+        /* inherits .enabled by default from ArrowButton */
+    }
+
+    .carousel-wrapper.at-start [data-carousel-btn="prev"],
+    .carousel-wrapper.at-end [data-carousel-btn="next"] {
+        pointer-events: none;
+        opacity: 0.3;
+        filter: brightness(80%);
+    }
+
+    .carousel-wrapper.no-overflow [data-carousel-btn] {
+        pointer-events: none;
+    }
+
+    .carousel-wrapper.no-overflow [data-carousel-btn] :global(.scroll-arrow){
+        opacity: 0;
+    }
+
+    /* Glow states stay the same */
+    .carousel-wrapper.at-start [data-carousel-btn="next"] :global(.scroll-arrow), 
+    .carousel-wrapper.at-end [data-carousel-btn="prev"] :global(.scroll-arrow) {
+        filter: drop-shadow(0 0 10px #ff7ec7);
+    }
+  
+    /* Middle state: reset both to normal */
+    .carousel-wrapper:not(.at-start):not(.at-end) [data-carousel-btn="prev"] :global(.scroll-arrow),
+    .carousel-wrapper:not(.at-start):not(.at-end) [data-carousel-btn="next"] :global(.scroll-arrow) {
+        filter: none;
+        opacity: 1;
+    }
+
+  
+
 </style>
 
 <script>
@@ -134,6 +189,7 @@ const gapPad = gap * 2;
 
             wrapper.classList.toggle("at-start", atStart || noOverflow);
             wrapper.classList.toggle("at-end", atEnd || noOverflow);
+            wrapper.classList.toggle("no-overflow", noOverflow);
 
             if (atEnd && !wasAtEnd) {
                 wrapper.dispatchEvent(new CustomEvent("carousel:end", { bubbles: true }));
@@ -180,11 +236,23 @@ const gapPad = gap * 2;
  
         window.addEventListener("pointerup", () => {
             isDragging = false;
+            track.classList.remove("dragging");
         });
 
         window.addEventListener("pointercancel", () => {
-                isDragging = false;
+            isDragging = false;
+            track.classList.remove("dragging");
         });
+
+        wrapper.querySelector('[data-carousel-btn="prev"]')
+            ?.addEventListener("click", () => {
+                track.scrollBy({ left: -(track.clientWidth * 0.75), behavior: "smooth" });
+            });
+
+        wrapper.querySelector('[data-carousel-btn="next"]')
+            ?.addEventListener("click", () => {
+                track.scrollBy({ left: track.clientWidth * 0.75, behavior: "smooth" });
+            });
  
         
     }

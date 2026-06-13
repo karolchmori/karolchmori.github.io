@@ -13,7 +13,7 @@ const {heightVh = 3.2, angle = 0, variant = 'enabled'} = Astro.props;
 ---
 
 
-<div class={`scroll-arrow ${variant}`} style={`--height-vh: ${heightVh}vh; --angle: ${angle} deg;`}>
+<div class={`scroll-arrow ${variant}`} style={`--height-vh: ${heightVh}vh; --angle: ${angle}deg;`}>
     <div class="icon-wrapper">
         <img src={ScrollDownArrow.src} alt="" />
     </div>
@@ -28,10 +28,6 @@ const {heightVh = 3.2, angle = 0, variant = 'enabled'} = Astro.props;
     .scroll-arrow {
         cursor: pointer;
         transition: transform 0.2s ease, filter 0.2s ease;
-    }
-
-    .scroll-arrow:hover {
-        transform: translateY(2px) scale(1.05);
     }
 
 
