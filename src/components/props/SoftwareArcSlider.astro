@@ -19,12 +19,13 @@ export interface Props {
 }
 
 const { instanceId = "default", tools = [], deviceType = "desktop", 
-        iconSize = "13vh", widthRes = 90, heightRes = 30, radius = "400vh", 
+        iconSize = "13vh", widthRes = 95, heightRes = 30,  
         maxRotation = 45, borderMargin = 2.3} = Astro.props;
 
 
 const totalItems = tools.length * 10;
 const step = 360 / totalItems;
+const radius = deviceType === "desktop" ? "300vw" : "500vh";
 const maxRotationAuto = deviceType === "desktop" ? maxRotation : (step * 2 * (tools.length / 2.3));
 const initialAngle = deviceType === "desktop" ? (90 + (tools.length / 2 - 0.5) * step) : 90;
 
@@ -78,7 +79,7 @@ const initialAngle = deviceType === "desktop" ? (90 + (tools.length / 2 - 0.5) *
 
         transform-origin: center center;
 
-        /*background-color: rgba(0, 0, 255, 0.528);*/
+        background-color: rgba(0, 0, 255, 0.528);
     }
 
     .slider-circle {
