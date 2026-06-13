@@ -40,12 +40,17 @@ const {
         gap: var(--gap);
         overflow-x: auto;
         overflow-y: hidden;
-        
 
         scrollbar-width: none;
 
         cursor: grab;
         user-select: none;
+
+        padding-left: var(--gap);
+        padding-right: var(--gap);
+        scroll-padding-left: var(--gap);
+        scroll-padding-right: var(--gap);
+        box-sizing: content-box;
     }
 
     .carousel-track::-webkit-scrollbar {
