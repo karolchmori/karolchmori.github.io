@@ -41,6 +41,15 @@ const useButtons = navigation === "buttons";
         overflow-x: hidden;
     }
 
+    .carousel-track,
+    [data-carousel-btn],
+    .scroll-arrow,
+    .software-chip {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+
+
     .carousel-wrapper {
         position: relative;
         width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * var(--gap));
