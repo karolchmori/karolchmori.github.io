@@ -1,15 +1,22 @@
 ---
+import { number } from 'astro:schema';
+
 // ArchSlider.astro
 
 export interface Props {
     widthRes?: number;
     heightRes?: number;
+    radius?: string;
     cards?: string[];
     totalItems?: number;
+    startAngle?: number;
+    maxRotation?: number;
+    borderMargin?: number;
 
 }
 
-const {widthRes = 70, heightRes = 20, totalItems = 15} = Astro.props;
+const {widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
+        maxRotation = 45 ,totalItems = 30, borderMargin = 2.3} = Astro.props;
 
 const cards = [
   "Text1",
@@ -23,13 +30,15 @@ const cards = [
   "Text9"
 ];
 
+
 const step = 360 / totalItems;
-const maxAngle = cards.length * step;
 
 ---
 <div class="slider-container" 
-    style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --step: ${step}deg;`}
-    data-max-angle={maxAngle}>
+    style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --radius: ${radius}; 
+            --step: ${step}deg; --start-angle: ${startAngle * -1}deg;
+            --borderMargin: ${borderMargin}`}
+    data-max-angle={maxRotation * -1}>
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
@@ -54,7 +63,7 @@ const maxAngle = cards.length * step;
 
     .slider-viewport {
         position: relative;
-        overflow: visible; /* Later hidden */
+        overflow: hidden; /* Later hidden */
         width: 100%;
         height: var(--heightRes);
         
@@ -67,9 +76,8 @@ const maxAngle = cards.length * step;
     }
 
     .slider-wrapper {
-        --circle-size: 30vw;
-        width: var(--circle-size);
-        height: var(--circle-size);
+        width: var(--radius);
+        height: var(--radius);
 
         transform-origin: center center;
 
@@ -84,7 +92,6 @@ const maxAngle = cards.length * step;
         border-radius: 50%;
 
         /* Circle position */
-        --start-angle: -130deg;
         transform: rotate(var(--start-angle));
         
 
@@ -106,7 +113,7 @@ const maxAngle = cards.length * step;
         transform:
             translate(-50%, -50%)
             rotate(calc(var(--i) * var(--step)))
-            translate(calc(var(--circle-size)/2.5)) rotate(90deg);
+            translate(calc(var(--radius)/var(--borderMargin))) rotate(90deg);
 
         transform-origin: center;
     }
@@ -130,10 +137,12 @@ const maxAngle = cards.length * step;
     let enableRotation = false;
     let baseRotation = 0;
     let isDragging = false;
-    let minAngle = 0;
-    //let maxAngle = -110;
     let lastAngle = 0;
-    const maxAngle = -1 * Number(container.dataset.maxAngle) / 2;
+
+    /* Rotation limits */
+    let minAngle = 0;
+    //let maxAngle = -90;
+    const maxAngle = Number(container.dataset.maxAngle);
         
 
     if (handles && wrapper) {
