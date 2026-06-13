@@ -51,14 +51,12 @@ const activeTools = getActiveTools();
 				
 				<section class="home-portfolio">
 					<div class="home-softslider-desktop">
-						<SoftwareArcSlider instanceId='desktop' tools={activeTools}
-							iconSize="12vh" widthRes={80} heightRes={30}
-							maxRotation={70} totalItems={70} borderMargin={2.11} autoStartAngle={true}/>
+						<SoftwareArcSlider instanceId='SA1' tools={activeTools} deviceType='desktop'
+							iconSize="12vh" heightRes={30} totalItems={70} borderMargin={2.11}/>
 					</div>
 					<div class="home-softslider-phone">
-						<SoftwareArcSlider instanceId="phone" tools={activeTools} 
-							iconSize="14vh" widthRes={80} heightRes={20}
-							 totalItems={60} borderMargin={2.1} autoMaxRotation={true}/>
+						<SoftwareArcSlider instanceId="SA2" tools={activeTools} deviceType='phone'
+							iconSize="14vh" heightRes={30} totalItems={60} borderMargin={2.1}/>
 					</div>
 				</section>
 				<section class="home-credits">
@@ -97,7 +95,7 @@ const activeTools = getActiveTools();
 	}
 
 	.home-transition {
-		min-height: 40vh;
+		min-height: 39vh;
 		width: 100%;
 	}
 
@@ -119,7 +117,7 @@ const activeTools = getActiveTools();
 	}
 
 	.home-ending {
-		min-height: 40vh;
+		min-height: 39vh;
 		width: 100%;
 	}
 
