@@ -49,7 +49,6 @@ const step = 360 / totalItems;
 
     .slider-container {
         width: var(--widthRes);
-        border: 10px solid purple;
         background-color: transparent;
     }
 
@@ -59,7 +58,7 @@ const step = 360 / totalItems;
         width: 100%;
         height: var(--heightRes);
         
-        background-color: red;
+        border: 10px solid red;
 
         /* Center objects */
         display: flex;
@@ -73,7 +72,7 @@ const step = 360 / totalItems;
 
         transform-origin: center center;
 
-        background-color: rgba(0, 0, 255, 0.528);
+        /*background-color: rgba(0, 0, 255, 0.528);*/
     }
 
     .slider-circle {
@@ -81,18 +80,18 @@ const step = 360 / totalItems;
         position: relative;
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        
 
         /* Circle position */
         transform: rotate(var(--start-angle));
         
 
-        /* Remove the solid background color */
+        /* Remove the solid background color
         background-color: rgba(128, 128, 128, 0.598);
+        border-radius: 50%;*/
     }
 
     .handle {
-        background-color: white;
         cursor: grab;
         user-select: none;
         touch-action: none;

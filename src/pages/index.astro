@@ -48,8 +48,12 @@ const activeTools = getActiveTools();
 				</section>
 				
 				<section class="home-portfolio">
-					<SoftwareArcSlider tools={activeTools} iconSize="10vh" totalItems={20}/>
-
+					<div class="home-softslider">
+						<SoftwareArcSlider tools={activeTools} iconSize="10vh" startAngle={115}
+						widthRes={80} heightRes={30}
+						maxRotation={25} totalItems={50} radius='290vh' borderMargin={2.1}/>
+					</div>
+					
 				</section>
 				<section class="home-credits">
 
@@ -205,9 +209,11 @@ const activeTools = getActiveTools();
 	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-
-
-
+	.home-softslider {
+		position: absolute;
+		top: 5%;
+		background-color: blue;
+	}
 
 
 	/* -------------------------------------------------------------- */ 
