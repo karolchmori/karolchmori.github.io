@@ -18,6 +18,8 @@ import SoftwareChip from '../components/props/SoftwareChip.astro';
 import { getActiveTools } from '../data/ToolLibrary';
 import SoftwareArcSlider from '../components/props/SoftwareArcSlider.astro';
 const activeTools = getActiveTools();
+
+
 ---
 
 <!doctype html>
@@ -161,10 +163,9 @@ const activeTools = getActiveTools();
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%) 
-					scale(clamp(0.1, 
-						min(calc(100vh / 771px), calc(100vw / 300px)), 
-						0.70));
+		--scale: clamp(0.20, calc(60vh / 900px), calc(50vw / 380px));
+
+		transform: translate(-50%, -50%) scale(calc(var(--scale)));
 		transform-origin: center;
 	}
 
@@ -229,10 +230,7 @@ const activeTools = getActiveTools();
 	@media (max-width: 768px) {
 		.home-backcards, .home-maincard {
 			top: 46%;
-			transform: translate(-50%, -50%) 
-						scale(clamp(0.1, 
-						min(calc(100vh / 771px), calc(100vw / 300px)), 
-						0.55));
+			--scale: min(calc(60vh / 900px), calc(50vw / 380px));
 		}
 
 		.home-maincard:hover .home-showreelPlay {
