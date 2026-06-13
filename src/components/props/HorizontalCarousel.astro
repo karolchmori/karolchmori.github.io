@@ -137,8 +137,13 @@ const useButtons = navigation === "buttons";
         opacity: 1;
     }
 
+    [data-carousel-btn] {
+        transition: opacity 0.2s ease, filter 0.2s ease;
+    }
+
     [data-carousel-btn] :global(.scroll-arrow) {
-        /* inherits .enabled by default from ArrowButton */
+        
+        transition: filter 0.2s ease, opacity 0.2s ease;
     }
 
     .carousel-wrapper.at-start [data-carousel-btn="prev"],
@@ -154,6 +159,7 @@ const useButtons = navigation === "buttons";
 
     .carousel-wrapper.no-overflow [data-carousel-btn] :global(.scroll-arrow){
         opacity: 0;
+        transition: opacity 0.2s ease;
     }
 
     /* Glow states stay the same */
@@ -167,6 +173,7 @@ const useButtons = navigation === "buttons";
     .carousel-wrapper:not(.at-start):not(.at-end) [data-carousel-btn="next"] :global(.scroll-arrow) {
         filter: none;
         opacity: 1;
+        transition: opacity 0.2s ease;
     }
 
   
