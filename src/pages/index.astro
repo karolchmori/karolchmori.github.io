@@ -48,12 +48,16 @@ const activeTools = getActiveTools();
 				</section>
 				
 				<section class="home-portfolio">
-					<div class="home-softslider">
-						<SoftwareArcSlider tools={activeTools} iconSize="10vh" startAngle={115}
+					<div class="home-softslider-desktop">
+						<SoftwareArcSlider tools={activeTools} iconSize="12vh" startAngle={115}
 						widthRes={80} heightRes={30}
-						maxRotation={25} totalItems={50} radius='290vh' borderMargin={2.1}/>
+						maxRotation={25} totalItems={50} radius='290vh' borderMargin={2.11}/>
 					</div>
-					
+					<div class="home-softslider-phone">
+						<SoftwareArcSlider tools={activeTools} iconSize="14vh" startAngle={90}
+						widthRes={80} heightRes={30}
+						maxRotation={120} totalItems={50} radius='290vh' borderMargin={2.2}/>
+					</div>
 				</section>
 				<section class="home-credits">
 
@@ -91,7 +95,7 @@ const activeTools = getActiveTools();
 	}
 
 	.home-transition {
-		min-height: 44vh;
+		min-height: 40vh;
 		width: 100%;
 	}
 
@@ -113,7 +117,7 @@ const activeTools = getActiveTools();
 	}
 
 	.home-ending {
-		min-height: 44vh;
+		min-height: 40vh;
 		width: 100%;
 	}
 
@@ -160,7 +164,7 @@ const activeTools = getActiveTools();
 		transform: translate(-50%, -50%) 
 					scale(clamp(0.1, 
 						min(calc(100vh / 771px), calc(100vw / 300px)), 
-						0.75));
+						0.70));
 		transform-origin: center;
 	}
 
@@ -209,11 +213,12 @@ const activeTools = getActiveTools();
 	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-	.home-softslider {
+	.home-softslider-desktop {
 		position: absolute;
-		top: 5%;
-		background-color: blue;
+		top: 7%;
 	}
+
+	.home-softslider-phone { display: none; }
 
 
 	/* -------------------------------------------------------------- */ 
@@ -250,8 +255,14 @@ const activeTools = getActiveTools();
 			left: 47%;
 		}
 
-		.home-social {
-			display: none;
+		.home-social { display: none; }
+
+		.home-softslider-desktop { display: none; }
+
+		.home-softslider-phone {
+			display: flex;
+			position: absolute;
+			top: 10%;
 		}
 
 
