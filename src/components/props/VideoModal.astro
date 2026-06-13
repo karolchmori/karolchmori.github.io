@@ -32,7 +32,6 @@ const src = getVideoUrl(platform, idVideo, autoplay);
     .video-overlay {
 		position: fixed;
 		inset: 0;
-		display: flex;
 		align-items: center;
 		justify-content: center;
 		background: rgba(0, 0, 0, 0.8);
@@ -46,13 +45,14 @@ const src = getVideoUrl(platform, idVideo, autoplay);
 	}
 
 	.video-overlay.is-open {
+		display: flex !important;
 		visibility: visible;
 		opacity: 1;
 		pointer-events: auto;
 	}
 
 	.video-container {
-		width: min(var(--viewPer) * 100vw, calc(var(--viewPer) * 100vh * 16 / 9));
+		width: min(calc(var(--viewPer) * 100vw), calc(var(--viewPer) * 100vh * 16 / 9));
 		aspect-ratio: 16 / 9;
 		position: relative;
 	}
