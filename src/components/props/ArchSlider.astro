@@ -23,13 +23,18 @@ const cards = [
   "Text9"
 ];
 
+const step = 360 / totalItems;
+const maxAngle = cards.length * step;
+
 ---
-<div class="slider-container" style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh;`}>
+<div class="slider-container" 
+    style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --step: ${step}deg;`}
+    data-max-angle={maxAngle}>
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
                 {cards.map((card, i) => (
-                    <a class="handle" style={`--i:${i}; --total:${totalItems};`}>
+                    <a class="handle" style={`--i:${i};`}>
                         {card}
                     </a>
                 ))}
@@ -80,7 +85,6 @@ const cards = [
 
         /* Circle position */
         --start-angle: -130deg;
-        --step: calc(360deg / var(--total)); 
         transform: rotate(var(--start-angle));
         
 
@@ -101,7 +105,7 @@ const cards = [
 
         transform:
             translate(-50%, -50%)
-            rotate(calc(var(--i) * 360deg / var(--total)))
+            rotate(calc(var(--i) * var(--step)))
             translate(calc(var(--circle-size)/2.5)) rotate(90deg);
 
         transform-origin: center;
@@ -115,20 +119,21 @@ const cards = [
 </style>
 
 
-<script>
+<script> 
     const wrapper = document.getElementById("wrapper");
     const handles = document.querySelectorAll<HTMLElement>(".handle");
     const viewport = document.querySelector(".slider-viewport") as HTMLElement;
+    const container = document.querySelector(".slider-container") as HTMLElement;
     
-
 
     /* Rotation definition */
     let enableRotation = false;
     let baseRotation = 0;
     let isDragging = false;
-    let maxAngle = 20;
-    let minAngle = -70;
+    let minAngle = 0;
+    //let maxAngle = -110;
     let lastAngle = 0;
+    const maxAngle = -1 * Number(container.dataset.maxAngle) / 2;
         
 
     if (handles && wrapper) {
@@ -193,8 +198,8 @@ const cards = [
             let rotationDeg = baseRotation + delta * (180 / Math.PI);
 
             // clamp result only
-            if (rotationDeg > maxAngle) rotationDeg = maxAngle;
-            if (rotationDeg < minAngle) rotationDeg = minAngle;
+            if (rotationDeg > minAngle) rotationDeg = minAngle;
+            if (rotationDeg < maxAngle) rotationDeg = maxAngle;
             
             baseRotation = rotationDeg;
 
