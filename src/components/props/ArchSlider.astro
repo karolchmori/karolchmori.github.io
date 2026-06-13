@@ -1,13 +1,11 @@
 ---
-import { number } from 'astro:schema';
-
 // ArchSlider.astro
 
 export interface Props {
+    items?: unknown[];
     widthRes?: number;
     heightRes?: number;
     radius?: string;
-    cards?: string[];
     totalItems?: number;
     startAngle?: number;
     maxRotation?: number;
@@ -15,20 +13,10 @@ export interface Props {
 
 }
 
-const {widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
+const { items = [], 
+        widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
         maxRotation = 45 ,totalItems = 30, borderMargin = 2.3} = Astro.props;
 
-const cards = [
-  "Text1",
-  "Text2",
-  "Text3",
-  "Text4",
-  "Text5",
-  "Text6",
-  "Text7",
-  "Text8",
-  "Text9"
-];
 
 
 const step = 360 / totalItems;
@@ -42,10 +30,10 @@ const step = 360 / totalItems;
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
-                {cards.map((card, i) => (
-                    <a class="handle" style={`--i:${i};`}>
-                        {card}
-                    </a>
+                {items.map((item, i) => (
+                    <div class="handle" style={`--i:${i};`}>
+                        {item}
+                    </div>
                 ))}
             </div>
         </div>

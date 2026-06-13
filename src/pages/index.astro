@@ -18,7 +18,6 @@ import SoftwareChip from '../components/props/SoftwareChip.astro';
 import { getActiveTools } from '../data/ToolLibrary';
 import ArchSlider from '../components/props/ArchSlider.astro';
 const activeTools = getActiveTools();
-const totalTools = activeTools.length;
 ---
 
 <!doctype html>
@@ -49,15 +48,7 @@ const totalTools = activeTools.length;
 				</section>
 				
 				<section class="home-portfolio">
-					<ArchSlider />
-					<div class="chip-container" style={`--total: ${totalTools};`}>
-						{activeTools.map((singleTool, i) => (
-							<div class="radial-item" style={`--index: ${i};`}>
-								<SoftwareChip tool={singleTool} />
-							</div>
-						))}
-					</div>
-
+					<ArchSlider items={activeTools} totalItems={30} startAngle={120} maxRotation={45}/>
 				</section>
 				<section class="home-credits">
 
@@ -213,39 +204,9 @@ const totalTools = activeTools.length;
 	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-	.chip-container {
-		position: relative;
 
-		width: 100vw;
-		height: 100px;
 
-		bottom: 33vh;
 
-		overflow: visible;
-	}
-
-	.radial-item {
-		position: absolute;
-
-		--t: calc(var(--index) / (var(--total) - 1));
-		
-		--stepWidth: 70vw;
-		--step: calc(var(--stepWidth) / (var(--total) - 1));
-
-		--arcHeight: clamp(30px, 8vh, 140px);
-
-		--size: clamp(40px, calc(var(--step) * 0.45), 150px);
-
-		width: var(--size);
-		height: var(--size);
-
-		/* Center the arc horizontally */
-		left: calc(50% - var(--stepWidth) / 2 + var(--t) * var(--stepWidth));
-		/* Arc Curve */
-		top: calc(120px + sin(var(--t) * 3.1415) * (-1 * var(--arcHeight)));
-
-		transform: translate(-50%, -50%); /* Center picture in block */
-	}
 
 
 	/* -------------------------------------------------------------- */ 

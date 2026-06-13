@@ -4,7 +4,7 @@ import type { SoftwareTool } from '../../objects/SoftwareTool';
 
 // Define the expected props for the component
 interface Props {
-  tool: SoftwareTool;
+    tool: SoftwareTool;
 }
 
 const { tool } = Astro.props;
@@ -12,9 +12,9 @@ const { tool } = Astro.props;
 ---
 
 <div class="software-chip" data-path={tool.pagesPath}>
-  <div class="icon-wrapper">
-    <img src={tool.iconPath} alt="" />
-  </div>
+    <div class="icon-wrapper">
+        <img src={tool.iconPath} alt="" />
+    </div>
 </div>
 
 
