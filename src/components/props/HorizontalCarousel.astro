@@ -148,7 +148,7 @@ const useButtons = navigation === "buttons";
         const prevBtn = wrapper.querySelector<HTMLElement>('[data-carousel-btn="prev"]');
         const nextBtn = wrapper.querySelector<HTMLElement>('[data-carousel-btn="next"]');
         
-            
+
         function setArrowState(btn: HTMLElement | null, state: 'enabled' | 'glow' | 'disabled' | 'hidden') {
             if (!btn) return;
             const arrow = btn.querySelector<HTMLElement>('.scroll-arrow');
@@ -236,12 +236,12 @@ const useButtons = navigation === "buttons";
 
         wrapper.querySelector('[data-carousel-btn="prev"]')
             ?.addEventListener("click", () => {
-                track.scrollBy({ left: -(track.clientWidth * 0.75), behavior: "smooth" });
+                track.scrollBy({ left: -(track.clientWidth * 0.7), behavior: "smooth" });
             });
 
         wrapper.querySelector('[data-carousel-btn="next"]')
             ?.addEventListener("click", () => {
-                track.scrollBy({ left: track.clientWidth * 0.75, behavior: "smooth" });
+                track.scrollBy({ left: track.clientWidth * 0.7, behavior: "smooth" });
             });
  
         
