@@ -5,6 +5,10 @@
  */
 
 :root {
+	--color-primary: #ff7ec7;
+	--color-primary-fade: #704968fc;
+	--color-primary-glow: #ff7ec7;
+	
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
 	--black: 15, 18, 25;
