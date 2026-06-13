@@ -1,0 +1,137 @@
+---
+interface Props {
+    itemsVisible?: number;
+    itemSize?: string; // e.g. "80px"
+    gap?: string; // e.g. "12px"
+    class?: string;
+}
+
+const {
+    itemsVisible = 4,
+    itemSize = "15vh",
+    gap = "5vw",
+    class: className = "",
+} = Astro.props;
+---
+
+<div class={`carousel-wrapper ${className}`}>
+    <div
+        class="carousel-track" data-carousel
+        style={`--items-visible:${itemsVisible}; --item-size:${itemSize}; --gap:${gap};`}>
+        <slot />
+    </div>
+</div>
+
+<style>
+    .carousel-wrapper {
+        position: relative;
+        width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * var(--gap));
+        max-width: 100%;
+
+    }
+
+    .carousel-track {
+        display: flex;
+        gap: var(--gap);
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel-track > :global(*) {
+        flex: 0 0 var(--item-size);
+        width: var(--item-size);
+        height: var(--item-size);
+        scroll-snap-align: start;
+    }
+
+    /* Edge fades */
+    .carousel-wrapper::before,
+    .carousel-wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 24px;
+        pointer-events: none;
+        z-index: 2;
+        transition: opacity 0.2s ease;
+    }
+
+    .carousel-wrapper::before {
+        
+        left: 0;
+        background: linear-gradient(to right, var(--carousel-fade-color, #000000a1), transparent);
+        opacity: 0;
+    }
+
+    .carousel-wrapper::after {
+        right: 0;
+        background: linear-gradient(to left, var(--carousel-fade-color, #000000a1), transparent);
+        opacity: 1;
+    }
+
+    .carousel-wrapper.at-start::before {
+        opacity: 0;
+    }
+
+    .carousel-wrapper.at-end::after {
+        opacity: 0;
+    }
+
+    .carousel-wrapper:not(.at-start)::before {
+        opacity: 1;
+    }
+
+    .carousel-wrapper:not(.at-end)::after {
+        opacity: 1;
+    }
+</style>
+
+<script>
+    function initCarousel(track: HTMLElement) {
+        const wrapper = track.parentElement as HTMLElement;
+        const THRESHOLD = 2; // px tolerance
+
+        function update() {
+            const { scrollLeft, scrollWidth, clientWidth } = track;
+            const atStart = scrollLeft <= THRESHOLD;
+            const atEnd = scrollLeft + clientWidth >= scrollWidth - THRESHOLD;
+            const noOverflow = scrollWidth <= clientWidth + THRESHOLD;
+
+            const wasAtStart = wrapper.classList.contains("at-start");
+            const wasAtEnd = wrapper.classList.contains("at-end");
+
+            wrapper.classList.toggle("at-start", atStart || noOverflow);
+            wrapper.classList.toggle("at-end", atEnd || noOverflow);
+
+            if (atEnd && !wasAtEnd) {
+                wrapper.dispatchEvent(new CustomEvent("carousel:end", { bubbles: true }));
+            }
+            if (atStart && !wasAtStart) {
+                wrapper.dispatchEvent(new CustomEvent("carousel:start", { bubbles: true }));
+            }
+        }
+
+        track.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+
+        // Recheck if content/layout changes after initial render
+        const ro = new ResizeObserver(update);
+        ro.observe(track);
+
+        const mo = new MutationObserver(update);
+        mo.observe(track, { childList: true, subtree: true });
+
+        // Initial check
+        update();
+    }
+
+    document.querySelectorAll<HTMLElement>("[data-carousel]").forEach(initCarousel);
+</script>

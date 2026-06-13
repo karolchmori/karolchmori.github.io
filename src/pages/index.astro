@@ -14,6 +14,7 @@ import Vignette from '../components/props/Vignette.astro';
 import VideoModal from '../components/props/VideoModal.astro';
 import ArrowButton from '../components/props/ArrowButton.astro';
 import SoftwareChip from '../components/props/SoftwareChip.astro';
+import HorizontalCarousel from '../components/props/HorizontalCarousel.astro';
 
 import { getActiveTools } from '../data/ToolLibrary';
 const activeTools = getActiveTools();
@@ -45,11 +46,11 @@ const activeTools = getActiveTools();
 						<ArrowButton variant='glow'/>
 					</div>
 				</section>
-				<section class="home-transition">
-				</section>
-				
+				<section class="home-transition"/>
 				<section class="home-portfolio">
-
+					<HorizontalCarousel>
+						{activeTools.map(tool => <SoftwareChip tool={tool} />)}
+					</HorizontalCarousel>
 				</section>
 				<section class="home-credits">
 
@@ -206,7 +207,7 @@ const activeTools = getActiveTools();
 
 
 
-	
+
 
 
 	/* -------------------------------------------------------------- */ 
