@@ -14,25 +14,26 @@ export interface Props {
     startAngle?: number;
     maxRotation?: number;
     borderMargin?: number;
+    instanceId?: string;
 
 }
 
 const { tools = [], iconSize = "30px",
         widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
-        maxRotation = 45 ,totalItems = 30, borderMargin = 2.3} = Astro.props;
+        maxRotation = 45 ,totalItems = 30, borderMargin = 2.3, instanceId = "default"} = Astro.props;
 
 
 
 const step = 360 / totalItems;
 
 ---
-<div class="slider-container" 
-    style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --radius: ${radius}; 
-            --step: ${step}deg; --start-angle: ${startAngle * -1}deg;
-            --borderMargin: ${borderMargin}; --iconSize: ${iconSize};`}
+<div class="slider-container" data-instance={instanceId}
+        style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --radius: ${radius}; 
+                --step: ${step}deg; --start-angle: ${startAngle * -1}deg;
+                --borderMargin: ${borderMargin}; --iconSize: ${iconSize};`}
     data-max-angle={maxRotation * -1}>
     <div class="slider-viewport" >
-        <div class="slider-wrapper" id="wrapper">
+        <div class="slider-wrapper">
             <div class="slider-circle">
                 {tools.map((tool, i) => (
                     <div class="handle" style={`--i:${i};`}>
@@ -123,101 +124,105 @@ const step = 360 / totalItems;
 
 
 <script> 
-    const wrapper = document.getElementById("wrapper");
-    const handles = document.querySelectorAll<HTMLElement>(".handle");
-    const viewport = document.querySelector(".slider-viewport") as HTMLElement;
-    const container = document.querySelector(".slider-container") as HTMLElement;
-    
 
-    /* Rotation definition */
-    let enableRotation = false;
-    let baseRotation = 0;
-    let isDragging = false;
-    let lastAngle = 0;
-
-    /* Rotation limits */
-    let minAngle = 0;
-    //let maxAngle = -90;
-    const maxAngle = Number(container.dataset.maxAngle);
+    document.querySelectorAll<HTMLElement>(".slider-container").forEach((container) => {
+        const wrapper = container.querySelector<HTMLElement>(".slider-wrapper");
+        const viewport = container.querySelector<HTMLElement>(".slider-viewport");
+        const handles = container.querySelectorAll<HTMLElement>(".handle");
         
 
-    if (handles && wrapper) {
+        /* Rotation definition */
+        let enableRotation = false;
+        let baseRotation = 0;
+        let isDragging = false;
+        let lastAngle = 0;
 
-        handles.forEach((handle) => {
-            attatchEvents(handle, wrapper);
-
-            if (!enableRotation) enableRotation = detectOverflow(handle);
-
-        });
-    }
-
-    /* --------------- Overflow Functions --------------- */
-
-    function detectOverflow(handle: HTMLElement) {
-        const vrect = viewport.getBoundingClientRect();
-        const rect = handle.getBoundingClientRect();
-
-        const out = rect.right < vrect.left || rect.left > vrect.right ||
-                    rect.bottom < vrect.top || rect.top > vrect.bottom;
-
-        return out;
-    }
-
-
-
-    /* --------------- Rotation Functions --------------- */
-
-    function getAngle(e: PointerEvent, centerX: number, centerY: number) {
-        return Math.atan2(e.clientY - centerY, e.clientX - centerX);
-    }
-
-    function getCenter(el: HTMLElement) {
-        const rect = el.getBoundingClientRect();
-        return {
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2
-        };
-    }
-
-    function attatchEvents(handle: HTMLElement, wrapper: HTMLElement){
-
-        handle.addEventListener("pointerdown", (e) => {
-            isDragging = true;
-            handle.setPointerCapture(e.pointerId);
-            const center = getCenter(wrapper);
-
-            lastAngle = getAngle(e, center.x, center.y);
-        });
-
-        handle.addEventListener("pointermove", (e) => {
-            if (!isDragging || !enableRotation) return;
-
-            const center = getCenter(wrapper);
-            const currentAngle = getAngle(e, center.x, center.y);
-            let delta = currentAngle - lastAngle;
-            if (delta > Math.PI) delta -= 2 * Math.PI;
-            if (delta < -Math.PI) delta += 2 * Math.PI;
-
-            lastAngle = currentAngle;
-
-            let rotationDeg = baseRotation + delta * (180 / Math.PI);
-
-            // clamp result only
-            if (rotationDeg > minAngle) rotationDeg = minAngle;
-            if (rotationDeg < maxAngle) rotationDeg = maxAngle;
+        /* Rotation limits */
+        let minAngle = 0;
+        //let maxAngle = -90;
+        const maxAngle = Number(container.dataset.maxAngle);
             
-            baseRotation = rotationDeg;
 
-            wrapper.style.transform = `rotate(${rotationDeg}deg)`;
-        });
+        if (handles && wrapper) {
 
-        handle.addEventListener("pointerup", () => {
-            isDragging = false;
-        });
+            handles.forEach((handle) => {
+                attatchEvents(handle, wrapper);
 
-        handle.addEventListener("pointercancel", () => {
-            isDragging = false;
-        });
-    }
+                if (!enableRotation) enableRotation = detectOverflow(handle);
+
+            });
+        }
+    
+
+        /* --------------- Overflow Functions --------------- */
+
+        function detectOverflow(handle: HTMLElement) {
+            const vrect = viewport!.getBoundingClientRect();
+            const rect = handle.getBoundingClientRect();
+
+            const out = rect.right < vrect.left || rect.left > vrect.right ||
+                        rect.bottom < vrect.top || rect.top > vrect.bottom;
+
+            return out;
+        }
+
+
+
+        /* --------------- Rotation Functions --------------- */
+
+        function getAngle(e: PointerEvent, centerX: number, centerY: number) {
+            return Math.atan2(e.clientY - centerY, e.clientX - centerX);
+        }
+
+        function getCenter(el: HTMLElement) {
+            const rect = el.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        function attatchEvents(handle: HTMLElement, wrapper: HTMLElement){
+
+            handle.addEventListener("pointerdown", (e) => {
+                isDragging = true;
+                handle.setPointerCapture(e.pointerId);
+                const center = getCenter(wrapper);
+
+                lastAngle = getAngle(e, center.x, center.y);
+            });
+
+            handle.addEventListener("pointermove", (e) => {
+                if (!isDragging || !enableRotation) return;
+
+                const center = getCenter(wrapper);
+                const currentAngle = getAngle(e, center.x, center.y);
+                let delta = currentAngle - lastAngle;
+                if (delta > Math.PI) delta -= 2 * Math.PI;
+                if (delta < -Math.PI) delta += 2 * Math.PI;
+
+                lastAngle = currentAngle;
+
+                let rotationDeg = baseRotation + delta * (180 / Math.PI);
+
+                // clamp result only
+                if (rotationDeg > minAngle) rotationDeg = minAngle;
+                if (rotationDeg < maxAngle) rotationDeg = maxAngle;
+                
+                baseRotation = rotationDeg;
+
+                wrapper.style.transform = `rotate(${rotationDeg}deg)`;
+            });
+
+            handle.addEventListener("pointerup", () => {
+                isDragging = false;
+            });
+
+            handle.addEventListener("pointercancel", () => {
+                isDragging = false;
+            });
+        }
+
+    });
 
 </script>
