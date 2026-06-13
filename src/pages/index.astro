@@ -16,7 +16,6 @@ import ArrowButton from '../components/props/ArrowButton.astro';
 import SoftwareChip from '../components/props/SoftwareChip.astro';
 
 import { getActiveTools } from '../data/ToolLibrary';
-import SoftwareArcSlider from '../components/props/SoftwareArcSlider.astro';
 const activeTools = getActiveTools();
 
 
@@ -50,14 +49,7 @@ const activeTools = getActiveTools();
 				</section>
 				
 				<section class="home-portfolio">
-					<div class="home-softslider-desktop">
-						<SoftwareArcSlider instanceId='SA1' tools={activeTools} deviceType='desktop'
-							iconSize="13vh" borderMargin={2.11}/>
-					</div>
-					<div class="home-softslider-phone">
-						<SoftwareArcSlider instanceId="SA2" tools={activeTools} deviceType='phone'
-							iconSize="14vh" borderMargin={2.11}/>
-					</div>
+
 				</section>
 				<section class="home-credits">
 
@@ -161,7 +153,7 @@ const activeTools = getActiveTools();
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		--scale: clamp(0.20, calc(60vh / 900px), calc(50vw / 380px));
+		--scale: clamp(0.20, calc(60vh / 900px), calc(60vw / 380px));
 
 		transform: translate(-50%, -50%) scale(calc(var(--scale)));
 		transform-origin: center;
@@ -212,12 +204,9 @@ const activeTools = getActiveTools();
 	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-	.home-softslider-desktop {
-		position: absolute;
-		top: 7%;
-	}
 
-	.home-softslider-phone { display: none;}
+
+	
 
 
 	/* -------------------------------------------------------------- */ 
@@ -228,7 +217,7 @@ const activeTools = getActiveTools();
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 		.home-backcards, .home-maincard {
 			top: 46%;
-			--scale: min(calc(65vh / 900px), calc(55vw / 380px));
+			--scale: min(calc(60vh / 900px), calc(50vw / 380px));
 		}
 
 		.home-maincard:hover .home-showreelPlay {
