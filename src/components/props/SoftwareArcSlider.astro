@@ -11,28 +11,29 @@ export interface Props {
     heightRes?: number;
     radius?: string;
     totalItems?: number;
-    startAngle?: number;
     maxRotation?: number;
     autoMaxRotation?: boolean;
+    autoStartAngle?: boolean;
     borderMargin?: number;
     instanceId?: string;
 
 }
 
 const { tools = [], iconSize = "30px",
-        widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 90, 
-        maxRotation = 45, autoMaxRotation = false,
+        widthRes = 70, heightRes = 20, radius = "400vh", 
+        maxRotation = 45, autoMaxRotation = false, autoStartAngle = false,
         totalItems = 30, borderMargin = 2.3, instanceId = "default"} = Astro.props;
 
 
 
 const step = 360 / totalItems;
 const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : maxRotation;
+const initialAngleAuto = autoStartAngle ? 90 + (tools.length / 2 - 0.5) * step : 90;
 
 ---
 <div class="slider-container" data-instance={instanceId}
         style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --radius: ${radius}; 
-                --step: ${step}deg; --start-angle: ${startAngle * -1}deg;
+                --step: ${step}deg; --start-angle: ${initialAngleAuto * -1}deg;
                 --borderMargin: ${borderMargin}; --iconSize: ${iconSize};`}
     data-max-angle={maxRotationAuto * -1}>
     <div class="slider-viewport" >
