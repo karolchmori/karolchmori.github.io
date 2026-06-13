@@ -16,7 +16,7 @@ import ArrowButton from '../components/props/ArrowButton.astro';
 import SoftwareChip from '../components/props/SoftwareChip.astro';
 
 import { getActiveTools } from '../data/ToolLibrary';
-import ArchSlider from '../components/props/ArchSlider.astro';
+import SoftwareArcSlider from '../components/props/SoftwareArcSlider.astro';
 const activeTools = getActiveTools();
 ---
 
@@ -48,7 +48,8 @@ const activeTools = getActiveTools();
 				</section>
 				
 				<section class="home-portfolio">
-					<ArchSlider items={activeTools} totalItems={30} startAngle={120} maxRotation={45}/>
+					<SoftwareArcSlider tools={activeTools} iconSize="10vh" totalItems={20}/>
+
 				</section>
 				<section class="home-credits">
 

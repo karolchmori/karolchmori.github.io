@@ -1,8 +1,12 @@
 ---
-// ArchSlider.astro
+// SoftwareArcSlider.astro
+import SoftwareChip from './SoftwareChip.astro';
+import type { SoftwareTool } from '../../objects/SoftwareTool';
+
 
 export interface Props {
-    items?: string[]
+    tools?: SoftwareTool[];
+    iconSize?: string;
     widthRes?: number;
     heightRes?: number;
     radius?: string;
@@ -13,7 +17,7 @@ export interface Props {
 
 }
 
-const { items = [], 
+const { tools = [], iconSize = "30px",
         widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
         maxRotation = 45 ,totalItems = 30, borderMargin = 2.3} = Astro.props;
 
@@ -25,14 +29,14 @@ const step = 360 / totalItems;
 <div class="slider-container" 
     style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --radius: ${radius}; 
             --step: ${step}deg; --start-angle: ${startAngle * -1}deg;
-            --borderMargin: ${borderMargin}`}
+            --borderMargin: ${borderMargin}; --iconSize: ${iconSize};`}
     data-max-angle={maxRotation * -1}>
     <div class="slider-viewport" >
         <div class="slider-wrapper" id="wrapper">
             <div class="slider-circle">
-                {items.map((item, i) => (
+                {tools.map((tool, i) => (
                     <div class="handle" style={`--i:${i};`}>
-                        <img src={item} />
+                        <SoftwareChip tool={tool} />
                     </div>
                 ))}
             </div>
@@ -98,12 +102,18 @@ const step = 360 / totalItems;
         top: 50%;
         left: 50%;
 
+        
         transform:
             translate(-50%, -50%)
             rotate(calc(var(--i) * var(--step)))
             translate(calc(var(--radius)/var(--borderMargin))) rotate(90deg);
 
         transform-origin: center;
+
+        /* Size of handle */
+        width: var(--iconSize);
+        height: auto;
+
     }
 
     .handle:active {
