@@ -20,7 +20,7 @@ export interface Props {
 }
 
 const { tools = [], iconSize = "30px",
-        widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
+        widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 90, 
         maxRotation = 45, autoMaxRotation = false,
         totalItems = 30, borderMargin = 2.3, instanceId = "default"} = Astro.props;
 
@@ -61,6 +61,7 @@ const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : ma
         overflow: hidden; /* Later hidden */
         width: 100%;
         height: var(--heightRes);
+        touch-action: none;
         
         border: 10px solid red;
 
@@ -73,6 +74,7 @@ const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : ma
     .slider-wrapper {
         width: var(--radius);
         height: var(--radius);
+        touch-action: none;
 
         transform-origin: center center;
 
@@ -150,10 +152,9 @@ const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : ma
             /* Detect if it should rotate */
             handles.forEach((handle) => {
                 if (!enableRotation) enableRotation = detectOverflow(handle);
+                attatchEvents(handle, wrapper);
                 
             });
-
-            attatchEvents(wrapper, wrapper);
 
 
             
@@ -193,6 +194,8 @@ const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : ma
             handle.addEventListener("pointerdown", (e) => {
                 isDragging = true;
                 handle.setPointerCapture(e.pointerId);
+                e.preventDefault();
+
                 const center = getCenter(wrapper);
 
                 lastAngle = getAngle(e, center.x, center.y);
@@ -200,6 +203,8 @@ const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : ma
 
             handle.addEventListener("pointermove", (e) => {
                 if (!isDragging || !enableRotation) return;
+
+                e.preventDefault();
 
                 const center = getCenter(wrapper);
                 const currentAngle = getAngle(e, center.x, center.y);
