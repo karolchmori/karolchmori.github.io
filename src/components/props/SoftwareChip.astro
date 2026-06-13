@@ -50,24 +50,28 @@ const { tool } = Astro.props;
 
 
     /* Chip states */
+    .software-chip.pulse img {
+        animation: chip-pulse 2s ease-in-out infinite;
+    }
+
 
     .software-chip.selected img {
         filter: drop-shadow(0 0 6px #ff7ec7) brightness(1.2);
-        transform: translateY(-3px) scale(1.05);
-        
     }
 
-    .software-chip.pulse img {
-        animation: chip-pulse 2s ease-in-out infinite;
+
+    .software-chip.selected .icon-wrapper {
+        transform: translateY(-3px) scale(1.05);
+        transition: transform 0.2s ease;
     }
     
 
     @media (hover: hover) and (pointer: fine) {
-        .software-chip:hover {
+        .software-chip:hover .icon-wrapper {
             transform: translateY(-3px) scale(1.05);
         }
 
-        .software-chip.selected:hover {
+        .software-chip.selected:hover  {
             transform: none;
         }
     }
