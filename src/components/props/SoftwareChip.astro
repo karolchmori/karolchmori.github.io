@@ -57,19 +57,21 @@ const { tool } = Astro.props;
         
     }
 
-    .software-chip.selected:hover {
-        transform: none;
-    }
-
     .software-chip.pulse img {
         animation: chip-pulse 2s ease-in-out infinite;
     }
     
- 
-    .software-chip:hover {
-        transform: translateY(-3px) scale(1.05);
-    }
 
+    @media (hover: hover) and (pointer: fine) {
+        .software-chip:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .software-chip.selected:hover {
+            transform: none;
+        }
+    }
+    
 
     @keyframes chip-pulse {
         0%, 100% {
