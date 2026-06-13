@@ -147,12 +147,16 @@ const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : ma
 
         if (handles && wrapper) {
 
+            /* Detect if it should rotate */
             handles.forEach((handle) => {
-                attatchEvents(handle, wrapper);
-
                 if (!enableRotation) enableRotation = detectOverflow(handle);
-
+                
             });
+
+            attatchEvents(wrapper, wrapper);
+
+
+            
         }
     
 
