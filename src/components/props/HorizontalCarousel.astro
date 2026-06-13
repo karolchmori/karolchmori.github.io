@@ -2,22 +2,24 @@
 interface Props {
     itemsVisible?: number;
     itemSize?: string; // e.g. "80px"
-    gap?: string; // e.g. "12px"
+    gap?: number; // e.g. "12px"
     class?: string;
 }
 
 const {
     itemsVisible = 4,
     itemSize = "15vh",
-    gap = "5vw",
+    gap = 1,
     class: className = "",
 } = Astro.props;
+
+const gapPad = gap * 2;
 ---
 
 <div class={`carousel-wrapper ${className}`}>
     <div
         class="carousel-track" data-carousel
-        style={`--items-visible:${itemsVisible}; --item-size:${itemSize}; --gap:${gap};`}>
+        style={`--items-visible:${itemsVisible}; --item-size:${itemSize}; --gap:${gap}vw; --gapPad:${gapPad}vh;`}>
         <slot />
     </div>
 </div>
@@ -46,10 +48,10 @@ const {
         cursor: grab;
         user-select: none;
 
-        padding-left: var(--gap);
-        padding-right: var(--gap);
-        scroll-padding-left: var(--gap);
-        scroll-padding-right: var(--gap);
+        padding-left: var(--gapPad);
+        padding-right: var(--gapPad);
+        scroll-padding-left: var(--gapPad);
+        scroll-padding-right: var(--gapPad);
         box-sizing: content-box;
     }
 
