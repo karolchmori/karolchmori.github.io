@@ -13,6 +13,7 @@ export interface Props {
     totalItems?: number;
     startAngle?: number;
     maxRotation?: number;
+    autoMaxRotation?: boolean;
     borderMargin?: number;
     instanceId?: string;
 
@@ -20,18 +21,20 @@ export interface Props {
 
 const { tools = [], iconSize = "30px",
         widthRes = 70, heightRes = 20, radius = "50vw", startAngle = 120, 
-        maxRotation = 45 ,totalItems = 30, borderMargin = 2.3, instanceId = "default"} = Astro.props;
+        maxRotation = 45, autoMaxRotation = false,
+        totalItems = 30, borderMargin = 2.3, instanceId = "default"} = Astro.props;
 
 
 
 const step = 360 / totalItems;
+const maxRotationAuto = autoMaxRotation ? (step * 2 * (tools.length / 2.4)) : maxRotation;
 
 ---
 <div class="slider-container" data-instance={instanceId}
         style={`--widthRes: ${widthRes}vw; --heightRes: ${heightRes}vh; --radius: ${radius}; 
                 --step: ${step}deg; --start-angle: ${startAngle * -1}deg;
                 --borderMargin: ${borderMargin}; --iconSize: ${iconSize};`}
-    data-max-angle={maxRotation * -1}>
+    data-max-angle={maxRotationAuto * -1}>
     <div class="slider-viewport" >
         <div class="slider-wrapper">
             <div class="slider-circle">

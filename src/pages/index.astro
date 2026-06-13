@@ -58,7 +58,7 @@ const activeTools = getActiveTools();
 					<div class="home-softslider-phone">
 						<SoftwareArcSlider instanceId="phone" tools={activeTools} 
 							iconSize="14vh" startAngle={90} widthRes={80} heightRes={20}
-							maxRotation={90} totalItems={50} radius='300vh' borderMargin={2.14}/>
+							 totalItems={60} radius='400vh' borderMargin={2.1} autoMaxRotation={true}/>
 					</div>
 				</section>
 				<section class="home-credits">
@@ -230,7 +230,7 @@ const activeTools = getActiveTools();
 	@media (max-width: 768px) {
 		.home-backcards, .home-maincard {
 			top: 46%;
-			--scale: min(calc(60vh / 900px), calc(50vw / 380px));
+			--scale: min(calc(65vh / 900px), calc(55vw / 380px));
 		}
 
 		.home-maincard:hover .home-showreelPlay {
