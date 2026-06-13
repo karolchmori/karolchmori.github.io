@@ -16,7 +16,11 @@ const cards = [
   "Text2",
   "Text3",
   "Text4",
-  "Text5"
+  "Text5",
+  "Text6",
+  "Text7",
+  "Text8",
+  "Text9"
 ];
 
 ---
@@ -82,7 +86,6 @@ const cards = [
 
         /* Remove the solid background color */
         background-color: rgba(128, 128, 128, 0.598);
-        border-top: 4px solid #e0e0e0; 
     }
 
     .handle {
@@ -114,8 +117,12 @@ const cards = [
 <script>
     const wrapper = document.getElementById("wrapper");
     const handles = document.querySelectorAll<HTMLElement>(".handle");
+    const viewport = document.querySelector(".slider-viewport") as HTMLElement;
+    
+
 
     /* Rotation definition */
+    let enableRotation = false;
     let baseRotation = 0;
     let isDragging = false;
     let maxAngle = 20;
@@ -128,10 +135,23 @@ const cards = [
         handles.forEach((handle) => {
             attatchEvents(handle, wrapper);
 
-        });
-    
+            if (!enableRotation) enableRotation = detectOverflow(handle);
 
+        });
     }
+
+    /* --------------- Overflow Functions --------------- */
+
+    function detectOverflow(handle: HTMLElement) {
+        const vrect = viewport.getBoundingClientRect();
+        const rect = handle.getBoundingClientRect();
+
+        const out = rect.right < vrect.left || rect.left > vrect.right ||
+                    rect.bottom < vrect.top || rect.top > vrect.bottom;
+
+        return out;
+    }
+
 
 
     /* --------------- Rotation Functions --------------- */
@@ -159,7 +179,7 @@ const cards = [
         });
 
         handle.addEventListener("pointermove", (e) => {
-            if (!isDragging) return;
+            if (!isDragging || !enableRotation) return;
 
             const center = getCenter(wrapper);
             const currentAngle = getAngle(e, center.x, center.y);
