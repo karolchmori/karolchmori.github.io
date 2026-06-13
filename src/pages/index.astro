@@ -46,7 +46,6 @@ const activeTools = getActiveTools();
 						<ArrowButton variant='glow'/>
 					</div>
 				</section>
-				<section class="home-transition"/>
 				<section class="home-portfolio">
 					
 					<HorizontalCarousel>
@@ -75,22 +74,30 @@ const activeTools = getActiveTools();
 	/* -------------------------------------------------------------- */ 
 	/* ---------------------- MAIN SECTIONS ------------------------- */ 
 	/* -------------------------------------------------------------- */ 
-	
-	.home-container {
+	.home-container::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+
 		background-image: url('../assets/BG/BG_MainHome_High.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: top center;
+
+		filter: blur(0.7px);
+		transform: scale(1.005);
+
+		z-index: -1;
+	}
+
+	.home-container {
+		position: relative;
+		overflow: hidden;
 	}
 
 	.home-hero {
 		position: relative;
   		min-height: 100vh;
-	}
-
-	.home-transition {
-		min-height: 39vh;
-		width: 100%;
 	}
 
 	.home-portfolio {
@@ -144,6 +151,7 @@ const activeTools = getActiveTools();
 		max-width: 70vw;
 		max-height: 65vh;
 		display: block;
+		filter: blur(0.1px);
 	}
 
 	.home-backcards img {
@@ -152,6 +160,7 @@ const activeTools = getActiveTools();
 		max-width: 80vw;
 		max-height: 70vh;
 		display: block;
+		filter: blur(0.5px);
 	}
 
 	.home-showreelPlay img {
