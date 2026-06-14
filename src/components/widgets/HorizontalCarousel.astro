@@ -11,7 +11,7 @@ interface Props {
 }
 
 const {
-    itemsVisible = 4,
+    itemsVisible = 6,
     itemSize = "18vh",
     navigation = "gradient",
     class: className = "",
@@ -20,10 +20,9 @@ const {
 const useButtons = navigation === "buttons";
 ---
 
-<div class={`carousel-wrapper ${className}`} data-nav={navigation}>
-    <div
-        class="carousel-track" data-carousel
-        style={`--items-visible:${itemsVisible}; --item-size:${itemSize};`}>
+<div class={`carousel-wrapper ${className}`} data-nav={navigation}
+    style={`--items-visible:${itemsVisible}; --item-size:${itemSize};`}>
+    <div class="carousel-track" data-carousel>
         <slot />
     </div>
     {useButtons && (
@@ -52,6 +51,7 @@ const useButtons = navigation === "buttons";
 
     .carousel-wrapper {
         position: relative;
+        width: 100vw;
         width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * 2); 
         max-width: 100%; 
         margin-inline: auto;
