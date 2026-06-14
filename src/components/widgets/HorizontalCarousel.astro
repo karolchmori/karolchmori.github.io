@@ -1,5 +1,5 @@
 ---
-import ArrowButton from './ArrowButton.astro';
+import ArrowButton from '../widgets/ArrowButton.astro';
 
 interface Props {
     itemsVisible?: number;
@@ -12,7 +12,7 @@ interface Props {
 
 const {
     itemsVisible = 4,
-    itemSize = "15vh",
+    itemSize = "18vh",
     gap = 0.5,
     navigation = "gradient",
     class: className = "",
@@ -51,7 +51,6 @@ const useButtons = navigation === "buttons";
         -webkit-user-select: none;
     }
     
-
 
     .carousel-wrapper {
         position: relative;

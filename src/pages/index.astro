@@ -10,11 +10,13 @@ import MainFrontCard from '../assets/elements/Main_FrontCard.png';
 import PlayButton from '../assets/icons/AS_PlayButton.svg';
 
 
-import Vignette from '../components/props/Vignette.astro';
-import VideoModal from '../components/props/VideoModal.astro';
-import ArrowButton from '../components/props/ArrowButton.astro';
+import VideoModal from '../components/widgets/VideoModal.astro';
+import ArrowButton from '../components/widgets/ArrowButton.astro';
+import Vignette from '../components/widgets/Vignette.astro';
+import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
+
 import SoftwareChip from '../components/props/SoftwareChip.astro';
-import HorizontalCarousel from '../components/props/HorizontalCarousel.astro';
+import ToolCard from '../components/props/ToolCard.astro';
 
 import { getActiveTools } from '../data/ToolLibrary';
 const activeTools = getActiveTools();
@@ -47,8 +49,8 @@ const activeTools = getActiveTools();
 					</div>
 				</section>
 				<section class="home-portfolio">
-					
-					<HorizontalCarousel>
+					<ToolCard/>
+					<HorizontalCarousel gap={0.5}>
 						{activeTools.map(tool => <SoftwareChip tool={tool} />)}
 					</HorizontalCarousel>
 				</section>
