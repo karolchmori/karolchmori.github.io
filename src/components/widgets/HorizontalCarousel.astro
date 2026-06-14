@@ -13,7 +13,7 @@ interface Props {
 const {
     itemsVisible = 4,
     itemSize = "18vh",
-    gap = 0.5,
+    gap = 2,
     navigation = "gradient",
     class: className = "",
 } = Astro.props;
@@ -54,7 +54,8 @@ const useButtons = navigation === "buttons";
 
     .carousel-wrapper {
         position: relative;
-        width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * var(--gap));
+        width: 100vw;
+        /* width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * var(--gap)); */
         max-width: 100%; 
     }
 
