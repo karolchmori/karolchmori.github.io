@@ -60,39 +60,26 @@ const useButtons = navigation === "buttons";
         justify-content: center;
     }
 
-    /*
-
-    .carousel-wrapper {
-        position: relative;
-        width: fit-content;
-         width: calc(4 * var(--item-size) + 4 - 1) * 2); 
-        margin-inline: auto;
-        max-width: 100%;
-        background-color: rgba(255, 0, 0, 0.112);
-    }
-
-
-
-    */
 
     .carousel-track {
         display: flex;
-        gap: 0em;
+        gap: 0;
         overflow-x: auto;
         overflow-y: hidden;
 
         scrollbar-width: none;
 
+        /* User */
         cursor: pointer;
         user-select: none;
 
+        /* Side Padding */
         --gapPad: 1.5em;
 
         padding-left: var(--gapPad);
         padding-right: var(--gapPad);
         scroll-padding-left: var(--gapPad);
         scroll-padding-right: var(--gapPad);
-        box-sizing: content-box;
     }
 
     .carousel-track::-webkit-scrollbar {
@@ -107,15 +94,12 @@ const useButtons = navigation === "buttons";
         touch-action: pan-x;
     }
 
+    /* Carousel Children */
     .carousel-track > :global(*) {
         flex: 0 0 var(--item-size);
-        width: var(--item-size);
-        height: var(--item-size);
         scroll-snap-align: start;
     }
  
-
-
     .carousel-buttons {
         display: flex;
         flex-direction: row;
