@@ -60,11 +60,11 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 				</section>
 				<section class="home-portfolio">
 					<!-- {activeTools.map((tool, i) => <ToolCard tool={tool} index={i} />)} -->
-					 <HorizontalCarousel class="tool-card-placeholder" itemSize='35vh' gap={0} navigation='buttons'>
+					 <HorizontalCarousel class="tool-card-placeholder" itemSize='30vh' gap={0} navigation='buttons'>
 						<ToolCard index={0}/>
 						<ToolCard index={1}/>
 					</HorizontalCarousel>
-					<HorizontalCarousel class="tool-card-selected" itemSize='35vh' gap={0} navigation="buttons">
+					<HorizontalCarousel class="tool-card-selected" itemSize='30vh' gap={0} navigation="buttons">
 						{toolEntries.map(({ path, software, frontmatter }, i) => (
 							<ToolCard filePath={path} software={software} frontmatter={frontmatter} index={i}/>
 						))}
@@ -266,7 +266,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 	.home-portfolio :global(.tool-card-placeholder),
 	.home-portfolio :global(.tool-card-selected) {
         position: absolute;
-        top: 15%;
+        bottom: 25%;
     }
 
 
