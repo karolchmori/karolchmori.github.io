@@ -32,6 +32,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 }));
 
 
+
 ---
 
 <!doctype html>
@@ -59,7 +60,6 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 					</div>
 				</section>
 				<section class="home-portfolio">
-					<!-- {activeTools.map((tool, i) => <ToolCard tool={tool} index={i} />)} -->
 					 <HorizontalCarousel class="tool-card-placeholder" itemSize='30vh' gap={0} navigation='buttons'>
 						<ToolCard index={0}/>
 						<ToolCard index={1}/>
@@ -260,13 +260,22 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 	.home-portfolio :global(.home-softwareChips) {
         position: absolute;
-        bottom: 6%;
+        bottom: 8%;
+		z-index: 1;
+		background-color: rgba(255, 0, 0, 0.204);
     }
 
 	.home-portfolio :global(.tool-card-placeholder),
 	.home-portfolio :global(.tool-card-selected) {
         position: absolute;
-        bottom: 25%;
+        bottom: 28%;
+		z-index: 5;
+		background-color: rgba(0, 0, 255, 0.319);
+    }
+
+	
+	.home-portfolio :global(.tool-card-selected) {
+        display: none;
     }
 
 
@@ -315,6 +324,8 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 	const arrow = document.querySelector(".scroll-arrow");
 	const portfolio = document.querySelector(".home-portfolio");
 
+	let selectedToolId: string;
+
 	arrow?.addEventListener("click", () => {
 		portfolio?.scrollIntoView({
 		behavior: "smooth",
@@ -327,9 +338,16 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 	window.addEventListener("tool:selected", (e) => { 
 
 		const { id } = (e as CustomEvent).detail;
+		selectedToolId = id;
 
-		const placeholder = document.querySelector('.tool-card-placeholder');
-  		if (placeholder) (placeholder as HTMLElement).style.display = 'none';
+		if (selectedToolId) {
+			const placeholder = document.querySelector('.tool-card-placeholder') as HTMLElement;
+			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
+
+			placeholder.style.display = 'none';
+			selected.style.display = 'block';
+		} 
+
 
 		console.log('TOOL Selected: ', id);
 
