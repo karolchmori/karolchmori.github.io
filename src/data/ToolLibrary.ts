@@ -23,7 +23,7 @@ const rawTools = [
   {
     id: "UnrealEngine",
     label: "Unreal Engine",
-    enabled: true,
+    enabled: false,
   },
   {
     id: "Notion",
@@ -38,7 +38,7 @@ const rawTools = [
   {
     id: "Photoshop",
     label: "Adobe Photoshop",
-    enabled: true,
+    enabled: false,
   },
   {
     id: "Windows",
