@@ -13,19 +13,17 @@ interface Props {
 const {
     itemsVisible = 4,
     itemSize = "18vh",
-    gap = 2,
     navigation = "gradient",
     class: className = "",
 } = Astro.props;
 
-const gapPad = gap * 2;
 const useButtons = navigation === "buttons";
 ---
 
 <div class={`carousel-wrapper ${className}`} data-nav={navigation}>
     <div
         class="carousel-track" data-carousel
-        style={`--items-visible:${itemsVisible}; --item-size:${itemSize}; --gap:${gap}vw; --gapPad:${gapPad}vh;`}>
+        style={`--items-visible:${itemsVisible}; --item-size:${itemSize};`}>
         <slot />
     </div>
     {useButtons && (
@@ -69,7 +67,7 @@ const useButtons = navigation === "buttons";
 
     .carousel-track {
         display: flex;
-        gap: var(--gap);
+        gap: 0em;
         overflow-x: auto;
         overflow-y: hidden;
 
@@ -77,6 +75,8 @@ const useButtons = navigation === "buttons";
 
         cursor: pointer;
         user-select: none;
+
+        --gapPad: 1.5em;
 
         padding-left: var(--gapPad);
         padding-right: var(--gapPad);
