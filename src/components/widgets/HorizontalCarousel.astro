@@ -51,10 +51,11 @@ const useButtons = navigation === "buttons";
 
     .carousel-wrapper {
         position: relative;
-        width: 100vw;
-        width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * 2); 
-        max-width: 100%; 
+        width: fit-content;
+        /* width: calc(var(--items-visible) * var(--item-size) + (var(--items-visible) - 1) * 2); */
         margin-inline: auto;
+        max-width: 100%;
+        background-color: rgba(255, 0, 0, 0.112);
     }
 
     .carousel-buttons {
