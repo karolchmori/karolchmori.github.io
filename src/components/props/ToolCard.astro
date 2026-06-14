@@ -1,56 +1,99 @@
 ---
 // ToolCard.astro
-import type { SoftwareTool } from '../../objects/SoftwareTool';
 import CardA from '../../assets/icons/AS_CardA.svg';
 import CardB from '../../assets/icons/AS_CardB.svg';
+import CardFrame from '../../assets/icons/AS_CardFrame.svg';
+
 
 interface Props {
-    tool: SoftwareTool;
-    index?: number;
+    filePath?: string;
+    software?: string;
+    frontmatter?: Record<string, any>;
+    index: number;
 }
 
-const { tool, index = 0 } = Astro.props;
+const { filePath, software, frontmatter, index = 0 } = Astro.props;
+
+const title       = frontmatter?.title       ?? "";
+const description = frontmatter?.description ?? "";
+
+const initialState = filePath ? "hidden" : "empty";
 
 
-
-const hasContent = false;
 const cardIcon = index % 2 !== 0 ? CardA : CardB;
+
 
 ---
 
 
-<div class="tool-card" data-path={tool.pagesPath}>
-    <div class="icon-wrapper">
-        { hasContent && (
-            <div>
-                <a>{tool.pagesPath}</a>
-            </div>
-            )
-        }
-        { !hasContent && (
-            <div>
-                <img src={cardIcon.src} alt="" />
-            </div>
-            )
-        }
+<div class="tool-card" data-path={filePath} data-software={software} data-state={initialState}>
+    <div class="tool-card-empty">
+        <img src={cardIcon.src} alt="" />
     </div>
+    <div class="tool-card-content">
+        <img src={CardFrame.src} alt="" class="tool-card-bg" />
+        <div class="tool-card-info">
+            <h3>{title}</h3>
+            <p>{description}</p>
+        </div>
+  </div>
 </div>
 
 
 <style>
+    .tool-card[data-state="hidden"] { display: none; }
+
+    .tool-card[data-state="empty"] .tool-card-content { display: none; }
+    .tool-card[data-state="empty"] .tool-card-empty   { display: flex; }
+
+    .tool-card[data-state="active"] .tool-card-content { display: flex; }
+    .tool-card[data-state="active"] .tool-card-empty   { display: none; }
+
+
+    .tool-card,
+    .tool-card-empty,
+    .tool-card-content {
+        height: 100%;
+    }
+
+
+    .tool-card {
+        overflow: visible;
+        cursor: pointer;
+        
+    }
+
+    .tool-card-empty {
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tool-card-content {
+        position: relative;
+        display: none;
+    }
+
+    .tool-card-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .tool-card-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+    }
+
     .tool-card img {
         width: 100%;
         height: auto;
         display: block;
-        max-width: 100%;
+        background-color: red;
     }
-
-    .tool-card {
-        overflow: visible;
-        
-
-    }
-
 
 
 </style>

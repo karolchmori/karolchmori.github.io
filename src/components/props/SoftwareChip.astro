@@ -12,7 +12,7 @@ const { tool } = Astro.props;
 
 ---
 
-<div class="software-chip" data-path={tool.pagesPath}>
+<div class="software-chip" data-id={tool.id}>
     <div class="icon-wrapper">
         <img src={tool.iconPath} alt="" />
     </div>
@@ -86,7 +86,7 @@ const { tool } = Astro.props;
             filter: brightness(0.7) drop-shadow(0 0 2px var(--color-primary-glow));
         }
         50% {
-            filter: brightness(1.1) drop-shadow(0 0 7px var(--color-primary-glow));
+            filter: brightness(0.9) drop-shadow(0 0 7px var(--color-primary-glow));
         }
     }
 
@@ -127,8 +127,8 @@ const { tool } = Astro.props;
             clearSelection();
             selectChip(chip);
 
-            const path = chip.dataset.path;
-            window.dispatchEvent(new CustomEvent('tool:selected', { detail: { path } }));
+            const id = chip.dataset.id;
+            window.dispatchEvent(new CustomEvent('tool:selected', { detail: { id } }));
         });
     });
 
@@ -140,8 +140,6 @@ const { tool } = Astro.props;
     function selectChip(chip: HTMLElement) {
         chip.classList.add('selected');
     }
-
-
 
 
 </script>

@@ -1,7 +1,7 @@
 import type { SoftwareTool } from '../objects/SoftwareTool';
 
 
-const PAGES_ROOTPATH = '../pages/tools';
+const PAGES_ROOTPATH = '../content/tools';
 const ICON_ROOTPATH = '/software';
 
 const rawTools = [

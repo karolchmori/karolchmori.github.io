@@ -20,20 +20,32 @@ const {heightVh = 3.2, angle = 0, variant = 'enabled'} = Astro.props;
 </div>
 
 <style>
-    .arrow-btn img {
-		width: auto;
-		height: var(--height-vh);
-	}
-
     .arrow-btn {
-        cursor: pointer;
-        transition: transform 0.2s ease, filter 0.2s ease;
-    }
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        height: fit-content;
 
+
+        cursor: pointer;
+        transition: filter 0.2s ease;
+        transform: rotate(var(--angle));
+        
+    }
 
     .icon-wrapper {
-        transform: rotate(var(--angle));
+        display: contents;
+        
     }
+
+    .arrow-btn img {
+        width: auto;
+        height: var(--height-vh);
+        display: block;
+    }
+
+
 
     /* --------------------- STATES ---------------------*/
 
