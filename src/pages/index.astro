@@ -22,6 +22,16 @@ import { getActiveTools } from '../data/ToolLibrary';
 const activeTools = getActiveTools();
 
 
+
+const allFiles = import.meta.glob('../content/tools/**/*.mdx', { eager: true });
+
+const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) => ({
+  path,
+  software: path.split('/tools/')[1].split('/')[0], // extracts "Houdini" from path
+  frontmatter: file.frontmatter,
+}));
+
+
 ---
 
 <!doctype html>
@@ -50,10 +60,22 @@ const activeTools = getActiveTools();
 				</section>
 				<section class="home-portfolio">
 					<!-- {activeTools.map((tool, i) => <ToolCard tool={tool} index={i} />)} -->
-					
-					<HorizontalCarousel gap={0.5}>
+					 <HorizontalCarousel class="tool-card-placeholder" itemSize='350px' gap={0} navigation='buttons'>
+						<ToolCard index={0}/>
+						<ToolCard index={1}/>
+					</HorizontalCarousel>
+					<HorizontalCarousel class="tool-card-selected" itemSize='350px' gap={0} navigation="buttons">
+						{toolEntries.map(({ path, software, frontmatter }, i) => (
+							<ToolCard filePath={path} software={software} frontmatter={frontmatter} index={i}/>
+						))}
+					</HorizontalCarousel>
+
+					<HorizontalCarousel class="home-softwareChips" gap={0.5}>
 						{activeTools.map(tool => <SoftwareChip tool={tool} />)}
 					</HorizontalCarousel>
+=
+
+
 				</section>
 				<section class="home-credits">
 
@@ -231,8 +253,21 @@ const activeTools = getActiveTools();
 	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
+	.home-portfolio {
+		display: flex;
+		flex-direction: column;
+	}
 
+	.home-portfolio :global(.home-softwareChips) {
+        position: absolute;
+        bottom: 6%;
+    }
 
+	.home-portfolio :global(.tool-card-placeholder),
+	.home-portfolio :global(.tool-card-selected) {
+        position: absolute;
+        top: 15%;
+    }
 
 
 
@@ -289,7 +324,30 @@ const activeTools = getActiveTools();
 
 	
 
-	window.addEventListener("tool:selected", (e) => { /* update cards */ });
+	window.addEventListener("tool:selected", (e) => { 
+
+		const { id } = (e as CustomEvent).detail;
+
+		const placeholder = document.querySelector('.tool-card-placeholder');
+  		if (placeholder) (placeholder as HTMLElement).style.display = 'none';
+
+		console.log('TOOL Selected: ', id);
+
+		const allCards = Array.from(document.querySelectorAll<HTMLElement>('.tool-card')).filter(c => c.dataset.software);
+		
+		// Find the ones matching by software
+		const matching = allCards.filter(c => c.dataset.software === id);
+
+		// Hide each that is not matching after the search
+		const rest     = allCards.filter(c => c.dataset.software !== id);
+		rest.forEach(c => c.dataset.state = 'hidden');
+
+		// show up to 4 matching as active
+		matching.forEach((c, i) => {
+			c.dataset.state = i < 4 ? 'active' : 'hidden';
+		});
+
+	});
 
 
 </script>

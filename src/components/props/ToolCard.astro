@@ -31,7 +31,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         <img src={cardIcon.src} alt="" />
     </div>
     <div class="tool-card-content">
-        <img src={CardFrame.src} alt="" class="tool-card-bg" />
+        <img src={CardFrame.src} alt="" />
         <div class="tool-card-info">
             <h3>{title}</h3>
             <p>{description}</p>
@@ -74,11 +74,6 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         display: none;
     }
 
-    .tool-card-bg {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
 
     .tool-card-info {
         position: absolute;
@@ -89,10 +84,10 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     }
 
     .tool-card img {
-        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
         height: auto;
-        display: block;
-        background-color: red;
     }
 
 
