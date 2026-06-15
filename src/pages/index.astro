@@ -60,11 +60,12 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 					</div>
 				</section>
 				<section class="home-portfolio">
-					 <HorizontalCarousel class="tool-card-placeholder" itemSize='33vh' gap={2} navigation='buttons'>
+					<a class="home-portfolio-title">my Tools</a>
+					 <HorizontalCarousel class="tool-card-placeholder" itemSize='33vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 						<ToolCard index={0}/>
 						<ToolCard index={1}/>
 					</HorizontalCarousel>
-					<HorizontalCarousel class="tool-card-selected" itemSize='33vh' gap={2} navigation="buttons">
+					<HorizontalCarousel class="tool-card-selected" itemSize='33vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
 						{toolEntries.map(({ path, software, frontmatter }, i) => (
 							<ToolCard filePath={path} software={software} frontmatter={frontmatter} index={i}/>
 						))}
@@ -73,8 +74,6 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 					<HorizontalCarousel class="home-softwareChips" itemSize='12vh' gap={1}>
 						{activeTools.map(tool => <SoftwareChip tool={tool} />)}
 					</HorizontalCarousel>
-=
-
 
 				</section>
 				<section class="home-credits">
@@ -258,6 +257,17 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 		flex-direction: column;
 	}
 
+	.home-portfolio-title {
+		position: absolute;
+        color: #090808; 
+        font-family: 'Barqen', sans-serif;
+        font-size: 8vh;
+		filter: opacity(35%);
+        margin-bottom: 0.1em;
+		bottom: 76%;
+		
+	}
+
 	.home-portfolio :global(.home-softwareChips) {
         position: absolute;
         bottom: 9%;
@@ -277,8 +287,6 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 	.home-portfolio :global(.tool-card-selected) {
         display: none;
     }
-
-
 
 	/* -------------------------------------------------------------- */ 
 	/* ------------------- PHONE MODIFICATIONS ---------------------- */ 
@@ -345,7 +353,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
 
 			placeholder.style.display = 'none';
-			selected.style.display = 'block';
+			selected.style.display = 'flex';
 		} 
 
 

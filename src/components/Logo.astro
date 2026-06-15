@@ -8,7 +8,7 @@ import { SITE_TITLE } from '../consts';
 <style>
     .site-logo {
 		text-decoration: none;
-        color: #f1eaec; 
+        color: #DEDCDA; 
         font-family: 'SandorTrial', sans-serif;
         font-weight: 400;
         font-size: min(0.06 * 90vw, calc(0.06 * 90vh));
@@ -22,17 +22,18 @@ import { SITE_TITLE } from '../consts';
 		font-weight: 300;
 	}
     :global(header.scrolled) .site-logo {
-        font-size: min(0.05 * 90vw, calc(0.05 * 90vh));
+        font-size: min(0.04 * 90vw, calc(0.04 * 90vh));
+        color: #b9b6b9; 
     }
 
 
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 		.site-logo {
-			font-size: 33pt;
+			font-size: 31pt;
 		}
 
         :global(header.scrolled) .site-logo {
-            font-size: 28pt;
+            font-size: 24pt;
         }
 		
 	}
