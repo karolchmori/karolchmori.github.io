@@ -61,11 +61,11 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 				</section>
 				<section class="home-portfolio">
 					<a class="home-portfolio-title">my Tools</a>
-					 <HorizontalCarousel class="tool-card-placeholder" itemSize='33vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 						<ToolCard index={0}/>
 						<ToolCard index={1}/>
 					</HorizontalCarousel>
-					<HorizontalCarousel class="tool-card-selected" itemSize='33vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
+					<HorizontalCarousel class="tool-card-selected" itemSize='34vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
 						{toolEntries.map(({ path, software, frontmatter }, i) => (
 							<ToolCard filePath={path} software={software} frontmatter={frontmatter} index={i}/>
 						))}
@@ -259,18 +259,18 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 	.home-portfolio-title {
 		position: absolute;
-        color: #090808; 
+        color: #000000; 
         font-family: 'Barqen', sans-serif;
         font-size: 8vh;
-		filter: opacity(35%);
+		filter: opacity(50%);
         margin-bottom: 0.1em;
-		bottom: 76%;
+		bottom: 78%;
 		
 	}
 
 	.home-portfolio :global(.home-softwareChips) {
         position: absolute;
-        bottom: 9%;
+        bottom: 11%;
 		z-index: 1;
 		background-color: rgba(176, 45, 45, 0.315);
     }
@@ -278,7 +278,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 	.home-portfolio :global(.tool-card-placeholder),
 	.home-portfolio :global(.tool-card-selected) {
         position: absolute;
-        bottom: 25%;
+        bottom: 26%;
 		z-index: 5;
 		background-color: rgba(50, 48, 154, 0.193);
     }
