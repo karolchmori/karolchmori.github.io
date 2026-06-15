@@ -95,6 +95,13 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 <style> 
 
+	body {
+		-webkit-tap-highlight-color: transparent;
+		-webkit-user-drag: none;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+	}
+
 
 	/* -------------------------------------------------------------- */ 
 	/* ---------------------- MAIN SECTIONS ------------------------- */ 
@@ -238,12 +245,6 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 		/* Animation */ 
 		--bounce-height: 10px;
 		animation: bounce 2s infinite;	
-		
-		
-		-webkit-tap-highlight-color: transparent;
-        -webkit-user-drag: none;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
 	}
 
 
@@ -269,6 +270,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 		filter: opacity(70%);
         margin-bottom: 0.1em;
 		bottom: 79%;
+		user-select: none;
 		
 	}
 
