@@ -13,20 +13,21 @@ const {
     itemSize = "18vh",
     navigation = "gradient",
     class: className = "",
+    gap = 0.5,
 } = Astro.props;
 
 const useButtons = navigation === "buttons";
 ---
 
 <div class={`carousel-wrapper ${className}`} data-nav={navigation}
-    style={`--item-size:${itemSize};`}>
+    style={`--item-size:${itemSize}; --gap:${gap}vh`}>
     <div class="carousel-track" data-carousel>
         <slot />
     </div>
     {useButtons && (
         <div class="carousel-buttons">
-            <div data-carousel-btn="prev"><ArrowButton angle={90} /></div>
-            <div data-carousel-btn="next"><ArrowButton angle={-90} /></div>
+            <div data-carousel-btn="prev"><ArrowButton heightVh = {1.5} angle={90} /></div>
+            <div data-carousel-btn="next"><ArrowButton heightVh = {1.5} angle={-90} /></div>
         </div>
     )}
 </div>
@@ -63,7 +64,7 @@ const useButtons = navigation === "buttons";
 
     .carousel-track {
         display: flex;
-        gap: 0;
+        gap: var(--gap);
         overflow-x: auto;
         overflow-y: hidden;
 
@@ -104,8 +105,8 @@ const useButtons = navigation === "buttons";
         display: flex;
         flex-direction: row;
         justify-content: center;
-        padding-top: 1.25em;
-        gap: 1.5rem;
+        padding-top: 0.5em;
+        gap: 0.5rem;
     }
 
 
@@ -116,7 +117,7 @@ const useButtons = navigation === "buttons";
         position: absolute;
         top: 0;
         bottom: 0;
-        width: 15px;
+        width: 20px;
         pointer-events: none;
         z-index: 2;
         transition: opacity 0.2s ease;
