@@ -60,7 +60,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 					</div>
 				</section>
 				<section class="home-portfolio">
-					<a class="home-portfolio-title">my Tools</a>
+					<a class="home-portfolio-title">my TOOLS</a>
 					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 						<ToolCard index={0}/>
 					</HorizontalCarousel>
@@ -258,10 +258,12 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 	.home-portfolio-title {
 		position: absolute;
-        color: #584149; 
+        color: #5f5457; 
         font-family: 'Barqen', sans-serif;
         font-size: 7vh;
-		filter: opacity(40%);
+		letter-spacing: 0.05em;
+
+		filter: opacity(70%);
         margin-bottom: 0.1em;
 		bottom: 79%;
 		
@@ -269,7 +271,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 	.home-portfolio :global(.home-softwareChips) {
         position: absolute;
-        bottom: 12%;
+        bottom: 8%;
 		z-index: 1;
     }
 
@@ -318,6 +320,12 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 		}
 
 		.home-social { display: none; }
+
+		.home-portfolio :global(.home-softwareChips) {
+			position: absolute;
+			bottom: 12%;
+			z-index: 1;
+		}
 
 	}
 
