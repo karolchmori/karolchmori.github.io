@@ -103,11 +103,14 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
 
 
     @keyframes dealCard {
-        from {
+        0% {
+            opacity: 0;
+        }
+        20% {
             transform: translateY(-20px) rotate(var(--deal-angle, 0deg)) scale(0.8);
             opacity: 0;
         }
-        to {
+        100% {
             transform: translateY(0) rotate(0deg) scale(1);
             opacity: 1;
         }
