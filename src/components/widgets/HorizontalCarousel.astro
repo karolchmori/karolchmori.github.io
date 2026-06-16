@@ -55,8 +55,15 @@ const useButtons = navigation === "buttons";
         position: relative;
         width: 100%;
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.2s ease;
     }
+
+    .carousel-wrapper.ready{
+        opacity: 1;
+    }
+
 
     .carousel-track {
         justify-content: flex-start;
@@ -172,7 +179,6 @@ const useButtons = navigation === "buttons";
 <script>
     function initCarousel(track: HTMLElement) {
         const wrapper = track.parentElement as HTMLElement;
-        wrapper.style.opacity = '0';
         const THRESHOLD = 2; // px tolerance
 
         const prevBtn = wrapper.querySelector<HTMLElement>('[data-carousel-btn="prev"]');
@@ -188,6 +194,7 @@ const useButtons = navigation === "buttons";
         }
 
         function update() {
+            wrapper.classList.add('ready'); 
             const { scrollLeft, scrollWidth, clientWidth } = track;
             const atStart = scrollLeft <= THRESHOLD;
             const atEnd = scrollLeft + clientWidth >= scrollWidth - THRESHOLD;

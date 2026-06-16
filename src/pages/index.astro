@@ -411,13 +411,6 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 				}, i * 300);
 		});
 
-		// After showing/hiding cards, nudge the carousel to remeasure
-		requestAnimationFrame(() => requestAnimationFrame(() => {
-			document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(track => {
-				track.dispatchEvent(new Event('scroll'));
-			});
-		}));
-
 	});
 
 
