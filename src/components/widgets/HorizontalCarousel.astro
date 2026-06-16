@@ -226,10 +226,22 @@ const useButtons = navigation === "buttons";
         window.addEventListener("resize", update);
 
         // Recheck if content/layout changes after initial render
+        /*
         const ro = new ResizeObserver(update);
-        ro.observe(track);
+        
 
         const mo = new MutationObserver(update);
+        mo.observe(track, { childList: true, subtree: true });
+        */
+        const ro = new ResizeObserver(() => {
+            requestAnimationFrame(() => requestAnimationFrame(update));
+        });
+        ro.observe(track);
+
+
+        const mo = new MutationObserver(() => {
+            requestAnimationFrame(() => requestAnimationFrame(update));
+        });
         mo.observe(track, { childList: true, subtree: true });
 
         // Initial check
