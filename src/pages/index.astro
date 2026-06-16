@@ -413,6 +413,11 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 				
 		});
 
+		const selectedTrack = document.querySelector('.tool-card-selected [data-carousel]') as HTMLElement;
+		if (selectedTrack) {
+			selectedTrack.scrollLeft = 0;
+		}
+
 		// After showing/hiding cards, nudge the carousel to remeasure
 		requestAnimationFrame(() => requestAnimationFrame(() => {
 			document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(track => {
