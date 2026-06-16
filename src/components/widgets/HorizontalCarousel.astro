@@ -23,7 +23,7 @@ const useButtons = navigation === "buttons";
 ---
 
 <div class={`carousel-wrapper ${className}`} data-nav={navigation} data-btn-pos={buttonPosition}
-    style={`--item-size:${itemSize}; --gap:${gap}vh; --buttonJustify:${buttonJustify};`}>
+    style={`--item-size:${itemSize}; --gap:${gap}vh; --buttonJustify:${buttonJustify}; opacity: 0;`}>
     <div class="carousel-track" data-carousel>
         <slot />
     </div>
@@ -56,14 +56,9 @@ const useButtons = navigation === "buttons";
         width: 100%;
         display: flex;
         flex-direction: column;
-        opacity: 0;
+        opacity: 1;
         transition: opacity 0.2s ease;
     }
-
-    .carousel-wrapper.ready{
-        opacity: 1;
-    }
-
 
     .carousel-track {
         justify-content: flex-start;
@@ -177,6 +172,8 @@ const useButtons = navigation === "buttons";
 </style>
 
 <script>
+
+
     function initCarousel(track: HTMLElement) {
         const wrapper = track.parentElement as HTMLElement;
         const THRESHOLD = 2; // px tolerance
@@ -194,7 +191,6 @@ const useButtons = navigation === "buttons";
         }
 
         function update() {
-            wrapper.classList.add('ready'); 
             const { scrollLeft, scrollWidth, clientWidth } = track;
             const atStart = scrollLeft <= THRESHOLD;
             const atEnd = scrollLeft + clientWidth >= scrollWidth - THRESHOLD;
@@ -229,6 +225,7 @@ const useButtons = navigation === "buttons";
             if (atStart && !wasAtStart) {
                 wrapper.dispatchEvent(new CustomEvent("carousel:start", { bubbles: true }));
             }
+            wrapper.style.opacity = '1';
         }
 
 
@@ -303,4 +300,6 @@ const useButtons = navigation === "buttons";
     }
 
     document.querySelectorAll<HTMLElement>("[data-carousel]").forEach(initCarousel);
+
+    
 </script>
