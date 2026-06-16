@@ -101,13 +101,6 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         
     }
 
-    .tool-card[data-state="hiding"] {
-        animation: flipOut 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        visibility: visible; /* keep visible during exit animation */
-        pointer-events: none;
-    }
-
-
 
     @keyframes dealCard {
         from {
@@ -129,6 +122,17 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         to {
             transform: translateX(0) rotateY(0deg) scale(1);
             opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: rotateY(0deg) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: rotateY(-90deg) scale(0.9);
         }
     }
 

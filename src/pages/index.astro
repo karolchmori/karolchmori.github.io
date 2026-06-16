@@ -369,13 +369,21 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 	window.addEventListener("tool:selected", (e) => { 
 
 		const { id } = (e as CustomEvent).detail;
+		let changedPlaceholder = false;
 		selectedToolId = id;
 
-		if (selectedToolId) {
+		if (selectedToolId && !changedPlaceholder) {
 			const placeholder = document.querySelector('.tool-card-placeholder') as HTMLElement;
 			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
 
-			placeholder.style.display = 'none';
+			
+			if (placeholder) {
+				placeholder.style.animation = 'fadeOut 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards';
+				setTimeout(() => {
+					placeholder.style.display = 'none';
+				}, 300); // match animation duration
+			}
+
 			selected.style.display = 'flex';
 		} 
 
@@ -392,8 +400,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 			c.style.display = 'none'; // ← fully remove from flow
 		});
 		
-		
-
+	
 		// show up to 4 matching as active
 		matching.forEach((c, i) => {
 			c.style.display = '';
@@ -401,7 +408,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 			setTimeout(() => {
 					c.dataset.state = i < 4 ? 'active' : 'hidden';
-				}, i * 300);
+				}, i * 350);
 		});
 
 	});
