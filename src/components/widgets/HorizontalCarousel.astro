@@ -56,7 +56,7 @@ const useButtons = navigation === "buttons";
         width: 100%;
         display: flex;
         flex-direction: column;
-        opacity: 0;  /* hidden from first paint */
+        opacity: 1;  /* hidden from first paint */
         transition: opacity 0.3s ease;
     }
 
@@ -203,8 +203,6 @@ const useButtons = navigation === "buttons";
             wrapper.classList.toggle("at-end", atEnd);
             wrapper.classList.toggle("no-overflow", noOverflow);
 
-            wrapper.style.opacity = '1';
-
 
             if (noOverflow) {
                 setArrowState(prevBtn, 'hidden');
@@ -240,7 +238,7 @@ const useButtons = navigation === "buttons";
 
         const mo = new MutationObserver(update);
         mo.observe(track, { childList: true, subtree: true });
-
+        
 
         /*
         const ro = new ResizeObserver(() => {
