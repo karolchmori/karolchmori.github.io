@@ -56,8 +56,8 @@ const useButtons = navigation === "buttons";
         width: 100%;
         display: flex;
         flex-direction: column;
-        opacity: 1;
-        transition: opacity 0.2s ease;
+        opacity: 0;  /* hidden from first paint */
+        transition: opacity 0.3s ease;
     }
 
     .carousel-track {
@@ -203,7 +203,7 @@ const useButtons = navigation === "buttons";
             wrapper.classList.toggle("at-end", atEnd);
             wrapper.classList.toggle("no-overflow", noOverflow);
 
-            wrapper.style.opacity = '';
+            wrapper.style.opacity = '1';
 
 
             if (noOverflow) {
@@ -241,7 +241,7 @@ const useButtons = navigation === "buttons";
         const mo = new MutationObserver(update);
         mo.observe(track, { childList: true, subtree: true });
 
-        
+
         /*
         const ro = new ResizeObserver(() => {
             requestAnimationFrame(() => requestAnimationFrame(update));
