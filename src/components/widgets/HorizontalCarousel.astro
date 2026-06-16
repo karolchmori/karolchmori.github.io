@@ -23,7 +23,7 @@ const useButtons = navigation === "buttons";
 ---
 
 <div class={`carousel-wrapper ${className}`} data-nav={navigation} data-btn-pos={buttonPosition}
-    style={`--item-size:${itemSize}; --gap:${gap}vh; --buttonJustify:${buttonJustify}; opacity: 0;`}>
+    style={`--item-size:${itemSize}; --gap:${gap}vh; --buttonJustify:${buttonJustify};`}>
     <div class="carousel-track" data-carousel>
         <slot />
     </div>
@@ -61,12 +61,13 @@ const useButtons = navigation === "buttons";
     }
 
     .carousel-track {
+        justify-content: center;
+    }
+
+    .carousel-wrapper:not(.no-overflow) .carousel-track {
         justify-content: flex-start;
     }
 
-    .carousel-wrapper.no-overflow .carousel-track {
-        justify-content: center;
-    }
 
 
     .carousel-track {
@@ -225,7 +226,7 @@ const useButtons = navigation === "buttons";
             if (atStart && !wasAtStart) {
                 wrapper.dispatchEvent(new CustomEvent("carousel:start", { bubbles: true }));
             }
-            wrapper.style.opacity = '1';
+
         }
 
 
@@ -301,5 +302,5 @@ const useButtons = navigation === "buttons";
 
     document.querySelectorAll<HTMLElement>("[data-carousel]").forEach(initCarousel);
 
-    
+
 </script>
