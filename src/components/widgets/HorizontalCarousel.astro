@@ -172,6 +172,7 @@ const useButtons = navigation === "buttons";
 <script>
     function initCarousel(track: HTMLElement) {
         const wrapper = track.parentElement as HTMLElement;
+        wrapper.style.opacity = '0';
         const THRESHOLD = 2; // px tolerance
 
         const prevBtn = wrapper.querySelector<HTMLElement>('[data-carousel-btn="prev"]');
@@ -197,6 +198,8 @@ const useButtons = navigation === "buttons";
             wrapper.classList.toggle("at-start", atStart);
             wrapper.classList.toggle("at-end", atEnd);
             wrapper.classList.toggle("no-overflow", noOverflow);
+
+            wrapper.style.opacity = '';
 
 
             if (noOverflow) {
