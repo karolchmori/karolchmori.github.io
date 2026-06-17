@@ -22,14 +22,24 @@ import { getActiveTools } from '../data/ToolLibrary';
 const activeTools = getActiveTools();
 
 
+import { getCollection } from 'astro:content';
+const toolEntries = await getCollection('tool');
+
+
 
 const allFiles = import.meta.glob('../content/tools/**/*.mdx', { eager: true });
 
+
+/*
 const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) => ({
   path,
   software: path.split('/tools/')[1].split('/')[0], // extracts "Houdini" from path
   frontmatter: file.frontmatter,
 }));
+
+
+*/
+
 
 
 
@@ -67,8 +77,8 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 						<ToolCard index={0}/>
 					</HorizontalCarousel>
 					<HorizontalCarousel class="tool-card-selected" itemSize='34vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
-						{toolEntries.map(({ path, software, frontmatter }, i) => (
-							<ToolCard filePath={path} software={software} frontmatter={frontmatter} index={i}/>
+						{toolEntries.map((entry, i) => (
+							<ToolCard entry={entry} index={i}/>
 						))}
 					</HorizontalCarousel>
 

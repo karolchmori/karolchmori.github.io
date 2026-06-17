@@ -34,5 +34,71 @@ export default defineConfig({
                 ],
             },
         },
+        {
+            provider: fontProviders.local(),
+            name: 'Roboto',
+            cssVariable: '--font-roboto',
+            fallbacks: ['sans-serif'],
+            options: {
+                variants: [
+                    {
+                        src: ['./src/assets/fonts/Roboto-Thin.woff2'],
+                        weight: 100,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                    {
+                        src: ['./src/assets/fonts/Roboto-Light.woff2'],
+                        weight: 300,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                    {
+                        src: ['./src/assets/fonts/Roboto-Regular.woff2'],
+                        weight: 400,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                    {
+                        src: ['./src/assets/fonts/Roboto-Medium.woff2'],
+                        weight: 500,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                ],
+            },
+        },
+        {
+            provider: fontProviders.local(),
+            name: 'SandorTrial',
+            cssVariable: '--font-sandor',
+            fallbacks: ['serif'],
+            options: {
+                variants: [
+                    {
+                        src: ['./src/assets/fonts/SandorTrial.woff2'],
+                        weight: 400,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                ],
+            },
+        },
+        {
+            provider: fontProviders.local(),
+            name: 'Barqen',
+            cssVariable: '--font-barqen',
+            fallbacks: ['sans-serif'],
+            options: {
+                variants: [
+                    {
+                        src: ['./src/assets/fonts/Barqen.woff2'],
+                        weight: 400,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                ],
+            },
+        },
     ],
 });
