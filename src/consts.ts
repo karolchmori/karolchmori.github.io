@@ -3,4 +3,5 @@
 
 export const SITE_TITLE = 'Karol Ch. Mori';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
-export const DEMOREEL = '1179394334';
+export const DEMOREEL = '';
+//export const DEMOREEL = '1179394334';

@@ -332,13 +332,17 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 		.home-social { display: none; }
 
 		.home-portfolio :global(.home-softwareChips) {
-			position: absolute;
-			bottom: 12%;
-			z-index: 1;
+			bottom: 14%;
+		}
+
+		.home-portfolio :global(.tool-card-placeholder),
+		.home-portfolio :global(.tool-card-selected) {
+			bottom: 31%;
 		}
 
 		.home-portfolio-title {
 			font-size: 5vh;
+			bottom: 82%;
 		}
 
 		.home-portfolio-title-small {
