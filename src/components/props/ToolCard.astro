@@ -52,7 +52,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
                     <div class="tool-card-stack">
                         {stack.map(tech => <StackBadge name={tech} />)}
                     </div>
-                    <a class="tool-card-more">View →</a>
+                    <a class="tool-card-more">More...</a>
                 </div>
             </div>
         </div>
@@ -87,8 +87,12 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         cursor: pointer;
         transform-style: preserve-3d;
         border-radius: 14px;
-        filter: drop-shadow(0px 2px 4px rgba(13, 12, 13, 0.669));
-        
+        padding-top: 16px;
+        box-sizing: border-box;
+    }
+
+    .tool-card[data-state="active"] .tool-card-content:hover{
+        transform: translateY(-10px);
     }
 
     .tool-card-empty {
@@ -112,7 +116,9 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         z-index: 1;           /* ← sit above the CardFrame img */
         overflow: hidden;
         border-radius: 14px;
+        
     }
+
 
     .tool-card-thumbnail {
         width: 100%;
