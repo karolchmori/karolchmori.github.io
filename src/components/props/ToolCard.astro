@@ -60,7 +60,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
                 }
             </div>
             <div class="tool-card-description">
-                <h3>{title}</h3>
+                <h4>{title}</h4>
                 <p>{description}</p>
             </div>
         </div>
@@ -84,12 +84,16 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         max-height: 100%;
         width: auto;
         height: auto;
+        
+
     }
 
     .tool-card {
         overflow: visible;
         cursor: pointer;
         transform-style: preserve-3d;
+        border-radius: 14px;
+        filter: drop-shadow(0px 2px 4px rgba(13, 12, 13, 0.669));
         
     }
 
@@ -133,6 +137,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     .tool-card-description {
         flex: 1;
         padding: 1rem;
+    
     }
 
 

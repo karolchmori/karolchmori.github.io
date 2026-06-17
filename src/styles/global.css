@@ -9,8 +9,8 @@
 	--color-primary-fade: #51344bfc;
 	--color-primary-glow: #ff7ec7;
 	
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
+	--accent: #ff23ab;
+	--accent-dark: #8a005a;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
@@ -37,7 +37,8 @@ body {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
-	font-size: 15px;
+
+	font-size: 1.8vh;
 	line-height: 1.7;
 
 }
@@ -103,6 +104,8 @@ a:hover {
 
 p {
 	margin-bottom: 1em;
+	text-align: justify;
+
 }
 
 .prose p {
@@ -162,7 +165,7 @@ hr {
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 	body {
-		font-size: 14px;
+		font-size: 1.6vh;
 	}
 	main {
 		padding: 1em;
