@@ -1,0 +1,68 @@
+---
+interface Props {
+    name: string;
+}
+
+const { name } = Astro.props;
+
+const iconMap: Record<string, string> = {
+    "Python": "/stack/python.svg",
+    "Qt":     "/stack/qt.svg",
+    "C++":    "/stack/cpp.svg",
+    "C":      "/stack/c.svg",
+    "C#":     "/stack/csharp.svg",
+    "Java":     "/stack/java.svg",
+};
+
+const icon = iconMap[name] ?? null;
+---
+
+
+{icon
+    ?   <div class="stack-badge-wrapper">
+            <img src={icon} alt={name} class="stack-badge stack-badge--icon" />
+            <span class="stack-tooltip">{name}</span>
+        </div>
+    :   <span class="stack-badge stack-badge--text">{name}</span>
+}
+
+<style>
+    .stack-badge--icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .stack-badge-wrapper {
+        position: relative;
+        display: inline-flex;
+    }
+
+    .stack-tooltip {
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 50%;
+        transform: translateX(-50%);
+        
+        background: rgba(0,0,0,0.8);
+        color: white;
+        font-size: 0.65rem;
+        padding: 3px 7px;
+        border-radius: 4px;
+        white-space: nowrap;
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+
+    .stack-badge-wrapper:hover .stack-tooltip {
+        opacity: 1;
+    }
+
+    .stack-badge--text {
+        font-size: 1.4vh;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: rgba(0,0,0,0.15);
+    }
+</style>

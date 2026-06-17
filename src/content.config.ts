@@ -26,6 +26,9 @@ const tool = defineCollection({
 			software: z.string(),
 			thumbnail: z.optional(image()).nullable().default(null),
 			pubDate: z.coerce.date(),
+			featured: z.boolean().default(false),
+			stack: z.array(z.string()).default([]), 
+			department: z.array(z.string()).default([]),
 		})
 });
 

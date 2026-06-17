@@ -23,7 +23,9 @@ const activeTools = getActiveTools();
 
 
 import { getCollection } from 'astro:content';
-const toolEntries = await getCollection('tool');
+const toolEntries = (await getCollection('tool'))
+    .filter(entry => entry.data.featured)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 
 ---

@@ -5,6 +5,7 @@ import CardB from '../../assets/icons/AS_CardB.svg';
 import CardFrame from '../../assets/icons/AS_CardFrame.svg';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import StackBadge from './StackBadge.astro';
 
 
 interface Props {
@@ -19,22 +20,7 @@ const description = entry?.data.description ?? "";
 const thumbnail   = entry?.data.thumbnail   ?? null;
 const software    = entry?.data.software    ?? "";
 const filePath    = entry?.id               ?? null;
-
-/*
-interface Props {
-    filePath?: string;
-    software?: string;
-    frontmatter?: Record<string, any>;
-    index: number;
-}
-
-const { filePath, software, frontmatter, index = 0 } = Astro.props;
-
-const title       = frontmatter?.title       ?? "";
-const description = frontmatter?.description ?? "";
-const thumbnail = frontmatter?.thumbnail ?? null;
-*/
-
+const stack       = entry?.data.stack       ?? [];
 
 
 const initialState = entry ? "hidden" : "empty";
@@ -62,6 +48,9 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
             <div class="tool-card-description">
                 <h4>{title}</h4>
                 <p>{description}</p>
+                <div class="tool-card-stack">
+                    {stack.map(tech => <StackBadge name={tech} />)}
+                </div>
             </div>
         </div>
 
@@ -138,6 +127,12 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         flex: 1;
         padding: 1rem;
     
+    }
+
+    .tool-card-stack {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 
 
