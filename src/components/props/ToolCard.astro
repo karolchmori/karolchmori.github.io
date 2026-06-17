@@ -37,7 +37,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         <img src={cardIcon.src} alt="" />
     </div>
     <div class="tool-card-content">
-        <img src={CardFrame.src} alt="" />
+        <img src={CardFrame.src} />
         <div class="tool-card-information">
             <div class="tool-card-thumbnail">
                 {thumbnail 
@@ -48,8 +48,11 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
             <div class="tool-card-description">
                 <h4>{title}</h4>
                 <p>{description}</p>
-                <div class="tool-card-stack">
-                    {stack.map(tech => <StackBadge name={tech} />)}
+                <div class="tool-card-footer">
+                    <div class="tool-card-stack">
+                        {stack.map(tech => <StackBadge name={tech} />)}
+                    </div>
+                    <a class="tool-card-more">View →</a>
                 </div>
             </div>
         </div>
@@ -60,7 +63,9 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
 
 <style>
 
-
+    .tool-card p {
+        margin-top: 4%;
+    }
 
     .tool-card,
     .tool-card-empty,
@@ -129,10 +134,25 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     
     }
 
+    .tool-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+    }
+
     .tool-card-stack {
         display: flex;
         flex-direction: row;
         align-items: center;
+        gap: 0.5em;
+    }
+
+    .tool-card-more {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        cursor: pointer;
+        color: black;
     }
 
 
