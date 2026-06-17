@@ -26,23 +26,6 @@ import { getCollection } from 'astro:content';
 const toolEntries = await getCollection('tool');
 
 
-
-const allFiles = import.meta.glob('../content/tools/**/*.mdx', { eager: true });
-
-
-/*
-const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) => ({
-  path,
-  software: path.split('/tools/')[1].split('/')[0], // extracts "Houdini" from path
-  frontmatter: file.frontmatter,
-}));
-
-
-*/
-
-
-
-
 ---
 
 <!doctype html>
@@ -290,7 +273,7 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
 
 	.home-portfolio :global(.home-softwareChips) {
         position: absolute;
-        bottom: 8%;
+        bottom: 10%;
 		z-index: 1;
     }
 
@@ -300,7 +283,6 @@ const toolEntries = Object.entries(allFiles).map(([path, file]: [string, any]) =
         bottom: 28%;
 		z-index: 3;
     }
-
 	
 	.home-portfolio :global(.tool-card-selected) {
         display: none;

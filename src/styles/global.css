@@ -160,9 +160,9 @@ hr {
 	border-top: 1px solid rgb(var(--gray-light));
 }
 
-@media (max-width: 720px) {
+@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 	body {
-		font-size: 18px;
+		font-size: 14px;
 	}
 	main {
 		padding: 1em;
