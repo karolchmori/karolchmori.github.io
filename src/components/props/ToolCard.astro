@@ -55,7 +55,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         <div class="tool-card-information">
             <div class="tool-card-thumbnail">
                 {thumbnail 
-                    ? <Image src={thumbnail} alt={title} width={400} height={280} style="width:100%; height:100%; object-fit:cover;" />
+                    ? <Image src={thumbnail} alt={title}/>
                     : <div class="tool-card-thumbnail-empty" />
                 }
             </div>
@@ -113,12 +113,13 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         flex-direction: column;
         z-index: 1;           /* ← sit above the CardFrame img */
         overflow: hidden;
-        border-radius: 14px 14px 0 0; 
+        border-radius: 14px;
     }
 
     .tool-card-thumbnail {
         width: 100%;
-        height: 280px;           /* adjust to taste */
+        flex: 0 0 55%;   
+        overflow: hidden;
     }
 
     .tool-card-thumbnail img {
@@ -130,10 +131,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
 
 
     .tool-card-description {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        flex: 1;
         padding: 1rem;
     }
 
