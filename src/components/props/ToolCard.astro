@@ -21,6 +21,7 @@ const thumbnail   = entry?.data.thumbnail   ?? null;
 const software    = entry?.data.software    ?? "";
 const filePath    = entry?.id               ?? null;
 const stack       = entry?.data.stack       ?? [];
+const slug = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null;
 
 
 const initialState = entry ? "hidden" : "empty";
@@ -32,7 +33,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
 ---
 
 
-<div class="tool-card" data-path={filePath} data-software={software} data-state={initialState}>
+<div class="tool-card" data-path={filePath} data-software={software} data-state={initialState} data-href={slug ? `/work/tools/${slug}` : null}>
     <div class="tool-card-empty">
         <img src={cardIcon.src} alt="" />
     </div>
@@ -219,3 +220,13 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     }
 
 </style>
+
+
+<script>
+    document.querySelectorAll<HTMLElement>('.tool-card[data-href]').forEach(card => {
+        card.addEventListener('click', () => {
+            const href = card.dataset.href;
+            if (href) window.location.href = href;
+        });
+    });
+</script>

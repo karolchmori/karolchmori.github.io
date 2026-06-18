@@ -1,0 +1,20 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BlogPost from '../../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+	const tools = await getCollection('tool');
+	return tools.map((tool) => ({
+		params: { slug: tool.data.title.toLowerCase().replace(/\s+/g, '-') },
+		props: tool,
+	}));
+}
+type Props = CollectionEntry<'tool'>;
+
+const tool = Astro.props;
+const { Content } = await render(tool);
+---
+
+<BlogPost {...tool.data}>
+	<Content />
+</BlogPost>
