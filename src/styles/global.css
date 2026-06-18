@@ -34,7 +34,7 @@ html {
 
 
 body {
-	font-family: var(--font-atkinson);
+	font-family: IBMSans-Regular;
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -73,6 +73,7 @@ h6 {
 	margin: 0 0 0.0 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
+	font-family: IBMSans-Bold;
 }
 
 
@@ -245,3 +246,72 @@ hr {
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Lato-Black';
+  src: url('../assets/fonts/Lato-Black.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url('../assets/fonts/Lato-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato-Bold';
+  src: url('../assets/fonts/Lato-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato-Light';
+  src: url('../assets/fonts/Lato-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato-Thin';
+  src: url('../assets/fonts/Lato-Thin.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'IBMSans-Regular';
+  src: url('../assets/fonts/IBMSans-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMSans-Bold';
+  src: url('../assets/fonts/IBMSans-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'IBMSans-Light';
+  src: url('../assets/fonts/IBMSans-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
