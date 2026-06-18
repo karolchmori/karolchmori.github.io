@@ -21,6 +21,13 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 
+html,
+body {
+  touch-action: manipulation;
+}
+
+
+
 html {
   	scroll-behavior: smooth;
 }
