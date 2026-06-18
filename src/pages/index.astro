@@ -56,7 +56,7 @@ const toolEntries = (await getCollection('tool'))
 				</section>
 				<section class="home-portfolio">
 					<a class="home-portfolio-title">
-						<span class="home-portfolio-title-small">my</span>TOOLS
+						<span class="home-portfolio-title-small">MY</span>TOOLS
 					</a>
 					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 						<ToolCard index={0}/>
@@ -256,10 +256,12 @@ const toolEntries = (await getCollection('tool'))
 	.home-portfolio-title {
 		position: absolute;
         color: #5f5457; 
-        font-family: 'Barqen', sans-serif;
+		font-family: 'IBM Plex Sans';
+		font-weight: 700;
+  		font-style: normal;
+		font-stretch: condensed;
         font-size: 7vh;
-		letter-spacing: 0.05em;
-		word-spacing: -0.3em;
+
 
 		filter: opacity(70%);
         margin-bottom: 0.1em;
@@ -269,7 +271,8 @@ const toolEntries = (await getCollection('tool'))
 	}
 
 	.home-portfolio-title-small {
-		font-size: 5vh;
+		font-size: 4.5vh;
+		font-weight: 600;
 	}
 
 

@@ -3,6 +3,8 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
+@import './fonts.css';
+
 
 :root {
 	--color-primary: #ff7ec7;
@@ -34,7 +36,14 @@ html {
 
 
 body {
-	font-family: IBMSans-Regular;
+	font-family: 'IBM Plex Sans';
+	font-weight: 400;
+	font-style: normal;
+
+	font-size: 1.8vh;
+	line-height: 1.7;
+
+
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -44,9 +53,6 @@ body {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
-
-	font-size: 1.8vh;
-	line-height: 1.7;
 
 }
 
@@ -70,10 +76,15 @@ h3,
 h4,
 h5,
 h6 {
+	font-family: 'IBM Plex Sans';
+	font-weight: 700;
+	font-style: normal;
+	font-stretch: normal;
+
 	margin: 0 0 0.0 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
-	font-family: IBMSans-Bold;
+	
 }
 
 
@@ -282,32 +293,6 @@ hr {
 @font-face {
   font-family: 'Lato-Thin';
   src: url('../assets/fonts/Lato-Thin.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-
-@font-face {
-  font-family: 'IBMSans-Regular';
-  src: url('../assets/fonts/IBMSans-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'IBMSans-Bold';
-  src: url('../assets/fonts/IBMSans-Bold.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-
-@font-face {
-  font-family: 'IBMSans-Light';
-  src: url('../assets/fonts/IBMSans-Light.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
