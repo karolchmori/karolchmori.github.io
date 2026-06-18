@@ -1,0 +1,150 @@
+---
+import HeaderLink from './HeaderLink.astro';
+
+type Props = {
+  label: string;
+  href: string;
+  children: { label: string; href: string }[];
+};
+
+const { label, href, children } = Astro.props;
+const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+const subpath = pathname.match(/[^\/]+/g);
+const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
+---
+
+<div class:list={['dropdown', { active: isActive }]}>
+     <div class="dropdown-trigger">
+        <a href={href} class="nav-link">{label}</a>
+        <button class="arrow-btn" aria-label="Toggle submenu">▾</button>
+    </div>
+
+    <div class="dropdown-menu">
+        {children.map(child => (
+            <HeaderLink href={child.href}>{child.label}</HeaderLink>
+        ))}
+    </div>
+
+    <!-- Mobile: inline expand -->
+    <div class="mobile-children">
+        {children.map(child => (
+            <HeaderLink href={child.href}>{child.label}</HeaderLink>
+        ))}
+    </div>
+</div>
+
+<style>
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-trigger {
+        display: inline-block;
+        padding: 0.5em 1.3em;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .dropdown-trigger a.nav-link {
+        text-decoration: none;
+        color: #EAE5E8;
+        font-family: IBM Plex Sans;
+        font-weight: 300;
+        font-size: 15pt;
+        padding: 0em; /* no right padding, arrow takes that space */
+    }
+
+
+    .dropdown-trigger:hover {
+        color: #C33F6A;
+        font-weight: 400;
+    }
+
+    .arrow-btn {
+        background: none;
+        border: none;
+        outline: none;
+        color: #EAE5E8;
+        font-size: 0.75em;
+        padding: 0 0.3em;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        line-height: 1;
+    }
+
+
+    /* Desktop dropdown panel */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #181317;
+        flex-direction: column;
+        min-width: 10em;
+        z-index: 999;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: flex;
+    }
+
+    /* Mobile children hidden on desktop */
+    .mobile-children {
+        display: none;
+    }
+
+    /* ---- Mobile ---- */
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .dropdown {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            align-items: center;
+        }
+
+        .arrow-btn {
+            font-size: 1rem; /* scale arrow up too */
+        }
+
+        .dropdown-trigger a.nav-link {
+            font-size: 1.5rem;
+        }
+
+
+        .dropdown-menu {
+            display: none !important; /* disable hover panel on mobile */
+        }
+
+        .mobile-children {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2em;
+        }
+
+        .dropdown.expanded .mobile-children {
+            display: flex;
+        }
+
+        .dropdown.expanded .arrow {
+            transform: rotate(180deg);
+        }
+    }
+</style>
+
+<script>
+
+    document.querySelectorAll('.arrow-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const dropdown = btn.closest('.dropdown');
+            dropdown?.classList.toggle('expanded');
+        });
+    });
+
+</script> 

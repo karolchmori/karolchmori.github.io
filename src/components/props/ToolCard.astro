@@ -21,7 +21,7 @@ const thumbnail   = entry?.data.thumbnail   ?? null;
 const software    = entry?.data.software    ?? "";
 const filePath    = entry?.id               ?? null;
 const stack       = entry?.data.stack       ?? [];
-const slug = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null;
+const slug        = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null;
 
 
 const initialState = entry ? "hidden" : "empty";

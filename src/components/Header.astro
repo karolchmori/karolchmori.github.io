@@ -2,6 +2,7 @@
 import Logo from './Logo.astro';
 import HeaderLink from './HeaderLink.astro';
 import SocialLinks from '../components/props/SocialLinks.astro';
+import DropdownLink from './DropdownLink.astro'; 
 
 ---
 <header>
@@ -14,7 +15,10 @@ import SocialLinks from '../components/props/SocialLinks.astro';
             </div>
 			<a class="menu-close">✕</a>
 			<HeaderLink href="/about">About</HeaderLink>
-			<HeaderLink href="/work">Work</HeaderLink>
+			<DropdownLink label="Work" href="/work" children={[
+							{ label: 'Credits', href: '/work/credits' },
+							{ label: 'Tools',   href: '/work/tools'   },
+						]} />
 			<HeaderLink href="/blog">Blog</HeaderLink>
 
 			<div class="menu-social">
@@ -92,7 +96,7 @@ import SocialLinks from '../components/props/SocialLinks.astro';
 		}
 
 		.navigator-pages a {
-			font-size: 1.8rem; /* Makes links bigger */
+			font-size: 1.5rem; /* Makes links bigger */
 		}
 
 		.navigator-pages.is-open { display: flex; }
