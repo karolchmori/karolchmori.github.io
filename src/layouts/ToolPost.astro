@@ -87,8 +87,17 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		width: auto;
 		max-width: 85%;
 		margin: auto;
-		padding: 2em;
+		padding: 0.5em;
 		color: rgb(var(--gray-dark));
+	}
+
+
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+		.tool-container {
+			margin: 3rem auto;
+		}
+
+
 	}
 
 </style>
