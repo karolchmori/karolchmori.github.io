@@ -20,7 +20,7 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		<Header />
 		<div class="tool-container">
 			<main>
-				<article class="tool-card-page">
+				<article class="tool-page">
 					<div class="hero-image">
 						{thumbnail && <Image width={820} height={310} src={thumbnail} alt="" />}
 					</div>
@@ -81,14 +81,14 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		flex-direction: column;
 	}
 
-	.tool-card-page {
-		background-color: #dfd7d5;
+	.tool-page {
+		background-color: #e8e3e6;
 		border-radius: 16px;
 		max-width: 900px;
 		width: 100%;
-		margin: 4rem auto;
+		margin: 1.5rem auto;
 		overflow: hidden;
-		flex: 1;                /* ← card stretches to fill main */
+		flex: 1;     
 		display: flex;
 		flex-direction: column;
 	}
@@ -100,7 +100,6 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 	.hero-image img {
 		display: block;
 		margin: 0 auto;
-		border-radius: 12px;
 	}
 
 	.prose {
