@@ -8,7 +8,7 @@ interface Props {
 	height?: number;
 }
 
-const { thumbnail, title, width = 820, height = 150 } = Astro.props;
+const { thumbnail, title, width = 820, height = 250 } = Astro.props;
 ---
 
 <div class="hero-banner">
@@ -16,7 +16,7 @@ const { thumbnail, title, width = 820, height = 150 } = Astro.props;
 		<Image {width} {height} src={thumbnail} alt="" class="hero-banner-image" />
 	)}
 	<div class="hero-banner-content">
-		<h1 class="hero-banner-title">{title}</h1>
+		<h2 class="hero-banner-title">{title}</h2>
 	</div>
 	
 </div>
@@ -25,30 +25,41 @@ const { thumbnail, title, width = 820, height = 150 } = Astro.props;
 	.hero-banner {
 		position: relative;
 		width: 100%;
-		display: grid;
+		height: 13vh;
+		overflow: hidden;
 	}
 
 	.hero-banner-image {
-		display: block;
+		position: absolute;
 		width: 100%;
 		height: auto;
-		grid-area: 1 / 1;
+		z-index: 0;
 	}
 
-	/* Gradient so text stays legible no matter what's in the photo */
 	.hero-banner-content {
-		grid-area: 1 / 1;
 		background: linear-gradient(
 			180deg,
-			rgba(0, 0, 0, 0) 0%,
-			rgba(0, 0, 0, 0.15) 40%,
+			rgba(0, 0, 0, 0.55) 0%,
+			rgba(0, 0, 0, 0.35) 50%,
 			rgba(0, 0, 0, 0.55) 100%
 		);
 	}
 
 	.hero-banner-title {
-		justify-self: center;
-		text-align: center;
-		color: white;
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: rgba(255, 255, 255, 0.547);
+		z-index: 1;
+
+		left: 50%;
+		top: 50%;
+
+		transform: translate(-50%,-50%);
+		transform-origin: center;
+		
+		font-size: 4vh;
 	}
 </style>

@@ -22,7 +22,7 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		<div class="tool-page">
 			<main>
 				<article class="tool-container">
-					<HeroBanner thumbnail={thumbnail} title={title} />
+					<HeroBanner thumbnail={thumbnail} title={title.toUpperCase()} />
 					<div class="prose">
 						<slot /> <!-- Done for Content -->
 					</div>
@@ -90,7 +90,6 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		max-width: 90%;
 		margin: auto;
 		padding: 0.5em;
-		padding-top: 2em;
 		color: rgb(var(--gray-dark));
 	}
 
