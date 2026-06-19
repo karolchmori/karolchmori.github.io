@@ -25,7 +25,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         ))}
     </div>
 
-    <!-- Mobile: inline expand -->
+    <!-- Mobile -->
     <div class="mobile-children">
         {children.map(child => (
             <HeaderLink href={child.href}>{child.label}</HeaderLink>
@@ -52,7 +52,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         font-family: IBM Plex Sans;
         font-weight: 300;
         font-size: 15pt;
-        padding: 0em; /* no right padding, arrow takes that space */
+        padding: 0em; 
     }
 
 
@@ -66,7 +66,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         border: none;
         outline: none;
         color: #EAE5E8;
-        font-size: 0.75em;
+        font-size: 1em;
         padding: 0 0.3em;
         cursor: pointer;
         transition: transform 0.2s ease;
@@ -109,7 +109,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         }
 
         .arrow-btn {
-            font-size: 1rem; /* scale arrow up too */
+            font-size: 1rem; 
         }
 
         .dropdown-trigger a.nav-link {
@@ -118,7 +118,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 
         .dropdown-menu {
-            display: none !important; /* disable hover panel on mobile */
+            display: none !important; 
         }
 
         .mobile-children {
