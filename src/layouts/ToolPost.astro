@@ -18,20 +18,10 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 	</head>
 	<body>
 		<Header />
-		<div class="tool-container">
+		<div class="tool-page">
 			<main>
-				<article class="tool-page">
-					<div class="hero-image">
-						{thumbnail && <Image width={820} height={310} src={thumbnail} alt="" />}
-					</div>
+				<article class="tool-container">
 					<div class="prose">
-						<div class="title">
-							<div class="date">
-								<FormattedDate date={pubDate} />
-							</div>
-							<h1>{title}</h1>
-							<hr />
-						</div>
 						<slot /> <!-- Done for Content -->
 					</div>
 				</article>
@@ -52,14 +42,14 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		min-height: 100%;
 	}
 
-	.tool-container {
+	.tool-page {
 		position: relative;
 		min-height: 100vh;      /* ← container itself must have a height to push against */
 		display: flex;
 		flex-direction: column;
 	}
 
-	.tool-container::before {
+	.tool-page::before {
 		content: "";
 		position: fixed;
 		inset: 0;
@@ -81,7 +71,7 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		flex-direction: column;
 	}
 
-	.tool-page {
+	.tool-container {
 		background-color: #e8e3e6;
 		border-radius: 16px;
 		max-width: 900px;
@@ -93,41 +83,12 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		flex-direction: column;
 	}
 
-	.hero-image {
-		width: 100%;
-	}
-
-	.hero-image img {
-		display: block;
-		margin: 0 auto;
-	}
-
 	.prose {
-		width: 720px;
-		max-width: calc(100% - 2em);
+		width: auto;
+		max-width: 85%;
 		margin: auto;
-		padding: 1em;
+		padding: 2em;
 		color: rgb(var(--gray-dark));
-	}
-
-	.title {
-		margin-bottom: 1em;
-		padding: 1em 0;
-		text-align: center;
-		line-height: 1;
-	}
-
-	.title h1 {
-		margin: 0 0 0.5em 0;
-	}
-
-	.date {
-		margin-bottom: 0.5em;
-		color: rgb(var(--gray));
-	}
-
-	.last-updated-on {
-		font-style: italic;
 	}
 
 </style>
