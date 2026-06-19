@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+	thumbnail?: ImageMetadata | null;
+	title: string;
+	width?: number;
+	height?: number;
+}
+
+const { thumbnail, title, width = 820, height = 150 } = Astro.props;
+---
+
+<div class="hero-banner">
+	{thumbnail && (
+		<Image {width} {height} src={thumbnail} alt="" class="hero-banner-image" />
+	)}
+	<div class="hero-banner-content">
+		<h1 class="hero-banner-title">{title}</h1>
+	</div>
+	
+</div>
+
+<style>
+	.hero-banner {
+		position: relative;
+		width: 100%;
+		display: grid;
+	}
+
+	.hero-banner-image {
+		display: block;
+		width: 100%;
+		height: auto;
+		grid-area: 1 / 1;
+	}
+
+	/* Gradient so text stays legible no matter what's in the photo */
+	.hero-banner-content {
+		grid-area: 1 / 1;
+		background: linear-gradient(
+			180deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.15) 40%,
+			rgba(0, 0, 0, 0.55) 100%
+		);
+	}
+
+	.hero-banner-title {
+		justify-self: center;
+		text-align: center;
+		color: white;
+	}
+</style>

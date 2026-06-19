@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import Vignette from '../components/widgets/Vignette.astro';
+import HeroBanner from '../components/widgets/HeroBanner.astro';
 
 type Props = CollectionEntry<'tool'>['data'];
 
@@ -21,6 +22,7 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		<div class="tool-page">
 			<main>
 				<article class="tool-container">
+					<HeroBanner thumbnail={thumbnail} title={title} />
 					<div class="prose">
 						<slot /> <!-- Done for Content -->
 					</div>
@@ -76,7 +78,7 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		border-radius: 16px;
 		max-width: 900px;
 		width: 100%;
-		margin: 1.5rem auto;
+		margin: 1rem auto;
 		overflow: hidden;
 		flex: 1;     
 		display: flex;
@@ -85,9 +87,10 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 
 	.prose {
 		width: auto;
-		max-width: 85%;
+		max-width: 90%;
 		margin: auto;
 		padding: 0.5em;
+		padding-top: 2em;
 		color: rgb(var(--gray-dark));
 	}
 
@@ -95,6 +98,10 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 		.tool-container {
 			margin: 3rem auto;
+		}
+
+		.prose body {
+			font-size: 1.9vh;
 		}
 
 
