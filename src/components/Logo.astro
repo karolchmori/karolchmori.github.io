@@ -22,7 +22,7 @@ const { status = 'static' } = Astro.props;
         font-size: var(--logo-size-default);
         transition: font-size 0.3s ease;
         margin-left: 0.5em;
-        margin-top: 0.05em;
+        margin-top: 0.1em;
         user-select: none;
 	}
 
@@ -55,12 +55,12 @@ const { status = 'static' } = Astro.props;
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 		.site-logo.animated {
             --logo-size-default: 31pt;
-            --logo-size-scrolled: 24pt;
+            --logo-size-scrolled: 21pt;
         }
 
         .site-logo.static {
-            --logo-size-default: 24pt;
-            --logo-size-scrolled: 24pt;
+            --logo-size-default: 21pt;
+            --logo-size-scrolled: 21pt;
         }
 		
 	}

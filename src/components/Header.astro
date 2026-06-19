@@ -13,7 +13,10 @@ const { status = 'static' } = Astro.props;
 ---
 <header>
 	<nav>
-		<Logo status={status}/>
+		<div class="header-logo">
+			<Logo status={status}/>
+		</div>
+		
 		<a class="hamburger" aria-label="Menu">☰</a>
 		<div class="navigator-pages">
 			<div class="menu-logo">
@@ -41,7 +44,6 @@ const { status = 'static' } = Astro.props;
 		position: fixed;
 		width: 100vw;
 		height: 7.7vh;
-		top: 0;
 		z-index: 1000;
 		opacity: 96%;
 	}
@@ -52,8 +54,10 @@ const { status = 'static' } = Astro.props;
 		align-items: top;
 		justify-content: space-between;
 		padding-right: 0.5em;
+		padding-top: 0.1em;
 		user-select: none;
 	}
+
 
 	.hamburger  { display: none; }
 	.menu-close { display: none; }
@@ -66,6 +70,10 @@ const { status = 'static' } = Astro.props;
 	/* -------------------------------------------------------------- */ 
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+		.header-logo {
+			padding-top: 0.35em;
+		}
 
 
 		.hamburger { 
@@ -89,7 +97,7 @@ const { status = 'static' } = Astro.props;
 			top: 1.6%;
 			right: 3%; /*Probably change to 2.5 when we take the desktop scroll?*/
 		}
-		
+
 		.navigator-pages {
 			display: none; /* Hidden by default on mobile */
 			position: fixed;
