@@ -41,7 +41,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
     .dropdown-trigger {
         display: inline-block;
-        padding: 0.5em 1.3em;
+        padding: 0.5em 0.8em;
         user-select: none;
         cursor: pointer;
     }
@@ -52,7 +52,6 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         font-family: IBM Plex Sans;
         font-weight: 300;
         font-size: 15pt;
-        padding: 0em; 
     }
 
 
@@ -67,10 +66,11 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         outline: none;
         color: #EAE5E8;
         font-size: 1em;
-        padding: 0 0.3em;
+        padding: 0 0em;
         cursor: pointer;
         transition: transform 0.2s ease;
         line-height: 1;
+        
     }
 
 
@@ -82,7 +82,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         left: 0;
         background: #181317;
         flex-direction: column;
-        min-width: 10em;
+        min-width: 5em;
         z-index: 999;
     }
 

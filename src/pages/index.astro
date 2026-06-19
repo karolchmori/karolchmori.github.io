@@ -357,6 +357,7 @@ const toolEntries = (await getCollection('tool'))
 
 	let selectedToolId: string;
 	let changedPlaceholder = false;
+	let cardsLimit = 4;
 
 	arrow?.addEventListener("click", () => {
 		portfolio?.scrollIntoView({
@@ -404,11 +405,11 @@ const toolEntries = (await getCollection('tool'))
 	
 		// show up to 4 matching as active
 		matching.forEach((c, i) => {
-			c.style.display = '';
+			c.style.display = i < cardsLimit ? '' : 'none';
 			c.style.setProperty('--card-index', String(i));
 			
 			setTimeout(() => {
-				c.dataset.state = i < 4 ? 'active' : 'hidden';
+				c.dataset.state = i < cardsLimit ? 'active' : 'hidden';
 			}, i * 300);
 				
 		});

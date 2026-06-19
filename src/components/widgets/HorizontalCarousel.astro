@@ -78,7 +78,7 @@ const useButtons = navigation === "buttons";
         scrollbar-width: none;
 
         /* User */
-        cursor: pointer;
+        cursor: inherit;
         user-select: none;
 
         /* Side Padding */
@@ -237,7 +237,7 @@ const useButtons = navigation === "buttons";
         ro.observe(track);
 
         const mo = new MutationObserver(update);
-        mo.observe(track, { childList: true, subtree: true });
+        mo.observe(track, { childList: true, subtree: true, attributes: true, attributeFilter: ["style"] });
         
 
         /*
