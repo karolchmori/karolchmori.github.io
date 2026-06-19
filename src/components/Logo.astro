@@ -1,46 +1,67 @@
 ---
 import { SITE_TITLE } from '../consts';
+
+interface Props {
+    status?: 'animated'|'static';
+}
+
+const { status = 'static' } = Astro.props;
+
 ---
-<a href="/" class="site-logo">
+<a href="/" class={`site-logo ${status}`}>
     {SITE_TITLE}
 </a>
 
 <style>
     .site-logo {
 		text-decoration: none;
-        color: #ddd6da; 
+        color: #b6b1b4;
         font-family: 'SandorTrial', sans-serif;
         font-weight: 400;
-        font-size: min(0.06 * 90vw, calc(0.06 * 90vh));
-        transition: font-size 0.3s ease; /* Smooth transition */
+
+        font-size: var(--logo-size-default);
+        transition: font-size 0.3s ease;
         margin-left: 0.5em;
         margin-top: 0.05em;
         user-select: none;
-		
 	}
-    .site-logo:hover {
-		color: #C33F6A;
-		font-weight: 300;
-	}
+
     :global(header.scrolled) .site-logo {
-        font-size: min(0.04 * 90vw, calc(0.04 * 90vh));
-        color: #b6b1b4; 
+        font-size: var(--logo-size-scrolled);
     }
 
+    /* Hover */
     :global(header.scrolled) .site-logo:hover {
         color: #C33F6A;
     }
 
+    .site-logo:hover {
+		color: #C33F6A;
+		font-weight: 300;
+	}
+
+    /* Font Size */
+    .site-logo.animated {
+        --logo-size-default: min(calc(0.06 * 90vw), calc(0.06 * 90vh));
+        --logo-size-scrolled: min(calc(0.04 * 90vw), calc(0.04 * 90vh));
+    }
+
+    .site-logo.static {
+        --logo-size-default: min(calc(0.04 * 90vw), calc(0.04 * 90vh));
+        --logo-size-scrolled: min(calc(0.04 * 90vw), calc(0.04 * 90vh));
+    }
+
 
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
-		.site-logo {
-			font-size: 31pt;
-		}
-
-        :global(header.scrolled) .site-logo {
-            font-size: 24pt;
+		.site-logo.animated {
+            --logo-size-default: 31pt;
+            --logo-size-scrolled: 24pt;
         }
 
+        .site-logo.static {
+            --logo-size-default: 24pt;
+            --logo-size-scrolled: 24pt;
+        }
 		
 	}
 

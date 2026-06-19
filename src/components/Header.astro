@@ -4,10 +4,16 @@ import HeaderLink from './HeaderLink.astro';
 import SocialLinks from '../components/props/SocialLinks.astro';
 import DropdownLink from './DropdownLink.astro'; 
 
+interface Props {
+    status?: 'animated'|'static';
+}
+
+const { status = 'static' } = Astro.props;
+
 ---
 <header>
 	<nav>
-		<Logo />
+		<Logo status={status}/>
 		<a class="hamburger" aria-label="Menu">☰</a>
 		<div class="navigator-pages">
 			<div class="menu-logo">
