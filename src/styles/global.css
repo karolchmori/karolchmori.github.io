@@ -11,12 +11,12 @@
 	--color-primary-fade: #51344bfc;
 	--color-primary-glow: #ff7ec7;
 	
-	--accent: #D66B87;
+	--accent: #D77583;
 	--accent-light: #B06077;
 	--accent-dark: #702657;
-	--black: #171416;
-	--gray: #262124;
-	--gray-light: 229, 233, 240;
+	--black: #161A20;
+	--gray: #24292E;
+	--gray-light: #9ea7b3;
 	--gray-dark: #262124;
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
 	--box-shadow:
@@ -25,7 +25,7 @@
 
 
 	--astro-code-foreground: #dfd7dc;
-	--astro-code-background: #171416;
+	--astro-code-background: #24292E;
 
 	--astro-code-token-comment: #6b6468;
 	--astro-code-token-constant: #f0a8bb;
@@ -33,7 +33,7 @@
 	--astro-code-token-parameter: #D66B87;
 	--astro-code-token-punctuation: #a89ba2;
 	--astro-code-token-link: #D66B87;
-	--astro-code-token-string-expression: #D66B87;  /* tags + attribute values → pink */
+	--astro-code-token-string-expression: #D77583;  /* tags + attribute values → pink */
 	--astro-code-token-function: #5db799;            /* attribute names → blue */
 	--astro-code-token-keyword: #BBBBBB;   
 }
@@ -175,7 +175,7 @@ img {
 
 code {
 	padding: 3px 7px;
-	background-color: var(--black);
+	background-color: var(--gray);
 	border-radius: 2px;
 	color: var(--accent);
 
@@ -205,7 +205,7 @@ blockquote {
 
 hr {
 	border: none;
-	border-top: 2px dashed var(--black);
+	border-top: 2px dashed var(--gray);
 }
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {

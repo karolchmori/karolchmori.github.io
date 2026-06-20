@@ -1,0 +1,113 @@
+---
+/**
+* Collapsible.astro
+* An expandable section for content.
+*
+* Usage:
+* <Collapsible title="Full VEX code">
+*   <CodeBlock lang="vex">...</CodeBlock>
+* </Collapsible>
+*
+*/
+
+interface Props {
+  title: string;
+  defaultOpen?: boolean;
+  icon?: boolean;
+}
+
+const { title, defaultOpen = false, icon = true } = Astro.props;
+---
+
+<details class="collapsible" open={defaultOpen}>
+    <summary class="collapsible-summary">
+        {icon && (
+            <svg class="collapsible-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        )}
+        <span class="collapsible-title">{title}</span>
+    </summary>
+    <div class="collapsible-content">
+        <slot />
+    </div>
+</details>
+
+<style>
+
+    /* Widget */
+    .collapsible {
+        --col-border: #0000002c;
+        --col-summary-bg: #00000008;
+        --col-summary-hover-bg: #00000014;
+
+        margin: 1.25rem 0;
+        border: 1px solid var(--col-border);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: transparent;
+    }
+
+    .collapsible-summary {
+        background: var(--col-summary-bg);
+
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem;
+        line-height: 1.3;
+        
+        font-size: 0.95rem;
+        font-weight: 600;
+        
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+    }
+
+
+    .collapsible-summary:hover {
+        background: var(--col-summary-hover-bg);
+    }
+    
+
+    .collapsible-arrow {
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+    }
+
+    .collapsible[open] .collapsible-arrow {
+        transform: rotate(90deg);
+    }
+
+    /* Content */
+    .collapsible-content {
+        padding: 0.9rem 1rem 1.1rem;
+        border-top: 1px solid var(--col-border, rgba(0, 0, 0, 0.1));
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        animation: collapsible-fade 0.18s ease;
+    }
+
+    .collapsible-content :global(p:first-child) {
+        margin-top: 0;
+    }
+
+    .collapsible-content :global(p:last-child) {
+        margin-bottom: 0;
+    }
+
+
+    @keyframes collapsible-fade {
+        from {
+            opacity: 0;
+            transform: translateY(-2px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+</style>
