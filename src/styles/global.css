@@ -11,17 +11,35 @@
 	--color-primary-fade: #51344bfc;
 	--color-primary-glow: #ff7ec7;
 	
-	--accent: #913e6d;
+	--accent: #D66B87;
+	--accent-light: #B06077;
 	--accent-dark: #702657;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
+	--black: #171416;
+	--gray: #262124;
 	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
+	--gray-dark: #262124;
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
 	--box-shadow:
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
+
+
+	--astro-code-foreground: #dfd7dc;
+	--astro-code-background: #171416;
+
+	--astro-code-token-comment: #6b6468;
+	--astro-code-token-constant: #f0a8bb;
+	--astro-code-token-string: #7f90d4;
+	--astro-code-token-parameter: #D66B87;
+	--astro-code-token-punctuation: #a89ba2;
+	--astro-code-token-link: #D66B87;
+	--astro-code-token-string-expression: #D66B87;  /* tags + attribute values → pink */
+	--astro-code-token-function: #5db799;            /* attribute names → blue */
+	--astro-code-token-keyword: #BBBBBB;   
 }
+
+
+/* Behavour */
 
 html,
 body {
@@ -52,7 +70,7 @@ body {
 	background-color: black;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
+	color: var(--gray-dark);
 
 }
 
@@ -82,9 +100,8 @@ h6 {
 	font-stretch: normal;
 
 	margin: 0 0 0.0 0;
-	color: rgb(var(--black));
+	color: var(--black);
 	line-height: 1.2;
-	
 }
 
 
@@ -107,6 +124,7 @@ h4 {
 h5 {
 	font-size: 1.25em;
 }
+
 
 strong,
 b {
@@ -156,14 +174,20 @@ img {
 }
 
 code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
+	padding: 3px 7px;
+	background-color: var(--black);
 	border-radius: 2px;
+	color: var(--accent);
+
 }
 
 pre {
 	padding: 1.5em;
-	border-radius: 8px;
+	border-radius: 10px;
+}
+
+pre.astro-code span[style*="--astro-code-token-comment"] {
+	font-style: italic;
 }
 
 pre > code {
@@ -174,12 +198,13 @@ blockquote {
 	border-left: 4px solid var(--accent);
 	padding: 0 0 0 20px;
 	margin: 0;
-	font-size: 1.333em;
+	font-size: 1em;
 }
+
 
 hr {
 	border: none;
-	border-top: 2px dashed rgb(var(--black));
+	border-top: 2px dashed var(--black);
 }
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {
@@ -208,95 +233,5 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
-
-
-@font-face {
-  font-family: 'Roboto-Thin';
-  src: url('../assets/fonts/Roboto-Thin.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto-Light';
-  src: url('../assets/fonts/Roboto-Light.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto-Regular';
-  src: url('../assets/fonts/Roboto-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto-Medium';
-  src: url('../assets/fonts/Roboto-Medium.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'SandorTrial';
-  src: url('../assets/fonts/SandorTrial.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Barqen';
-  src: url('../assets/fonts/Barqen.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lato-Black';
-  src: url('../assets/fonts/Lato-Black.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lato-Regular';
-  src: url('../assets/fonts/Lato-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lato-Bold';
-  src: url('../assets/fonts/Lato-Bold.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lato-Light';
-  src: url('../assets/fonts/Lato-Light.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lato-Thin';
-  src: url('../assets/fonts/Lato-Thin.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 
 
