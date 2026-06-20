@@ -17,12 +17,11 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, CompareImage,
 
 
 
-<IconList defaultIcon='dot' items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
+<IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
 
 
 <DynamicTable
     columns={["Feature", "Status", "Notes"]}
-
     rows={[
             { cells: ["Outline pass", "Stable", "Works on all geo types"]},
             { cells: ["Camera culling", "WIP", "Needs perf pass"] }
