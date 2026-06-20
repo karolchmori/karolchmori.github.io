@@ -9,14 +9,53 @@ department: [Compositing]
 stack: [VEX, Python]
 ---
 
-import VideoEmbed from '../../../../components/widgets/VideoEmbed.astro';
-import HorizontalCarousel from '../../../../components/widgets/HorizontalCarousel.astro';
-import StackBadge from '../../../../components/props/StackBadge.astro';
+
+import { VideoEmbed, Collapsible, Callout, CodeBlock, CompareImage, 
+    DynamicTable, IconList
+ } from '../../../../components/mdx-components';
+
+
+
+
+<IconList defaultIcon='dot' items={[ "Select geometry", { text: "Test", iconColor: "blue" }, "Tune threshold" ]} />
+
+
+<DynamicTable
+    columns={["Feature", "Status", "Notes"]}
+
+    rows={[
+            { cells: ["Outline pass", "Stable", "Works on all geo types"]},
+            { cells: ["Camera culling", "WIP", "Needs perf pass"] }
+    ]}
+/>
+
+<Collapsible title="Random">
+Tool made for Houdini, calculates automatically outlines of given geometry based on camera view.
+</Collapsible>
+
+<CodeBlock lang="py" title="outline.py" 
+code={`for pt in points:
+    print(pt)
+`}/>
 
 
 Tool made for Houdini, calculates automatically outlines of given geometry based on camera view.
 
-<VideoEmbed platform="youtube" idVideo="E3QiD99jPAg" />
+<CompareImage before="./blog-placeholder-2.jpg" after="./blog-placeholder-3.jpg"/>
+
+
+
+
+<Callout type="note">
+This tool only works with closed, manifold geometry.
+</Callout>
+
+
+
+<VideoEmbed platform="youtube" idVideo="" />
+
+
+
 
 <br />
 
@@ -34,9 +73,6 @@ Tool made for Houdini, calculates automatically outlines of given geometry based
 - VEX
 
 
-
-
-
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
 
 ![blog placeholder](./blog-placeholder-2.jpg)
@@ -45,30 +81,12 @@ Here is a sample of some basic Markdown syntax that can be used when writing Mar
 
 The following HTML `<h1>`—`<h6>` elements represent six levels of section headings. `<h1>` is the highest section level while `<h6>` is the lowest.
 
-# H1
-
-## H2
-
-### H3
-
-#### H4
-
-##### H5
-
-###### H6
-
-## Paragraph
-
-Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur?
-
 
 ## Blockquotes
 
 The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a `footer` or `cite` element, and optionally with in-line changes such as annotations and abbreviations.
 
 ### Blockquote without attribution
-
-
 
 > Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
 > **Note** that you can use _Markdown syntax_ within a blockquote.
@@ -79,29 +97,6 @@ The blockquote element represents content that is quoted from another source, op
 
 
 
-## Tables
-
-
-
-| Italics   | Bold     | Code   |
-| --------- | -------- | ------ |
-| _italics_ | **bold** | `code` |
-
-## Code Blocks
-
-```html
-<!doctype html>
-<html lang="en">
-    <!-- COMMENT -->
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
-```
 
 ## List Types
 
