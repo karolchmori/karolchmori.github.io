@@ -1,0 +1,165 @@
+---
+/**
+* DynamicTable.astro
+* A minimalist table where headers and individual rows/cells can have own style.
+*
+* Usage:
+* <DynamicTable
+*   columns={[
+*   "Feature",
+*   { label: "Status", align: "center", bg: "#d8f5dd" },
+*   "Notes",
+* ]}
+*   highlightFirstRow
+*   rows={[
+*     {
+*       bg: "#eaf6ec",
+*       cells: ["Outline pass", { text: "Stable", bg: "#d8f5dd" }, "Works on all geo types"],
+*     },
+*     {
+*       cells: ["Camera culling", "WIP", "Needs perf pass"],
+*     },
+*   ]}
+* />
+*
+*/
+
+interface ColumnConfig {
+    label: string;
+    width?: string;
+    align?: 'left' | 'center' | 'right';
+    bg?: string;
+    color?: string;
+}
+
+type Column = string | ColumnConfig;
+
+interface Cell {
+    text: string;
+    bg?: string;
+    align?: 'left' | 'center' | 'right';
+    color?: string;
+    bold?: boolean;
+}
+
+interface Row {
+    bg?: string;
+    cells: Array<string | Cell>;
+}
+
+interface Props {
+    columns: Column[];
+    rows: Row[];
+    headerBg?: string;
+    headerColor?: string;
+    bordered?: boolean;
+    striped?: boolean;
+    compact?: boolean;
+}
+
+const { columns, rows, headerBg, headerColor, bordered = true, striped = false, compact = false } = Astro.props;
+
+
+function normalizeColumn(col: Column): ColumnConfig {
+    return typeof col === 'string' ? { label: col } : col;
+}
+
+function normalizeCell(cell: string | Cell): Cell {
+    return typeof cell === 'string' ? { text: cell } : cell;
+}
+
+const normalizedColumns = columns.map(normalizeColumn);
+
+---
+
+<div class="config-table-wrap" class:list={[{ bordered, compact }]}>
+    <table class="config-table">
+        <thead>
+            <tr>
+                {normalizedColumns.map((col) => (
+                    <th style={{  width: col.width, textAlign: col.align ?? 'left', backgroundColor: col.bg ?? headerBg, color: col.color ?? headerColor }} >
+                        {col.label}
+                    </th>
+                ))}
+            </tr>
+        </thead>
+        <tbody>
+            {rows.map((row, rowIndex) => (
+                <tr class:list={[ { striped: striped && rowIndex % 2 === 1 }]} style={{ backgroundColor: row.bg }} >
+                    {row.cells.map((rawCell, colIndex) => {
+                        const cell = normalizeCell(rawCell);
+                        const col = normalizedColumns[colIndex];
+                        return (
+                            <td style={{ textAlign: cell.align ?? col?.align ?? 'left', backgroundColor: cell.bg, color: cell.color, fontWeight: cell.bold ? 600 : undefined, }} set:html={cell.text} />
+                        );
+                    })}
+                </tr>
+            ))}
+        </tbody>
+    </table>
+    </div>
+
+<style>
+    .config-table-wrap {
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        border-radius: 0.5rem;
+
+        --ct-border: var(--comp-border-gray);
+        --ct-header-bg: var(--comp-bg-gray);
+        --ct-row-border: #8a8a9622;
+        --ct-striped-bg: #dcd8dc69;
+    }
+
+    .config-table-wrap.bordered {
+        border: 1px solid var(--ct-border);
+    }
+
+    .config-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+    }
+
+    .config-table thead th {
+        background: var(--ct-header-bg);
+        font-weight: 600;
+        text-transform: none;
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid var(--ct-border);
+        opacity: 0.8;
+    }
+
+
+    .config-table tbody td {
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid var(--ct-row-border);
+        vertical-align: top;
+    }
+
+    .config-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /*           STATES CONFIG           */
+
+    .config-table-wrap.compact thead th,
+    .config-table-wrap.compact tbody td {
+        padding: 0.45rem 0.75rem;
+    }
+
+    .config-table tbody tr.striped {
+        background: var(--ct-striped-bg);
+    }
+
+    .config-table-wrap.bordered .config-table td,
+    .config-table-wrap.bordered .config-table th {
+        border-right: 1px solid var(--ct-row-border);
+    }
+
+    .config-table-wrap.bordered .config-table td:last-child,
+    .config-table-wrap.bordered .config-table th:last-child {
+        border-right: none;
+    }
+</style>
