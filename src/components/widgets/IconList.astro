@@ -1,0 +1,95 @@
+---
+/**
+ * IconList.astro
+ * A list with dynamic icon.
+ *
+ * Usage:
+ * <IconList
+ *   items={[
+ *     { text: "Select geometry", icon: "check" },
+ *     { text: "Set camera", icon: "check" },
+ *     { text: "Tune threshold", icon: "warning" },
+ *     { text: "Export", icon: "circle" },
+ *   ]}
+ * />
+ * 
+ * <IconList defaultIcon='star' 
+ *    items={[ "Select geometry", { text: "Test", iconColor: "red" }, "Tune threshold" ]}
+ *    />
+ *
+ */
+
+import Icon, { type IconName } from './Icon.astro';
+
+interface ListItemConfig  {
+  text: string;
+  icon?: IconName;
+  iconColor?: string;
+  sub?: string;
+}
+
+type ListItem = string | ListItemConfig;
+
+interface Props {
+  items: ListItem[];
+  defaultIcon?: IconName;
+  spacing?: string;
+}
+
+const { items, defaultIcon = 'dot', spacing = '0.5rem' } = Astro.props;
+
+function normalizeItem(item: ListItem): ListItemConfig {
+    return typeof item === 'string' ? { text: item } : item;
+}
+
+---
+
+<ol class="icon-list" class:list={[spacing, defaultIcon]} style={`--spacing: ${spacing};`}>
+     {items.map(normalizeItem).map((item) => {
+        return (
+        <li class="icon-list-item">
+            <span class="icon-list-icon" style={item.iconColor ? { color: item.iconColor } : undefined} >
+                <Icon name={item.icon ?? defaultIcon} size={20}/>
+            </span>
+            <span class="icon-list-text">
+                {item.text}
+            </span>
+        </li>
+        );
+    })}
+</ol>
+
+<style>
+
+    .icon-list {
+        list-style: none;
+        margin: 1rem 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing);
+    }
+
+    .icon-list-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .icon-list-icon {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        margin-top: 0.05rem;
+        opacity: 0.8; 
+    }
+
+    .icon-list-text {
+        line-height: 1.55;
+        padding-top: 0.1rem;
+    }
+
+</style>
