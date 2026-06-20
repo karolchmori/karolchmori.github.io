@@ -219,7 +219,7 @@ hr {
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 	body {
-		font-size: 1.9vh;
+		font-size: 2vh;
 	}
 	main {
 		padding: 1em;
