@@ -1,0 +1,197 @@
+---
+/**
+ * CodeBlock.astro
+ * Wraps Astro's built-in Shiki-powered <Code> component and adds a
+ * language label + copy button, like Notion or w3schools snippets.
+ *
+ * Usage inside MDX:
+ *   <CodeBlock lang="py" title="outline.py" 
+ *   code={`for pt in points:
+ *       print(pt)
+ *   `}/>
+ *
+ */
+
+import { Code } from 'astro:components';
+
+interface Props {
+  lang?: string;
+  title?: string;
+  code: string;
+  showLineNumbers?: boolean;
+  theme?: string;
+}
+
+const { lang = 'text', title, code, showLineNumbers = true, theme = 'css-variables'} = Astro.props;
+
+const LANG_LABELS: Record<string, string> = {
+    astro: 'Astro',
+    bash: 'Bash',
+    c: 'C',
+    css: 'CSS',
+    cpp: 'C++',
+    csharp: 'C#',
+    glsl: 'GLSL',
+    html: 'HTML',
+    java: 'Java',
+    js: 'JavaScript',
+    json: 'JSON',
+    mdx: 'MDX',
+    md: 'Markdown',
+    py: 'Python',
+    sh: 'Shell',
+    shell: 'Shell',
+    text: 'Text',
+    ts: 'TypeScript',
+    yaml: 'YAML',
+    yml: 'YAML',
+    vex: 'VEX',
+};
+
+const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
+
+
+---
+
+<div class="code-block">
+    <div class="code-block-header">
+        <span class="code-block-lang">{label}</span>
+        {title && <span class="code-block-title">{title}</span>}
+        <button type="button" class="code-block-copy" data-code={code} aria-label="Copy code">
+        <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="9" y="9" width="11" height="11" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </button>
+    </div>
+    <div class={`code-block-body ${showLineNumbers ? 'has-line-numbers' : ''}`}>
+        <Code code={code} lang={lang as any} theme={theme as any} wrap={false} />
+    </div>
+</div>
+
+<style>
+    .code-block {
+        margin: 1.25rem 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        border: 1px solid var(--cb-border, rgba(255, 255, 255, 0.08));
+        background: var(--gray);
+    }
+
+    .code-block-header {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.5rem 0.85rem;
+        background: var(--black);
+        font-size: 0.78rem;
+    }
+
+    .code-block-lang {
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--cb-lang-color, #9ea7b3);
+    }
+
+    .code-block-title {
+        color: var(--cb-title-color, #7d8590);
+        font-family: var(--cb-mono, ui-monospace, 'SFMono-Regular', Menlo, monospace);
+        opacity: 0.85;
+    }
+
+    
+    .code-block-body {
+        overflow-x: auto;
+    }
+
+    .code-block-body :global(pre) {
+        margin: 0;
+        padding: 0.9rem 1rem;
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+
+    /* -------- LINE NUMBERS -------- */
+ 
+    .code-block-body.has-line-numbers :global(pre) {
+        padding-left: 0;
+    }
+ 
+    .code-block-body.has-line-numbers :global(code) {
+        counter-reset: line;
+        display: grid;
+    }
+ 
+    .code-block-body.has-line-numbers :global(.line) {
+        counter-increment: line;
+    }
+ 
+    .code-block-body.has-line-numbers :global(.line)::before {
+        content: counter(line);
+        display: inline-block;
+        width: 2rem;
+        margin-right: 1rem;
+        padding-right: 0.5rem;
+        text-align: right;
+        color: var(--cb-line-number, #4b5263);
+        border-right: 1px solid var(--cb-line-number-border, rgba(255, 255, 255, 0.08));
+        user-select: none;
+    }
+
+
+    /* -------- ICON ------ */ 
+
+    .code-block-copy {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 0.3rem;
+        border: none;
+        background: transparent;
+        color: var(--gray-light);
+        cursor: pointer;
+    }
+
+    .code-block-copy:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .code-block-copy .icon-check {
+        display: none;
+    }
+
+    .code-block-copy.copied .icon-copy {
+        display: none;
+    }
+
+    .code-block-copy.copied .icon-check {
+        display: block;
+        color: var(--cb-success, #3fb950);
+    }
+
+    
+</style>
+
+<script>
+    document.querySelectorAll<HTMLButtonElement>('.code-block-copy').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+        const code = btn.getAttribute('data-code') ?? '';
+        try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add('copied');
+            setTimeout(() => btn.classList.remove('copied'), 1500);
+        } catch (err) {
+            console.error('Copy failed', err);
+        }
+        });
+    });
+
+    
+</script>
