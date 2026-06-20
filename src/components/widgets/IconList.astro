@@ -17,6 +17,8 @@
  *    items={[ "Select geometry", { text: "Test", iconColor: "red" }, "Tune threshold" ]}
  *    />
  *
+ *  Text supports inline formatting:
+ *   **bold**, *italic*, `code`
  */
 
 import Icon, { type IconName } from './Icon.astro';
@@ -42,6 +44,20 @@ function normalizeItem(item: ListItem): ListItemConfig {
     return typeof item === 'string' ? { text: item } : item;
 }
 
+function parseInlineFormatting(text: string): string {
+  return text
+    // escape existing HTML first to avoid injection issues
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // bold: **text**
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    // italic: *text* (after bold, so single *'s aren't eaten by the bold pass)
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // code: `text`
+    .replace(/`(.+?)`/g, '<code>$1</code>');
+}
+
 ---
 
 <ol class="icon-list" class:list={[spacing, defaultIcon]} style={`--spacing: ${spacing};`}>
@@ -51,9 +67,7 @@ function normalizeItem(item: ListItem): ListItemConfig {
             <span class="icon-list-icon" style={item.iconColor ? { color: item.iconColor } : undefined} >
                 <Icon name={item.icon ?? defaultIcon} size={20}/>
             </span>
-            <span class="icon-list-text">
-                {item.text}
-            </span>
+            <span class="icon-list-text" set:html={parseInlineFormatting(item.text)}/>
         </li>
         );
     })}
