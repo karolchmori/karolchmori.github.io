@@ -37,9 +37,9 @@ const { title, defaultOpen = false, icon = true } = Astro.props;
 
     /* Widget */
     .collapsible {
-        --col-border: #0000002c;
-        --col-summary-bg: #00000008;
-        --col-summary-hover-bg: #00000014;
+        --col-border: #8a8a966e;
+        --col-summary-bg: #DCD8DC;
+        --col-summary-hover-bg: #cbc4cb;
 
         margin: 1.25rem 0;
         border: 1px solid var(--col-border);
@@ -68,6 +68,10 @@ const { title, defaultOpen = false, icon = true } = Astro.props;
 
     .collapsible-summary:hover {
         background: var(--col-summary-hover-bg);
+    }
+
+    .collapsible-title {
+        opacity: 0.8;
     }
     
 

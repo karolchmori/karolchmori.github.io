@@ -13,6 +13,7 @@
  */
 
 import { Code } from 'astro:components';
+import Icon from './Icon.astro';
 
 interface Props {
   lang?: string;
@@ -58,13 +59,8 @@ const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
         <span class="code-block-lang">{label}</span>
         {title && <span class="code-block-title">{title}</span>}
         <button type="button" class="code-block-copy" data-code={code} aria-label="Copy code">
-        <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="9" y="9" width="11" height="11" rx="1.5" stroke="currentColor" stroke-width="2"/>
-            <path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+            <Icon class="icon-copy" name="copy" size={20}/>
+            <Icon class="icon-check" name="check" size={20}/>
         </button>
     </div>
     <div class={`code-block-body ${showLineNumbers ? 'has-line-numbers' : ''}`}>
@@ -163,15 +159,15 @@ const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
         background: rgba(255, 255, 255, 0.08);
     }
 
-    .code-block-copy .icon-check {
+    .code-block-copy :global(.icon-check) {
         display: none;
     }
 
-    .code-block-copy.copied .icon-copy {
+    .code-block-copy.copied :global(.icon-copy) {
         display: none;
     }
 
-    .code-block-copy.copied .icon-check {
+    .code-block-copy.copied :global(.icon-check) {
         display: block;
         color: var(--cb-success, #3fb950);
     }

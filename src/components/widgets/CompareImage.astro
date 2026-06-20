@@ -1,0 +1,301 @@
+---
+/**
+ * CompareImage.astro
+ * Before/after image comparison slider.
+ *
+ * Usage:
+ * <CompareImage
+ *   before="./before.jpg"
+ *   after="./after.jpg"
+ *   beforeLabel="Before"
+ *   afterLabel="After"
+ *   direction="horizontal"   // "horizontal" | "vertical"
+ *   startAt={50}             // initial position, 0-100
+ * />
+ *
+ */
+
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+
+interface Props {
+    before: ImageMetadata | string;
+    after: ImageMetadata | string;
+    beforeLabel?: string;
+    afterLabel?: string;
+    direction?: 'horizontal' | 'vertical';
+    startAt?: number;
+    alt?: string;
+}
+
+const { before, after, beforeLabel = 'Before', afterLabel = 'After', direction = 'horizontal', startAt = 50, alt = 'Comparison image'} = Astro.props;
+
+const uid = `cmp-${Math.random().toString(36).slice(2, 9)}`;
+const isVertical = direction === 'vertical';
+
+// TODO: Add filter of compare in the text
+const images = import.meta.glob<{ default: ImageMetadata }>( '/src/content/**/*.{jpeg,jpg,png,gif,webp,avif}', { eager: true });
+
+
+function resolveImage(src: ImageMetadata | string, propName: string): ImageMetadata | string {
+    if (typeof src !== 'string') return src; // already an imported asset
+
+    const isRemoteOrAbsolute = /^https?:\/\//.test(src) || src.startsWith('/');
+    if (isRemoteOrAbsolute) return src;
+
+
+    const filename = src.replace(/^\.{1,2}\//, '');
+    const match = Object.keys(images).find((key) => key.endsWith(`/${filename}`));
+
+    if (!match) {
+        throw new Error(
+            `CompareImage: could not resolve "${propName}" path "${src}". ` +
+            `Looked for a file ending in "/${filename}" under "/src/content/**". ` +
+            `Make sure the image actually lives under src/content, or pass an imported asset instead.`
+        );
+    }
+
+    return images[match].default;
+}
+
+const resolvedBefore = resolveImage(before, 'before');
+const resolvedAfter = resolveImage(after, 'after');
+
+const isLocalBefore = typeof resolvedBefore !== 'string';
+const isLocalAfter = typeof resolvedAfter !== 'string';
+---
+
+<div class="compare-image" class:list={[{ vertical: isVertical }]} id={uid} style={`--start: ${startAt}%`} role="group" >
+    <div class="compare-frame">
+        <div class="layer layer-after">
+            {isLocalAfter ? (
+                <Image src={resolvedAfter as ImageMetadata} alt={alt} draggable={false} />
+            ) : (
+                <img src={resolvedAfter as string} alt={alt} draggable="false" />
+            )}
+            {afterLabel && <span class="tag tag-after">{afterLabel}</span>}
+        </div>
+
+        <div class="layer layer-before">
+            {isLocalBefore ? (
+                <Image src={resolvedBefore as ImageMetadata} alt={alt} draggable={false} />
+            ) : (
+                <img src={resolvedBefore as string} alt={alt} draggable="false" />
+            )}
+            {beforeLabel && <span class="tag tag-before">{beforeLabel}</span>}
+        </div>
+
+        <button type="button" class="handle" aria-label="Drag to compare before and after"
+        role="slider" aria-valuemin={0} aria-valuemax={100} aria-valuenow={startAt} >
+            <span class="handle-grip">
+                {isVertical ? (
+                    <Icon name="chevron-up-down"/>
+                ) : (
+                    <Icon name="chevron-left-right"/>
+                )}
+            </span>
+        </button>
+    </div>
+</div>
+
+<style>
+    .compare-image {
+        --start: 50%;
+        --handle-size: 2.25rem;
+        --handle-color: var(--ci-handle-color, #ffffff);
+        --tag-bg: var(--ci-tag-bg, rgba(0, 0, 0, 0.65));
+        --tag-color: var(--ci-tag-color, #ffffff);
+        margin: 1.5rem 0;
+        user-select: none;
+    }
+
+    .compare-frame {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: var(--ci-bg, #111);
+        touch-action: none;
+    }
+
+    /*      LAYER       */
+    .layer {
+        position: absolute;
+        inset: 0;
+    }
+
+    .layer img,
+    .layer :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        pointer-events: none;
+    }
+
+    .layer-before {
+        clip-path: inset(0 calc(100% - var(--start)) 0 0);
+    }
+
+    .compare-image.vertical .layer-before {
+        clip-path: inset(0 0 calc(100% - var(--start)) 0);
+    }
+
+    .tag {
+        position: absolute;
+        bottom: 0.75rem;
+        left: 0.75rem;
+        padding: 0.25rem 0.625rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        border-radius: 0.3rem;
+        background: var(--tag-bg);
+        color: var(--tag-color);
+        pointer-events: none;
+    }
+
+    .tag-after {
+        left: auto;
+        right: 0.75rem;
+    }
+
+    .compare-image.vertical .tag-after {
+        left: 0.75rem;
+        right: auto;
+        bottom: auto;
+        top: 0.75rem;
+    }
+
+
+    /*      HANDLE       */
+    .handle {
+        position: absolute;
+        top: 0;
+        left: var(--start);
+        width: 2px;
+        height: 100%;
+        background: var(--handle-color);
+        border: none;
+        padding: 0;
+        cursor: ew-resize;
+        transform: translateX(-1px);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    }
+
+    .compare-image.vertical .handle {
+        left: 0;
+        top: var(--start);
+        width: 100%;
+        height: 2px;
+        transform: translateY(-1px);
+        cursor: ns-resize;
+    }
+
+    .handle-grip {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: var(--handle-size);
+        height: var(--handle-size);
+        border-radius: 50%;
+        background: var(--handle-color);
+        color: var(--ci-bg, #111);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .handle:focus-visible .handle-grip {
+        outline: 2px solid var(--ci-focus, #4f9eff);
+        outline-offset: 2px;
+    }
+</style>
+
+<script>
+
+    function clamp(value: number, min: number, max: number): number {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    function calculatePercent(clientX: number, clientY: number, rect: DOMRect, isVertical: boolean ): number {
+        const pct = isVertical
+            ? ((clientY - rect.top) / rect.height) * 100
+            : ((clientX - rect.left) / rect.width) * 100;
+
+        return clamp(pct, 0, 100);
+    }
+
+    function updatePosition( root: HTMLElement, handle: HTMLElement, pct: number ): void {
+        root.style.setProperty('--start', `${pct}%`);
+        handle.setAttribute('aria-valuenow', String(Math.round(pct)));
+    }
+
+    function getCurrentPosition(root: HTMLElement): number {
+        return ( parseFloat( getComputedStyle(root).getPropertyValue('--start') ) || 50  );
+    }
+
+    function initCompareImage(root: HTMLElement) {
+        const frame = root.querySelector<HTMLElement>('.compare-frame');
+        const handle = root.querySelector<HTMLElement>('.handle');
+        const isVertical = root.classList.contains('vertical');
+
+        if (!frame || !handle) return;
+
+        let dragging = false;
+
+        const setPos = (clientX: number, clientY: number) => {
+            const pct = calculatePercent( clientX, clientY, frame.getBoundingClientRect(), isVertical );
+            updatePosition(root, handle, pct);
+        };
+
+        const onPointerDown = (e: PointerEvent) => {
+            dragging = true;
+            handle.setPointerCapture(e.pointerId);
+            setPos(e.clientX, e.clientY);
+        };
+
+        const onPointerMove = (e: PointerEvent) => {
+            if (!dragging) return;
+            setPos(e.clientX, e.clientY);
+        };
+
+        const onPointerUp = (e: PointerEvent) => {
+            dragging = false;
+            try { handle.releasePointerCapture(e.pointerId); } catch {}
+        };
+
+        handle.addEventListener('pointerdown', onPointerDown);
+        handle.addEventListener('pointermove', onPointerMove);
+        handle.addEventListener('pointerup', onPointerUp);
+
+        handle.addEventListener('keydown', (e) => {
+            const current = getCurrentPosition(root);
+            const step = e.shiftKey ? 10 : 2;
+
+            let next = current;
+
+            if (['ArrowLeft', 'ArrowDown'].includes(e.key))
+                next = clamp(current - step, 0, 100);
+
+            if (['ArrowRight', 'ArrowUp'].includes(e.key))
+                next = clamp(current + step, 0, 100);
+
+            if (next !== current) {
+                e.preventDefault();
+                updatePosition(root, handle, next);
+            }
+        });
+
+        // Click anywhere on the frame to jump the handle there
+        frame.addEventListener('pointerdown', (e) => {
+            if (e.target === handle || handle.contains(e.target as Node)) return;
+            setPos(e.clientX, e.clientY);
+        });
+    }
+
+    document.querySelectorAll<HTMLElement>('.compare-image').forEach(initCompareImage);
+</script>
