@@ -10,6 +10,8 @@
 *
 */
 
+import Icon from './Icon.astro';
+
 interface Props {
   title: string;
   defaultOpen?: boolean;
@@ -22,9 +24,7 @@ const { title, defaultOpen = false, icon = true } = Astro.props;
 <details class="collapsible" open={defaultOpen}>
     <summary class="collapsible-summary">
         {icon && (
-            <svg class="collapsible-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <Icon class="collapsible-arrow" name="chevron-left" size={16}/>
         )}
         <span class="collapsible-title">{title}</span>
     </summary>
@@ -75,12 +75,12 @@ const { title, defaultOpen = false, icon = true } = Astro.props;
     }
     
 
-    .collapsible-arrow {
+    :global(.collapsible-arrow) {
         flex-shrink: 0;
         transition: transform 0.2s ease;
     }
 
-    .collapsible[open] .collapsible-arrow {
+    .collapsible[open] :global(.collapsible-arrow) {
         transform: rotate(90deg);
     }
 
