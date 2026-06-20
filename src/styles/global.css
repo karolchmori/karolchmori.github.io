@@ -7,7 +7,7 @@
 
 
 :root {
-	--color-primary: #ff7ec7;
+	--color-primary: #c65381;
 	--color-primary-fade: #51344bfc;
 	--color-primary-glow: #ff7ec7;
 	
@@ -184,6 +184,7 @@ code {
 pre {
 	padding: 1.5em;
 	border-radius: 10px;
+	font-size: 0.9rem;
 }
 
 pre.astro-code span[style*="--astro-code-token-comment"] {
