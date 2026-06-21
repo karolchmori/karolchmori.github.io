@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import { resolveImage, type ImageSource } from '../../lib/image';
+
+interface Props {
+  src: ImageSource;
+  alt: string;
+  loading?: 'eager' | 'lazy';
+  draggable?: boolean;
+  class?: string;
+}
+
+const { src, alt, loading = 'lazy', draggable, class: className } = Astro.props;
+
+const resolved = resolveImage(src, 'src');
+const isLocal = typeof resolved !== 'string';
+---
+
+{isLocal ? (
+    <Image src={resolved as ImageMetadata} alt={alt} draggable={draggable} class={className} />
+) : (
+    <img src={resolved as string} alt={alt} loading={loading} draggable={draggable} class={className} />
+)}
