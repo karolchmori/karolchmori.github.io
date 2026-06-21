@@ -33,15 +33,16 @@ const resolvedTitle = title ?? TITLES[type];
 
 ---
 
+
 <div class="callout" data-type={type}>
-    <div class="callout-icon" aria-hidden="true">
-        <Icon name={type} size={18} />
-    </div>
-    <div class="callout-body">
-        <p class="callout-title">{resolvedTitle}</p>
-        <div class="callout-content">
-            <slot />
+    <div class="callout-header">
+        <div class="callout-icon" aria-hidden="true">
+            <Icon name={type} size={16} />
         </div>
+        <p class="callout-title">{resolvedTitle}</p>
+    </div>
+    <div class="callout-content">
+        <slot />
     </div>
 </div>
 
@@ -52,29 +53,33 @@ const resolvedTitle = title ?? TITLES[type];
         --c-fg: currentColor;
 
         display: flex;
-        gap: 0.75rem;
-        align-items: flex-start;
-        margin: 1.25rem 0;
-        padding: 0.9rem 0.8rem;
+        flex-direction: column;
+        gap: 0.4rem;
+        margin: 1rem 0;
+        padding: 1rem 1.25rem;
         border-radius: 0.5rem;
-        border-left: 3px solid var(--c-border);
+        border-left: 2.5px solid var(--c-border);
         background: var(--c-bg);
+    }
+
+    .callout-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
     .callout-icon {
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
         color: var(--c-fg);
-        margin-top: 0.15rem;
-    }
-
-    .callout-body {
-        min-width: 0;
     }
 
     .callout-title {
-        margin: 0 0 0.25rem;
+        margin: 0;
         font-weight: 700;
         color: var(--c-fg);
+        font-size: 1rem;
     }
 
     .callout-content {
@@ -83,6 +88,7 @@ const resolvedTitle = title ?? TITLES[type];
 
     .callout-content :global(p) {
         margin: 0;
+        font-size: 1rem;
     }
 
     .callout-content :global(p + p) {
