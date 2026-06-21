@@ -15,8 +15,9 @@
  *
  */
 
-import { Image } from 'astro:assets';
+
 import Icon from './Icon.astro';
+import Picture from './Picture.astro';
 
 interface Props {
     before: ImageMetadata | string;
@@ -32,56 +33,17 @@ const { before, after, beforeLabel = 'Before', afterLabel = 'After', direction =
 
 const uid = `cmp-${Math.random().toString(36).slice(2, 9)}`;
 const isVertical = direction === 'vertical';
-
-// TODO: Add filter of compare in the text
-const images = import.meta.glob<{ default: ImageMetadata }>( '/src/content/**/*.{jpeg,jpg,png,gif,webp,avif}', { eager: true });
-
-
-function resolveImage(src: ImageMetadata | string, propName: string): ImageMetadata | string {
-    if (typeof src !== 'string') return src; // already an imported asset
-
-    const isRemoteOrAbsolute = /^https?:\/\//.test(src) || src.startsWith('/');
-    if (isRemoteOrAbsolute) return src;
-
-
-    const filename = src.replace(/^\.{1,2}\//, '');
-    const match = Object.keys(images).find((key) => key.endsWith(`/${filename}`));
-
-    if (!match) {
-        throw new Error(
-            `CompareImage: could not resolve "${propName}" path "${src}". ` +
-            `Looked for a file ending in "/${filename}" under "/src/content/**". ` +
-            `Make sure the image actually lives under src/content, or pass an imported asset instead.`
-        );
-    }
-
-    return images[match].default;
-}
-
-const resolvedBefore = resolveImage(before, 'before');
-const resolvedAfter = resolveImage(after, 'after');
-
-const isLocalBefore = typeof resolvedBefore !== 'string';
-const isLocalAfter = typeof resolvedAfter !== 'string';
 ---
 
 <div class="compare-image" class:list={[{ vertical: isVertical }]} id={uid} style={`--start: ${startAt}%`} role="group" >
     <div class="compare-frame">
         <div class="layer layer-after">
-            {isLocalAfter ? (
-                <Image src={resolvedAfter as ImageMetadata} alt={alt} draggable={false} />
-            ) : (
-                <img src={resolvedAfter as string} alt={alt} draggable="false" />
-            )}
+            <Picture src={after} alt={alt} draggable={false} />
             {afterLabel && <span class="tag tag-after">{afterLabel}</span>}
         </div>
 
         <div class="layer layer-before">
-            {isLocalBefore ? (
-                <Image src={resolvedBefore as ImageMetadata} alt={alt} draggable={false} />
-            ) : (
-                <img src={resolvedBefore as string} alt={alt} draggable="false" />
-            )}
+            <Picture src={before} alt={alt} draggable={false} />
             {beforeLabel && <span class="tag tag-before">{beforeLabel}</span>}
         </div>
 

@@ -20,8 +20,9 @@
  * Images: pass either an imported image (Astro/Vite asset) or a plain
  * string path, mixed freely within the same `frames` array.
  */
-import { Image } from 'astro:assets';
+
 import Icon from './Icon.astro';
+import Picture from './Picture.astro';
 
 interface Frame {
   src: ImageMetadata | string;
@@ -36,49 +37,20 @@ interface Props {
   aspectRatio?: string;
 }
 
-const { frames, fps = 12, loop = true, autoplay = false, aspectRatio = '16 / 9' } = Astro.props;
+const { frames, fps = 6, loop = true, autoplay = false, aspectRatio = '16 / 9' } = Astro.props;
 
 const uid = `fs-${Math.random().toString(36).slice(2, 9)}`;
 const frameInterval = Math.round(1000 / fps);
 
-const images = import.meta.glob<{ default: ImageMetadata }>( '/src/content/**/*.{jpeg,jpg,png,gif,webp,avif}', { eager: true });
-
-
-function resolveImage(src: ImageMetadata | string, propName: string): ImageMetadata | string {
-    if (typeof src !== 'string') return src; // already an imported asset
-
-    const isRemoteOrAbsolute = /^https?:\/\//.test(src) || src.startsWith('/');
-    if (isRemoteOrAbsolute) return src;
-
-
-    const filename = src.replace(/^\.{1,2}\//, '');
-    const match = Object.keys(images).find((key) => key.endsWith(`/${filename}`));
-
-    if (!match) {
-        throw new Error(
-            `CompareImage: could not resolve "${propName}" path "${src}". ` +
-            `Looked for a file ending in "/${filename}" under "/src/content/**". ` +
-            `Make sure the image actually lives under src/content, or pass an imported asset instead.`
-        );
-    }
-
-    return images[match].default;
-}
 ---
 
 <div class="frame-sequence" id={uid} data-interval={frameInterval} data-loop={loop}
     data-autoplay={autoplay} style={`--aspect: ${aspectRatio};`} role="group">
     <div class="fs-stage">
         {frames.map((frame, i) => {
-            const resolvedSrc = resolveImage(frame.src, `frames[${i}].src`);
-            const isLocal = typeof resolvedSrc !== 'string';
             return (
                 <div class="fs-frame" data-frame={i} hidden={i !== 0}>
-                    {isLocal ? (
-                        <Image src={resolvedSrc as ImageMetadata} alt={frame.alt} />
-                    ) : (
-                        <img src={resolvedSrc as string} alt={frame.alt} loading={i === 0 ? 'eager' : 'lazy'} />
-                    )}
+                    <Picture src={frame.src} alt={frame.alt} loading={i === 0 ? 'eager' : 'lazy'} />
                 </div>
             );
         })}
