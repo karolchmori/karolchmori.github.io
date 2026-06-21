@@ -30,11 +30,13 @@ const ICONS = {
     'arrow' : 'M5 12h14M13 6l6 6-6 6',                              // USED
     'empty-dot' : 'M12 12m-3 0a3 3 0 1 0 7 0 3 3 0 1 0-7 0', 
     'dot' : 'M12 12m-3 0a3 3 0 1 0 7 0 3 3 0 1 0-7 0',              // USED
+    'play' : 'M8 5v14l11-7L8 5Z',                                   // USED
+    'pause' : 'M7 5h4v14H7V5Zm6 0h4v14h-4V5Z',                      // USED
 } as const;
 
 export type IconName = keyof typeof ICONS;
 
-const FILLED_ICONS = new Set<IconName>(['dot']);
+const FILLED_ICONS = new Set<IconName>(['dot', 'play', 'pause']);
 
 interface Props {
     name: IconName;

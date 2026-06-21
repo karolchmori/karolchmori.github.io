@@ -1,0 +1,41 @@
+---
+/**
+ * Column.astro
+ * One slot inside a <Columns> wrapper. 
+ * Usage: see Columns.astro.
+ *
+ */
+interface Props {
+    width?: string;
+    minWidth?: string;
+}
+
+const { width, minWidth = '180px' } = Astro.props;
+
+---
+
+<div class="column" style={`${width ? `flex: 0 0 ${width}; 
+    width: ${width};` : 'flex: 1 1 0%;'} min-width: ${minWidth};`} >
+    <slot />
+</div>
+
+<style>
+    .column {
+        box-sizing: border-box;
+    }
+
+    .column > :global(:first-child) {
+        margin-top: 0;
+    }
+
+    .column > :global(:last-child) {
+        margin-bottom: 0;
+    }
+
+    .column :global(img) {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+</style>

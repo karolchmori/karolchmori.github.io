@@ -11,13 +11,32 @@ stack: [VEX, Python]
 
 
 import { VideoEmbed, Collapsible, Callout, CodeBlock, CompareImage, 
-    DynamicTable, IconList
+    DynamicTable, IconList, PictureSequence, Columns, Column
  } from '../../../../components/mdx-components';
 
 
+<Columns>
+    <Column>
+        Some **markdown** text here, or any component.
+    </Column>
+    <Column >
+        <IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
+    </Column>
+    <Column>
+        Some **markdown** text here, or any component.
+    </Column>
+ </Columns>
 
 
-<IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
+
+<PictureSequence
+    frames={[
+        { src: "./blog-placeholder-2.jpg", alt: "Frame 1" },
+        { src: "./blog-placeholder-3.jpg", alt: "Frame 2" },
+        { src: "./blog-placeholder-2.jpg", alt: "Frame 3" },
+    ]}
+/>
+
 
 
 <DynamicTable

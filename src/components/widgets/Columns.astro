@@ -1,0 +1,56 @@
+---
+/**
+ * Columns.astro
+ * Multi-column layout.
+ *
+ * Usage:
+    <Columns>
+        <Column width="60%">
+            Some **markdown** text here, or any component.
+        </Column>
+        <Column width="40%">
+            <IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
+        </Column>
+    </Columns>
+ *
+
+ */
+interface Props {
+    gap?: string;
+    stackOnMobile?: boolean;
+    align?: 'start' | 'center' | 'stretch';
+}
+
+const { gap = '1.5rem', stackOnMobile = false, align = 'stretch' } = Astro.props;
+---
+
+<div class="columns" class:list={[{ 'stack-mobile': stackOnMobile }]}
+  style={`--columns-gap: ${gap}; --columns-align: ${align};`} >
+    <slot />
+</div>
+
+<style>
+    .columns {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: var(--columns-align);
+        gap: var(--columns-gap);
+        margin: 1.5rem 0;
+    }
+
+    .columns > :global(.column) {
+        flex-shrink: 1;
+        min-width: 0;
+    }
+
+   @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .columns.stack-mobile {
+            flex-direction: column;
+        }
+
+        .columns.stack-mobile > :global(.column) {
+            flex-basis: auto !important;
+            width: 100% !important;
+        }
+    }
+</style>

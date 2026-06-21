@@ -19,8 +19,11 @@ export { default as Callout } from './widgets/Callout.astro';
 export { default as IconList } from './widgets/IconList.astro';
 export { default as CodeBlock } from './widgets/CodeBlock.astro';
 export { default as Collapsible } from './widgets/Collapsible.astro';
+export { default as PictureSequence } from './widgets/PictureSequence.astro';
+export { default as Columns } from './widgets/Columns.astro';
+export { default as Column } from './widgets/Column.astro';
 
-// Existing components from your project, re-exported the same way:
+
 export { default as VideoEmbed } from './widgets/VideoEmbed.astro';
 export { default as HorizontalCarousel } from './widgets/HorizontalCarousel.astro';
 

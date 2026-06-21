@@ -1,0 +1,393 @@
+---
+/**
+ * PictureSequence.astro
+ * Scrubs through a sequence of images — render turntables, simulation
+ * playback, frame-by-frame breakdowns. Supports manual drag-to-scrub
+ * and play/pause auto-advance, like a lightweight video player but for
+ * a stack of stills instead of a video file.
+ *
+ * Usage:
+ * <PictureSequence
+ *   frames={[
+ *     { src: frame01, alt: "Frame 1" },
+ *     { src: frame02, alt: "Frame 2" },
+ *     { src: "./frame03.jpg", alt: "Frame 3" },
+ *   ]}
+ *   fps={6}
+ *   loop
+ * />
+ *
+ * Images: pass either an imported image (Astro/Vite asset) or a plain
+ * string path, mixed freely within the same `frames` array.
+ */
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+
+interface Frame {
+  src: ImageMetadata | string;
+  alt: string;
+}
+
+interface Props {
+  frames: Frame[];
+  fps?: number;
+  loop?: boolean;
+  autoplay?: boolean;
+  aspectRatio?: string;
+}
+
+const { frames, fps = 12, loop = true, autoplay = false, aspectRatio = '16 / 9' } = Astro.props;
+
+const uid = `fs-${Math.random().toString(36).slice(2, 9)}`;
+const frameInterval = Math.round(1000 / fps);
+
+const images = import.meta.glob<{ default: ImageMetadata }>( '/src/content/**/*.{jpeg,jpg,png,gif,webp,avif}', { eager: true });
+
+
+function resolveImage(src: ImageMetadata | string, propName: string): ImageMetadata | string {
+    if (typeof src !== 'string') return src; // already an imported asset
+
+    const isRemoteOrAbsolute = /^https?:\/\//.test(src) || src.startsWith('/');
+    if (isRemoteOrAbsolute) return src;
+
+
+    const filename = src.replace(/^\.{1,2}\//, '');
+    const match = Object.keys(images).find((key) => key.endsWith(`/${filename}`));
+
+    if (!match) {
+        throw new Error(
+            `CompareImage: could not resolve "${propName}" path "${src}". ` +
+            `Looked for a file ending in "/${filename}" under "/src/content/**". ` +
+            `Make sure the image actually lives under src/content, or pass an imported asset instead.`
+        );
+    }
+
+    return images[match].default;
+}
+---
+
+<div class="frame-sequence" id={uid} data-interval={frameInterval} data-loop={loop}
+    data-autoplay={autoplay} style={`--aspect: ${aspectRatio};`} role="group">
+    <div class="fs-stage">
+        {frames.map((frame, i) => {
+            const resolvedSrc = resolveImage(frame.src, `frames[${i}].src`);
+            const isLocal = typeof resolvedSrc !== 'string';
+            return (
+                <div class="fs-frame" data-frame={i} hidden={i !== 0}>
+                    {isLocal ? (
+                        <Image src={resolvedSrc as ImageMetadata} alt={frame.alt} />
+                    ) : (
+                        <img src={resolvedSrc as string} alt={frame.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                    )}
+                </div>
+            );
+        })}
+        <span class="fs-frame-counter"><span class="fs-current">1</span> / {frames.length}</span>
+    </div>
+
+    <div class="fs-controls">
+        <button type="button" class="fs-play" aria-label="Play">
+            <Icon class='icon-play' name="play" size={16}/>
+            <Icon class='icon-pause' name="pause" size={16}/>
+        </button>
+
+        <div class="fs-track" role="slider" tabindex="0" aria-label="Frame scrubber"
+        aria-valuemin={1} aria-valuemax={frames.length} aria-valuenow={1} >
+            <div class="fs-track-fill"/>
+            <div class="fs-ticks">
+                {frames.map((_, i) => <span class="fs-tick" data-tick={i}></span>)}
+            </div>
+            <div class="fs-handle"/>
+        </div>
+    </div>
+</div>
+
+<style>
+    .frame-sequence {
+        margin: 1.5rem 0;
+        --fs-accent: var(--accent);
+        --fs-track-bg: var(--comp-bg-gray);
+        --fs-tick-color: var(--comp-border-gray);
+    }
+
+    .fs-stage {
+        position: relative;
+        width: 100%;
+        aspect-ratio: var(--aspect);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: black;
+    }
+
+    .fs-frame {
+        position: absolute;
+        inset: 0;
+    }
+
+    .fs-frame img,
+    .fs-frame :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .fs-frame-counter {
+        position: absolute;
+        bottom: 0.6rem;
+        right: 0.7rem;
+        padding: 0.2rem 0.55rem;
+        font-size: 0.72rem;
+        font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+        border-radius: 0.3rem;
+        background: rgba(0, 0, 0, 0.55);
+        color: #fff;
+        pointer-events: none;
+    }
+
+    /*     CONTROLS       */
+
+    .fs-controls {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 0.65rem;
+    }
+
+    .fs-play {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        border: none;
+        background: var(--fs-play-bg, rgba(0, 0, 0, 0.08));
+        color: var(--fs-play-color, currentColor);
+        cursor: pointer;
+    }
+
+    .fs-play:hover {
+        background: var(--fs-play-hover-bg, rgba(0, 0, 0, 0.14));
+    }
+
+    .fs-play :global(.icon-pause) {
+        display: none;
+    }
+
+    .fs-play.is-playing :global(.icon-play) {
+        display: none;
+    }
+
+    .fs-play.is-playing :global(.icon-pause) {
+        display: block;
+    }
+
+    /*      TRACK       */
+    .fs-track {
+        position: relative;
+        flex: 1;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        touch-action: none;
+    }
+
+    .fs-track-fill,
+    .fs-track::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 3px;
+        transform: translateY(-50%);
+        border-radius: 2px;
+        background: var(--fs-track-bg);
+    }
+
+    .fs-track-fill {
+        right: auto;
+        width: 0%;
+        background: var(--fs-accent);
+        z-index: 1;
+    }
+
+    /*      TICKS       */
+    .fs-ticks {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        pointer-events: none;
+    }
+
+    .fs-tick {
+        width: 2px;
+        height: 7px;
+        border-radius: 1px;
+        background: var(--fs-tick-color);
+    }
+
+    .fs-handle {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 50%;
+        background: var(--fs-accent);
+        box-shadow: 0 0 0 3px var(--fs-handle-ring, rgba(255, 255, 255, 0.9));
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .fs-track:focus-visible .fs-handle {
+        outline: 2px solid var(--fs-accent);
+        outline-offset: 2px;
+    }
+    
+</style>
+
+<script>
+
+    function initFrameSequence(root: HTMLElement) {
+        // Query once, narrow once. Reading these as possibly-null and then
+        // using them inside nested closures (setFrame, play, pause, etc.)
+        // defeats TypeScript's narrowing — a closure could in principle run
+        // after the elements changed, so TS won't carry a `null` check from
+        // an outer `if` into a function declared below it. The fix is below:
+        // re-bind to fresh non-null-typed consts once, right after the guard,
+        // so every closure declared after that point sees the non-null type.
+        function required<T extends Element>(selector: string): T | null {
+            return root.querySelector<T>(selector);
+        }
+
+        const stage = required<HTMLElement>('.fs-stage');
+        const frameEls = Array.from(root.querySelectorAll<HTMLElement>('.fs-frame'));
+        const track = required<HTMLElement>('.fs-track');
+        const fill = required<HTMLElement>('.fs-track-fill');
+        const handle = required<HTMLElement>('.fs-handle');
+        const playBtn = required<HTMLButtonElement>('.fs-play');
+        const counter = required<HTMLElement>('.fs-current');
+
+        if (!stage || !track || !fill || !handle || !playBtn || frameEls.length === 0) {
+            return;
+        }
+
+        // From this point on, re-bind to non-null-typed locals. The guard
+        // above already proved these aren't null at runtime; re-declaring
+        // them (rather than reusing the same names) gives TypeScript fresh
+        // bindings whose type carries into every closure below, including
+        // ones declared and called much later in this function.
+        const trackEl: HTMLElement = track;
+        const fillEl: HTMLElement = fill;
+        const handleEl: HTMLElement = handle;
+        const playBtnEl: HTMLButtonElement = playBtn;
+        const counterEl: HTMLElement | null = counter;
+
+        const total = frameEls.length;
+        const interval = parseInt(root.dataset.interval ?? '83', 10);
+        const loop = root.dataset.loop === 'true';
+        const autoplay = root.dataset.autoplay === 'true';
+
+        let current = 0;
+        let playing = false;
+        let timer: ReturnType<typeof setInterval> | null = null;
+
+        function setFrame(index: number) {
+            current = Math.max(0, Math.min(total - 1, index));
+            frameEls.forEach((el, i) => {
+                el.hidden = i !== current;
+            });
+            const pct = total > 1 ? (current / (total - 1)) * 100 : 0;
+            fillEl.style.width = `${pct}%`;
+            handleEl.style.left = `${pct}%`;
+            trackEl.setAttribute('aria-valuenow', String(current + 1));
+            if (counterEl) counterEl.textContent = String(current + 1);
+        }
+
+        function stepForward() {
+            if (current >= total - 1) {
+                if (loop) {
+                setFrame(0);
+                } else {
+                pause();
+                }
+            } else {
+                setFrame(current + 1);
+            }
+        }
+
+        function play() {
+            if (playing || total <= 1) return;
+            playing = true;
+            playBtnEl.classList.add('is-playing');
+            playBtnEl.setAttribute('aria-label', 'Pause');
+            timer = setInterval(stepForward, interval);
+        }
+
+        function pause() {
+            playing = false;
+            playBtnEl.classList.remove('is-playing');
+            playBtnEl.setAttribute('aria-label', 'Play');
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        playBtnEl.addEventListener('click', () => {
+            playing ? pause() : play();
+        });
+
+        function setFromClientX(clientX: number) {
+            const rect = trackEl.getBoundingClientRect();
+            const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+            setFrame(Math.round(pct * (total - 1)));
+        }
+
+        let dragging = false;
+
+        trackEl.addEventListener('pointerdown', (e) => {
+            dragging = true;
+            pause();
+            setFromClientX(e.clientX);
+            trackEl.setPointerCapture(e.pointerId);
+        });
+
+        trackEl.addEventListener('pointermove', (e) => {
+            if (!dragging) return;
+            setFromClientX(e.clientX);
+        });
+
+        trackEl.addEventListener('pointerup', (e) => {
+            dragging = false;
+            try { trackEl.releasePointerCapture(e.pointerId); } catch {}
+        });
+
+        trackEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                pause();
+                setFrame(current + 1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                pause();
+                setFrame(current - 1);
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                playing ? pause() : play();
+            }
+        });
+
+        setFrame(0);
+        if (autoplay) play();
+    }
+
+  document.querySelectorAll<HTMLElement>('.frame-sequence').forEach(initFrameSequence);
+</script>
