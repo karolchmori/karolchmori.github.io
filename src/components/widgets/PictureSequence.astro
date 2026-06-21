@@ -26,7 +26,7 @@ import Picture from './Picture.astro';
 
 interface Frame {
   src: ImageMetadata | string;
-  alt: string;
+  alt?: string;
 }
 
 interface Props {
@@ -35,9 +35,10 @@ interface Props {
   loop?: boolean;
   autoplay?: boolean;
   aspectRatio?: string;
+  showLabel?: boolean;
 }
 
-const { frames, fps = 6, loop = true, autoplay = false, aspectRatio = '16 / 9' } = Astro.props;
+const { frames, fps = 6, loop = true, autoplay = false, aspectRatio = '16 / 9', showLabel = true } = Astro.props;
 
 const uid = `fs-${Math.random().toString(36).slice(2, 9)}`;
 const frameInterval = Math.round(1000 / fps);
@@ -54,6 +55,7 @@ const frameInterval = Math.round(1000 / fps);
                 </div>
             );
         })}
+        {showLabel && <span class="fs-frame-label" hidden>&nbsp;</span>}
         <span class="fs-frame-counter"><span class="fs-current">1</span> / {frames.length}</span>
     </div>
 
@@ -104,10 +106,9 @@ const frameInterval = Math.round(1000 / fps);
         display: block;
     }
 
-    .fs-frame-counter {
+    .fs-frame-counter,
+    .fs-frame-label {
         position: absolute;
-        bottom: 0.6rem;
-        right: 0.7rem;
         padding: 0.2rem 0.55rem;
         font-size: 0.72rem;
         font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
@@ -115,6 +116,20 @@ const frameInterval = Math.round(1000 / fps);
         background: rgba(0, 0, 0, 0.55);
         color: #fff;
         pointer-events: none;
+    }
+ 
+    .fs-frame-counter {
+        bottom: 0.6rem;
+        right: 0.7rem;
+    }
+
+    .fs-frame-label {
+        top: 0.6rem;
+        left: 0.7rem;
+        max-width: calc(100% - 1.4rem);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     /*     CONTROLS       */
@@ -230,11 +245,6 @@ const frameInterval = Math.round(1000 / fps);
     function initFrameSequence(root: HTMLElement) {
         // Query once, narrow once. Reading these as possibly-null and then
         // using them inside nested closures (setFrame, play, pause, etc.)
-        // defeats TypeScript's narrowing — a closure could in principle run
-        // after the elements changed, so TS won't carry a `null` check from
-        // an outer `if` into a function declared below it. The fix is below:
-        // re-bind to fresh non-null-typed consts once, right after the guard,
-        // so every closure declared after that point sees the non-null type.
         function required<T extends Element>(selector: string): T | null {
             return root.querySelector<T>(selector);
         }
@@ -246,6 +256,7 @@ const frameInterval = Math.round(1000 / fps);
         const handle = required<HTMLElement>('.fs-handle');
         const playBtn = required<HTMLButtonElement>('.fs-play');
         const counter = required<HTMLElement>('.fs-current');
+        const label = required<HTMLElement>('.fs-frame-label');
 
         if (!stage || !track || !fill || !handle || !playBtn || frameEls.length === 0) {
             return;
@@ -261,11 +272,13 @@ const frameInterval = Math.round(1000 / fps);
         const handleEl: HTMLElement = handle;
         const playBtnEl: HTMLButtonElement = playBtn;
         const counterEl: HTMLElement | null = counter;
+        const labelEl: HTMLElement | null = label;
 
         const total = frameEls.length;
         const interval = parseInt(root.dataset.interval ?? '83', 10);
         const loop = root.dataset.loop === 'true';
         const autoplay = root.dataset.autoplay === 'true';
+        const labels = labelEl ? frameEls.map((el) => el.querySelector('img')?.alt ?? '') : [];
 
         let current = 0;
         let playing = false;
@@ -281,14 +294,20 @@ const frameInterval = Math.round(1000 / fps);
             handleEl.style.left = `${pct}%`;
             trackEl.setAttribute('aria-valuenow', String(current + 1));
             if (counterEl) counterEl.textContent = String(current + 1);
+
+            if (labelEl) {
+                const currentLabel = labels[current] ?? '';
+                labelEl.hidden = currentLabel.trim().length === 0;
+                labelEl.textContent = currentLabel;
+            }
         }
 
         function stepForward() {
             if (current >= total - 1) {
                 if (loop) {
-                setFrame(0);
+                    setFrame(0);
                 } else {
-                pause();
+                    pause();
                 }
             } else {
                 setFrame(current + 1);
