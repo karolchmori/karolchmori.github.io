@@ -3,20 +3,23 @@ import { Image } from 'astro:assets';
 import { resolveImage, type ImageSource } from '../../lib/image';
 
 interface Props {
-  src: ImageSource;
-  alt?: string;
-  loading?: 'eager' | 'lazy';
-  draggable?: boolean;
-  clickOn?: boolean;
-  class?: string;
+    src: ImageSource;
+    alt?: string;
+    loading?: 'eager' | 'lazy';
+    draggable?: boolean;
+    clickOn?: boolean;
+    class?: string;
+    allowCaption?: boolean;
+    positionCaption?: 'left' | 'center' | 'right';
 }
 
-const { src, alt = '', loading = 'lazy', draggable, class: className, clickOn = false } = Astro.props;
+const { src, alt = '', loading = 'lazy', draggable, class: className, clickOn = false, allowCaption = false,
+  positionCaption = 'left' } = Astro.props;
 
 const resolved = resolveImage(src, 'src');
 const isLocal = typeof resolved !== 'string';
+const showCaption = allowCaption && alt;
 ---
-
 {clickOn ? (
     <button type="button" class="picture-trigger" data-click-modal="true" aria-label={alt ? `Open image: ${alt}` : 'Open image'} >
         {isLocal ? (
@@ -31,6 +34,9 @@ const isLocal = typeof resolved !== 'string';
     ) : (
         <img src={resolved as string} alt={alt} loading={loading} draggable={draggable} class={className} />
     )
+)}
+{showCaption && (
+      <figcaption class="picture-caption" data-align={positionCaption}>{alt}</figcaption>
 )}
 
 <style>
@@ -48,6 +54,25 @@ const isLocal = typeof resolved !== 'string';
     .picture-trigger:focus-visible {
         outline: 2px solid currentColor;
         outline-offset: 2px;
+    }
+
+    .picture-caption {
+        font-size: 0.875rem;
+        line-height: 1.4;
+        color: var(--text-secondary, currentColor);
+        font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    }
+
+    .picture-caption[data-align="left"] {
+        text-align: left;
+    }
+
+    .picture-caption[data-align="center"] {
+        text-align: center;
+    }
+
+    .picture-caption[data-align="right"] {
+        text-align: right;
     }
 </style>
 
