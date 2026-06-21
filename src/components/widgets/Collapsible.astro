@@ -64,11 +64,6 @@ const { title, defaultOpen = false, icon = true } = Astro.props;
         user-select: none;
     }
 
-
-    .collapsible-summary:hover {
-        background: var(--col-summary-hover-bg);
-    }
-
     .collapsible-title {
         opacity: 0.8;
     }
@@ -97,6 +92,12 @@ const { title, defaultOpen = false, icon = true } = Astro.props;
 
     .collapsible-content :global(p:last-child) {
         margin-bottom: 0;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .collapsible-summary:hover {
+            background: var(--col-summary-hover-bg);
+        }
     }
 
 
