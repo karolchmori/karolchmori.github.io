@@ -1,12 +1,8 @@
 ---
 /**
  * VideoPlayer.astro
- * Plays a locally-hosted video file with custom controls, matching the
- * same visual language as PictureSequence/CodeBlock/MediaGrid: a dark
- * stage, a thin scrub track with fill + handle below it, and a round
- * play/pause button. For YouTube/Vimeo, use VideoEmbed instead — this
- * component is for actual video files you host yourself.
- *
+ * Plays a local video.
+ * 
  * Usage:
  * <VideoPlayer src="./demo.mp4" />
  *
@@ -36,7 +32,7 @@ interface Props {
   defaultVolume?: number; // 0–1
 }
 
-const { src,  poster, aspectRatio = '16 / 9', loop = false, muted = false, autoplay = false, playsinline = true, defaultVolume = 1, } = Astro.props;
+const { src,  poster, aspectRatio = '16 / 9', loop = false, muted = false, autoplay = false, playsinline = true, defaultVolume = 0.5, } = Astro.props;
 
 const resolvedSrc = resolveLocalVideo(src, 'src');
 const uid = `vp-${Math.random().toString(36).slice(2, 9)}`;
@@ -253,7 +249,7 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
         height: 3px;
         transform: translateY(-50%);
         border-radius: 2px;
-        background: var(--vp-track-bg);
+        background: var(--comp-border-gray);
     }
 
     .vp-volume-fill {
@@ -292,7 +288,7 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
         return `${mins}:${String(secs).padStart(2, '0')}`;
     }
 
-  function initVideoPlayer(root: HTMLElement) {
+    function initVideoPlayer(root: HTMLElement) {
         function required<T extends Element>(selector: string): T | null {
             return root.querySelector<T>(selector);
         }
@@ -375,23 +371,12 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
             }
         });
 
-        // --- Mute display only (the mute STATE is now fully driven by the
-        // volume slider — dragging to 0 mutes, dragging above 0 unmutes;
-        // see updateVolumeUI/setVolumeFromClientX below). This function
-        // just keeps the speaker icon in sync with that state. ------------
 
         function updateMuteUI() {
             muteBtnEl.classList.toggle('is-muted', videoEl.muted);
             muteBtnEl.setAttribute('aria-label', videoEl.muted ? 'Unmute' : 'Mute');
         }
 
-        // --- Volume slider disclosure --------------------------------------
-        // Hover opens it on devices that support hover (desktop pointer);
-        // touch devices have no hover event at all, so a click on the
-        // speaker icon also toggles it open/closed — that's the only way
-        // in on touch, and a convenient shortcut on desktop too. The
-        // speaker icon no longer mutes directly on click; mute is purely
-        // "drag the slider to 0," matching a hardware volume knob.
 
         function openVolumePopout() {
             volumePopoutEl.hidden = false;
@@ -412,11 +397,6 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
             }
         });
 
-        // A short delay before closing on mouseleave — even with zero gap
-        // between the button and the popout (see CSS above), real mouse
-        // movement isn't pixel-perfect, especially moving diagonally or
-        // on a trackpad. The delay gives a brief grace period; re-entering
-        // before it fires (e.g. landing on the popout) cancels the close.
         let closeTimer: ReturnType<typeof setTimeout> | null = null;
 
         volumeGroupEl.addEventListener('mouseenter', () => {
@@ -457,10 +437,7 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
             const rect = volumeTrackEl.getBoundingClientRect();
             const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
             videoEl.volume = pct;
-            // Dragging the slider above zero implicitly unmutes — dragging
-            // it to exactly zero mutes. Matches how a hardware volume knob
-            // behaves, and keeps `videoEl.muted` and `videoEl.volume`
-            // consistent with each other instead of drifting apart.
+
             videoEl.muted = pct === 0;
             updateVolumeUI();
             updateMuteUI();
@@ -490,15 +467,15 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
                 e.preventDefault();
                 videoEl.volume = Math.min(1, videoEl.volume + step);
                 videoEl.muted = false;
-                updateVolumeUI();
-                updateMuteUI();
             } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
                 e.preventDefault();
                 videoEl.volume = Math.max(0, videoEl.volume - step);
                 videoEl.muted = videoEl.volume === 0;
-                updateVolumeUI();
-                updateMuteUI();
             }
+
+            updateVolumeUI();
+            updateMuteUI();
+
         });
 
         updateVolumeUI();
@@ -554,5 +531,5 @@ const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
     }
 
     document.querySelectorAll<HTMLElement>('.video-player').forEach(initVideoPlayer);
-    
+
 </script>
