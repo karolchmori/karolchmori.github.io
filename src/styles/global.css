@@ -16,6 +16,7 @@
 	--accent-dark: #702657;
 	--black: #161A20;
 	--gray: #24292E;
+	--gray-medium:#5a5a68; 
 	--gray-light: #9ea7b3;
 	--gray-dark: #262124;
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;

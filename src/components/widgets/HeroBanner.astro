@@ -23,7 +23,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		{description && <p class="hero-banner-description">{description}</p>}
 		{(software || stack.length > 0) && (
 			<div class="hero-banner-tags">
-				{software && <span class="tag tag-accent">{software}</span>}
+				{software && <span class="tag tag-software">{software}</span>}
 				{stack.map((item) => (
 					<span class="tag">{item}</span>
 				))}
@@ -37,8 +37,8 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		display: flex;
 		align-items: center;
 		gap: 1.25rem;
-		width: 95%;
-		padding: 1.25rem 1.5rem;
+		width: 100%;
+		padding: 1.25rem 1.25rem;
 		background: var(--comp-bg-white);
 		border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
 		border-start-start-radius: 14px;
@@ -70,14 +70,15 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		margin: 0;
 		font-size: 1.4rem;
 		font-weight: 600;
-		color: var(--color-text-primary, #1c1c28);
+		color: var(--black);
+		font-stretch: semi-condensed;
 	}
 
 	.hero-banner-description {
-		margin-right: 0.5rem;
+		margin-right: 2.5rem;
 		margin-top: 0.25rem;
-		font-size: 1rem;
-		color: var(--color-text-secondary, #5a5a68);
+		font-size: 0.95rem;
+		color: var(--gray-medium);
 	}
 
 	.hero-banner-tags {
@@ -91,14 +92,14 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		padding: 0.15rem 0.55rem;
 		border-radius: 6px;
 		background: var(--comp-bg-gray);
-		color: var(--color-text-secondary, #5a5a68);
+		color: var(--gray-medium);
 	}
 
-	.tag-accent {
+	.tag-software {
 		background: var(--comp-bg-gray);
-		color: var(--accent-light);
-		opacity: 0.8;
-		font-weight: 600;
+		font-size: 0.85rem !important;
+		color: var(--accent) !important;
+		font-weight: 500;
 	}
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
