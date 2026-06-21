@@ -13,7 +13,7 @@
  * `mdxComponents` per Astro's MDX docs. See the bottom of this file.
  */
 
-export { default as CompareImage } from './widgets/CompareImage.astro';
+export { default as PictureCompare } from './widgets/PictureCompare.astro';
 export { default as DynamicTable } from './widgets/DynamicTable.astro';
 export { default as Callout } from './widgets/Callout.astro';
 export { default as IconList } from './widgets/IconList.astro';
