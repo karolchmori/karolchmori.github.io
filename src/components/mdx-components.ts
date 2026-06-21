@@ -26,6 +26,7 @@ export { default as Picture } from './widgets/Picture.astro';
 
 
 export { default as VideoEmbed } from './widgets/VideoEmbed.astro';
+export { default as VideoPlayer } from './widgets/VideoPlayer.astro';
 export { default as HorizontalCarousel } from './widgets/HorizontalCarousel.astro';
 
 

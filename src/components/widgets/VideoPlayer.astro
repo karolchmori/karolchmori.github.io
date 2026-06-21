@@ -1,0 +1,558 @@
+---
+/**
+ * VideoPlayer.astro
+ * Plays a locally-hosted video file with custom controls, matching the
+ * same visual language as PictureSequence/CodeBlock/MediaGrid: a dark
+ * stage, a thin scrub track with fill + handle below it, and a round
+ * play/pause button. For YouTube/Vimeo, use VideoEmbed instead — this
+ * component is for actual video files you host yourself.
+ *
+ * Usage:
+ * <VideoPlayer src="./demo.mp4" />
+ *
+ * <VideoPlayer
+ *   src="./turntable.mp4"
+ *   poster="./turntable-poster.jpg"
+ *   loop
+ *   muted
+ *   autoplay
+ *   defaultVolume={0.7}
+ * />
+ *
+ */
+import Icon from './Icon.astro';
+import { resolveLocalVideo } from '../../lib/video';
+
+type VideoSource = string; // local video files aren't ImageMetadata; always a path/URL
+
+interface Props {
+  src: VideoSource;
+  poster?: string;
+  aspectRatio?: string;
+  loop?: boolean;
+  muted?: boolean;
+  autoplay?: boolean;
+  playsinline?: boolean;
+  defaultVolume?: number; // 0–1
+}
+
+const { src,  poster, aspectRatio = '16 / 9', loop = false, muted = false, autoplay = false, playsinline = true, defaultVolume = 1, } = Astro.props;
+
+const resolvedSrc = resolveLocalVideo(src, 'src');
+const uid = `vp-${Math.random().toString(36).slice(2, 9)}`;
+const clampedVolume = Math.min(1, Math.max(0, defaultVolume));
+---
+
+<div class="video-player" id={uid} style={`--aspect: ${aspectRatio};`} data-loop={loop} data-volume={clampedVolume} >
+    <div class="vp-stage">
+        <video class="vp-video" src={resolvedSrc} poster={poster} loop={loop} muted={muted} autoplay={autoplay}
+        playsinline={playsinline} preload="metadata" />
+    </div>
+
+    <div class="vp-controls">
+        <button type="button" class="vp-play" aria-label="Play">
+            <Icon class="icon-play" name="play" size={16} />
+            <Icon class="icon-pause" name="pause" size={16} />
+        </button>
+
+        <span class="vp-time vp-time-current">0:00</span>
+
+        <div class="vp-track" role="slider" tabindex="0" aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={0} >
+            <div class="vp-track-fill"></div>
+            <div class="vp-handle" style="left: 0%"></div>
+        </div>
+
+        <span class="vp-time vp-time-duration">0:00</span>
+
+        <div class="vp-volume-group">
+            <button type="button" class="vp-mute" aria-label="Mute" aria-expanded="false">
+                <Icon class="icon-volume" name="volume" size={16} />
+                <Icon class="icon-muted" name="volume-muted" size={16} />
+            </button>
+
+            <div class="vp-volume-popout" hidden>
+                <div class="vp-volume-track" role="slider" tabindex="0" aria-label="Volume"
+                aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(clampedVolume * 100)} >
+                    <div class="vp-volume-fill"></div>
+                    <div class="vp-volume-handle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .video-player {
+        margin: 1.5rem 0;
+        --vp-accent: var(--accent);
+        --vp-track-bg: var(--comp-bg-gray);
+    }
+
+    .vp-stage {
+        position: relative;
+        width: 100%;
+        aspect-ratio: var(--aspect);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: black;
+    }
+
+    .vp-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /*     CONTROLS       */
+
+    .vp-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.65rem;
+    }
+
+    .vp-play,
+    .vp-mute {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        border: none;
+        background: var(--vp-play-bg, rgba(0, 0, 0, 0.08));
+        color: var(--vp-play-color, currentColor);
+        cursor: pointer;
+    }
+
+    .vp-play:hover,
+    .vp-mute:hover {
+        background: var(--vp-play-hover-bg, rgba(0, 0, 0, 0.14));
+    }
+
+    .vp-play :global(.icon-pause),
+    .vp-mute :global(.icon-muted) {
+        display: none;
+    }
+
+    .vp-play.is-playing :global(.icon-play) {
+        display: none;
+    }
+
+    .vp-play.is-playing :global(.icon-pause) {
+        display: block;
+    }
+
+    .vp-mute.is-muted :global(.icon-volume) {
+        display: none;
+    }
+
+    .vp-mute.is-muted :global(.icon-muted) {
+        display: block;
+    }
+
+    .vp-time {
+        flex-shrink: 0;
+        font-size: 0.78rem;
+        font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+        color: var(--vp-time-color, currentColor);
+        opacity: 0.75;
+        min-width: 2.6em;
+        text-align: center;
+    }
+
+    /*      TRACK       */
+    .vp-track {
+        position: relative;
+        flex: 1;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        touch-action: none;
+    }
+
+    .vp-track-fill,
+    .vp-track::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 3px;
+        transform: translateY(-50%);
+        border-radius: 2px;
+        background: var(--vp-track-bg);
+    }
+
+    .vp-track-fill {
+        right: auto;
+        width: 0%;
+        background: var(--vp-accent);
+        z-index: 1;
+    }
+
+    .vp-handle {
+        position: absolute;
+        top: 50%;
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 50%;
+        background: var(--vp-accent);
+        box-shadow: 0 0 0 3px var(--vp-handle-ring, rgba(255, 255, 255, 0.9));
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .vp-track:focus-visible .vp-handle {
+        outline: 2px solid var(--vp-accent);
+        outline-offset: 2px;
+    }
+
+    /*      VOLUME       */
+    .vp-volume-group {
+        position: relative;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.15rem;
+    }
+
+    .vp-volume-popout {
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        padding: 0.6rem 0.75rem;
+        border-radius: 0.4rem;
+        background: var(--vp-popout-bg, var(--comp-bg-gray, #2a2a2a));
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        z-index: 3;
+    }
+
+    .vp-volume-track {
+        position: relative;
+        width: 80px;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        touch-action: none;
+    }
+
+    .vp-volume-fill,
+    .vp-volume-track::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 3px;
+        transform: translateY(-50%);
+        border-radius: 2px;
+        background: var(--vp-track-bg);
+    }
+
+    .vp-volume-fill {
+        right: auto;
+        width: 100%;
+        background: var(--vp-accent);
+        z-index: 1;
+    }
+
+    .vp-volume-handle {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background: var(--vp-accent);
+        box-shadow: 0 0 0 2px var(--vp-handle-ring, rgba(255, 255, 255, 0.9));
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .vp-volume-track:focus-visible .vp-volume-handle {
+        outline: 2px solid var(--vp-accent);
+        outline-offset: 2px;
+    }
+
+</style>
+
+<script>
+    function formatTime(seconds: number): string {
+        if (!isFinite(seconds) || seconds < 0) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${String(secs).padStart(2, '0')}`;
+    }
+
+  function initVideoPlayer(root: HTMLElement) {
+        function required<T extends Element>(selector: string): T | null {
+            return root.querySelector<T>(selector);
+        }
+
+        const video = required<HTMLVideoElement>('.vp-video');
+        const playBtn = required<HTMLButtonElement>('.vp-play');
+        const muteBtn = required<HTMLButtonElement>('.vp-mute');
+        const volumeGroup = required<HTMLElement>('.vp-volume-group');
+        const volumePopout = required<HTMLElement>('.vp-volume-popout');
+        const volumeTrack = required<HTMLElement>('.vp-volume-track');
+        const volumeFill = required<HTMLElement>('.vp-volume-fill');
+        const volumeHandle = required<HTMLElement>('.vp-volume-handle');
+        const track = required<HTMLElement>('.vp-track');
+        const fill = required<HTMLElement>('.vp-track-fill');
+        const handle = required<HTMLElement>('.vp-handle');
+        const currentTimeEl = required<HTMLElement>('.vp-time-current');
+        const durationEl = required<HTMLElement>('.vp-time-duration');
+
+        if ( !video || !playBtn || !muteBtn || !volumeGroup || !volumePopout ||
+        !volumeTrack || !volumeFill || !volumeHandle || !track || !fill ||
+        !handle || !currentTimeEl || !durationEl ) {
+            return;
+        }
+
+        const videoEl: HTMLVideoElement = video;
+        const playBtnEl: HTMLButtonElement = playBtn;
+        const muteBtnEl: HTMLButtonElement = muteBtn;
+        const volumeGroupEl: HTMLElement = volumeGroup;
+        const volumePopoutEl: HTMLElement = volumePopout;
+        const volumeTrackEl: HTMLElement = volumeTrack;
+        const volumeFillEl: HTMLElement = volumeFill;
+        const volumeHandleEl: HTMLElement = volumeHandle;
+        const trackEl: HTMLElement = track;
+        const fillEl: HTMLElement = fill;
+        const handleEl: HTMLElement = handle;
+        const currentTimeNode: HTMLElement = currentTimeEl;
+        const durationNode: HTMLElement = durationEl;
+
+        // Initial volume comes from the `defaultVolume` prop.
+        const initialVolume = parseFloat(root.dataset.volume ?? '1');
+        videoEl.volume = Number.isFinite(initialVolume) ? initialVolume : 1;
+
+        function updateProgress() {
+            const duration = videoEl.duration || 0;
+            const pct = duration > 0 ? (videoEl.currentTime / duration) * 100 : 0;
+            fillEl.style.width = `${pct}%`;
+            handleEl.style.left = `${pct}%`;
+            trackEl.setAttribute('aria-valuenow', String(Math.round(pct)));
+            currentTimeNode.textContent = formatTime(videoEl.currentTime);
+        }
+
+        videoEl.addEventListener('loadedmetadata', () => {
+            durationNode.textContent = formatTime(videoEl.duration);
+        });
+
+        videoEl.addEventListener('timeupdate', updateProgress);
+
+        videoEl.addEventListener('play', () => {
+            playBtnEl.classList.add('is-playing');
+            playBtnEl.setAttribute('aria-label', 'Pause');
+        });
+
+        videoEl.addEventListener('pause', () => {
+            playBtnEl.classList.remove('is-playing');
+            playBtnEl.setAttribute('aria-label', 'Play');
+        });
+
+        videoEl.addEventListener('ended', () => {
+            if (root.dataset.loop !== 'true') {
+                playBtnEl.classList.remove('is-playing');
+                playBtnEl.setAttribute('aria-label', 'Play');
+            }
+        });
+
+        playBtnEl.addEventListener('click', () => {
+            if (videoEl.paused) {
+                videoEl.play();
+            } else {
+                videoEl.pause();
+            }
+        });
+
+        // --- Mute display only (the mute STATE is now fully driven by the
+        // volume slider — dragging to 0 mutes, dragging above 0 unmutes;
+        // see updateVolumeUI/setVolumeFromClientX below). This function
+        // just keeps the speaker icon in sync with that state. ------------
+
+        function updateMuteUI() {
+            muteBtnEl.classList.toggle('is-muted', videoEl.muted);
+            muteBtnEl.setAttribute('aria-label', videoEl.muted ? 'Unmute' : 'Mute');
+        }
+
+        // --- Volume slider disclosure --------------------------------------
+        // Hover opens it on devices that support hover (desktop pointer);
+        // touch devices have no hover event at all, so a click on the
+        // speaker icon also toggles it open/closed — that's the only way
+        // in on touch, and a convenient shortcut on desktop too. The
+        // speaker icon no longer mutes directly on click; mute is purely
+        // "drag the slider to 0," matching a hardware volume knob.
+
+        function openVolumePopout() {
+            volumePopoutEl.hidden = false;
+            muteBtnEl.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeVolumePopout() {
+            volumePopoutEl.hidden = true;
+            muteBtnEl.setAttribute('aria-expanded', 'false');
+        }
+
+        muteBtnEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (volumePopoutEl.hidden) {
+                openVolumePopout();
+            } else {
+                closeVolumePopout();
+            }
+        });
+
+        // A short delay before closing on mouseleave — even with zero gap
+        // between the button and the popout (see CSS above), real mouse
+        // movement isn't pixel-perfect, especially moving diagonally or
+        // on a trackpad. The delay gives a brief grace period; re-entering
+        // before it fires (e.g. landing on the popout) cancels the close.
+        let closeTimer: ReturnType<typeof setTimeout> | null = null;
+
+        volumeGroupEl.addEventListener('mouseenter', () => {
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+                closeTimer = null;
+            }
+            openVolumePopout();
+        });
+
+        volumeGroupEl.addEventListener('mouseleave', () => {
+            closeTimer = setTimeout(closeVolumePopout, 150);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (volumePopoutEl.hidden) return;
+            if (!volumeGroupEl.contains(e.target as Node)) {
+                closeVolumePopout();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !volumePopoutEl.hidden) {
+                closeVolumePopout();
+            }
+        });
+
+        // --- Volume level ---------------------------------------------------
+
+        function updateVolumeUI() {
+            const pct = videoEl.muted ? 0 : videoEl.volume * 100;
+            volumeFillEl.style.width = `${pct}%`;
+            volumeHandleEl.style.left = `${pct}%`;
+            volumeTrackEl.setAttribute('aria-valuenow', String(Math.round(pct)));
+        }
+
+        function setVolumeFromClientX(clientX: number) {
+            const rect = volumeTrackEl.getBoundingClientRect();
+            const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+            videoEl.volume = pct;
+            // Dragging the slider above zero implicitly unmutes — dragging
+            // it to exactly zero mutes. Matches how a hardware volume knob
+            // behaves, and keeps `videoEl.muted` and `videoEl.volume`
+            // consistent with each other instead of drifting apart.
+            videoEl.muted = pct === 0;
+            updateVolumeUI();
+            updateMuteUI();
+        }
+
+        let draggingVolume = false;
+
+        volumeTrackEl.addEventListener('pointerdown', (e) => {
+            draggingVolume = true;
+            setVolumeFromClientX(e.clientX);
+            volumeTrackEl.setPointerCapture(e.pointerId);
+        });
+
+        volumeTrackEl.addEventListener('pointermove', (e) => {
+            if (!draggingVolume) return;
+            setVolumeFromClientX(e.clientX);
+        });
+
+        volumeTrackEl.addEventListener('pointerup', (e) => {
+            draggingVolume = false;
+            try { volumeTrackEl.releasePointerCapture(e.pointerId); } catch {}
+        });
+
+        volumeTrackEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            const step = 0.1;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                videoEl.volume = Math.min(1, videoEl.volume + step);
+                videoEl.muted = false;
+                updateVolumeUI();
+                updateMuteUI();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                videoEl.volume = Math.max(0, videoEl.volume - step);
+                videoEl.muted = videoEl.volume === 0;
+                updateVolumeUI();
+                updateMuteUI();
+            }
+        });
+
+        updateVolumeUI();
+        updateMuteUI();
+
+        // --- Seek ----------------------------------------------------------
+
+        function seekFromClientX(clientX: number) {
+            const rect = trackEl.getBoundingClientRect();
+            const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+            const duration = videoEl.duration || 0;
+            videoEl.currentTime = pct * duration;
+            updateProgress();
+        }
+
+        let dragging = false;
+        let wasPlayingBeforeDrag = false;
+
+        trackEl.addEventListener('pointerdown', (e) => {
+            dragging = true;
+            wasPlayingBeforeDrag = !videoEl.paused;
+            videoEl.pause();
+            seekFromClientX(e.clientX);
+            trackEl.setPointerCapture(e.pointerId);
+        });
+
+        trackEl.addEventListener('pointermove', (e) => {
+            if (!dragging) return;
+            seekFromClientX(e.clientX);
+        });
+
+        trackEl.addEventListener('pointerup', (e) => {
+            dragging = false;
+            try { trackEl.releasePointerCapture(e.pointerId); } catch {}
+            if (wasPlayingBeforeDrag) videoEl.play();
+        });
+
+        trackEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            const step = 5; // seconds
+            if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                videoEl.currentTime = Math.min(videoEl.duration || 0, videoEl.currentTime + step);
+                updateProgress();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                videoEl.currentTime = Math.max(0, videoEl.currentTime - step);
+                updateProgress();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                videoEl.paused ? videoEl.play() : videoEl.pause();
+            }
+        });
+    }
+
+    document.querySelectorAll<HTMLElement>('.video-player').forEach(initVideoPlayer);
+    
+</script>
