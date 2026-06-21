@@ -10,7 +10,7 @@ import HeroBanner from '../components/widgets/HeroBanner.astro';
 
 type Props = CollectionEntry<'tool'>['data'];
 
-const { title, description, pubDate, thumbnail } = Astro.props;
+const { title, description, thumbnail, software, stack, pubDate } = Astro.props;
 ---
 
 <html lang="en">
@@ -22,7 +22,8 @@ const { title, description, pubDate, thumbnail } = Astro.props;
 		<div class="tool-page">
 			<main>
 				<article class="tool-container">
-					<HeroBanner thumbnail={thumbnail} title={title.toUpperCase()} />
+					<HeroBanner thumbnail={thumbnail} title={title.toUpperCase()} description={description}
+					software={software} stack={stack} />
 					<div class="prose">
 						<slot /> <!-- Done for Content -->
 					</div>
