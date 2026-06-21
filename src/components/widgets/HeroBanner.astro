@@ -47,7 +47,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 
 	.hero-banner-thumb {
 		flex-shrink: 0;
-		width: 16.5%;
+		width: 14%;
 		aspect-ratio: 1 / 1;
 		border-radius: 8px;
 		overflow: hidden;
@@ -100,5 +100,11 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		opacity: 0.8;
 		font-weight: 600;
 	}
+
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .hero-banner-thumb {
+			display: none;
+		}
+    }
 
 </style>
