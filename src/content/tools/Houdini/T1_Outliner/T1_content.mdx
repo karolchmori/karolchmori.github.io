@@ -16,17 +16,6 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 
 
 
-<Columns>
-    <Column>
-        Some **markdown** text here, or any component.
-    </Column>
-    <Column >
-        <IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
-    </Column>
- </Columns>
-
-<Picture src={"./blog-placeholder-2.jpg"} alt="A nice view" clickOn />
-
 
 
 
@@ -65,6 +54,7 @@ Tool made for Houdini, calculates automatically outlines of given geometry based
 
 <PictureCompare before="./blog-placeholder-2.jpg" after="./blog-placeholder-3.jpg"/>
 
+<Picture src={"./blog-placeholder-2.jpg"} alt="A nice view" clickOn />
 
 
 
@@ -75,6 +65,16 @@ This tool only works with closed, manifold geometry.
 
 
 <VideoEmbed platform="youtube" idVideo="" />
+
+<Columns>
+    <Column>
+        Some **markdown** text here, or any component.
+    </Column>
+    <Column >
+        <IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
+    </Column>
+ </Columns>
+
 
 
 
