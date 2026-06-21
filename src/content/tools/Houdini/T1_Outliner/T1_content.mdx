@@ -54,6 +54,8 @@ Tool made for Houdini, calculates automatically outlines of given geometry based
 ![blog placeholder](./blog-placeholder-2.jpg)
 </Collapsible>
 
+
+
 <CodeBlock lang="py" title="outline.py" 
 code={`for pt in points:
     print(pt)
@@ -68,7 +70,7 @@ Tool made for Houdini, calculates automatically outlines of given geometry based
 
 
 
-<Callout type="note">
+<Callout type="warning">
 This tool only works with closed, manifold geometry.
 </Callout>
 
@@ -76,12 +78,16 @@ This tool only works with closed, manifold geometry.
 
 <VideoEmbed platform="youtube" idVideo="" />
 
-<Columns>
+<Columns stackOnMobile>
     <Column>
         Some **markdown** text here, or any component.
     </Column>
     <Column >
         <IconList items={[ "Select **geometry**", { text: "*Test*", iconColor: "blue" }, "`Tune` threshold" ]} />
+    </Column>
+    <Column>
+        <Picture src={"./blog-placeholder-2.jpg"} alt="Picture 1. A nice view" clickOn allowCaption/>
+
     </Column>
  </Columns>
 

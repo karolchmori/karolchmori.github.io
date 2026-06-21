@@ -21,7 +21,7 @@ interface Props {
     align?: 'start' | 'center' | 'stretch';
 }
 
-const { gap = '0.5rem', stackOnMobile = true, align = 'stretch' } = Astro.props;
+const { gap = '0.5rem', stackOnMobile = false, align = 'stretch' } = Astro.props;
 ---
 
 <div class="columns" class:list={[{ 'stack-mobile': stackOnMobile }]}

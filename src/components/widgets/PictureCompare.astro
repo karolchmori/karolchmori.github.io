@@ -123,11 +123,16 @@ const isVertical = direction === 'vertical';
         right: 0.75rem;
     }
 
+    .compare-image.vertical .tag-before {
+        top: 0.75rem;
+        bottom: auto;
+    }
+
     .compare-image.vertical .tag-after {
         left: 0.75rem;
         right: auto;
-        bottom: auto;
-        top: 0.75rem;
+        top: auto;
+        bottom: 0.75rem;
     }
 
 
@@ -175,6 +180,7 @@ const isVertical = direction === 'vertical';
         outline: 2px solid var(--ci-focus, #4f9eff);
         outline-offset: 2px;
     }
+
 </style>
 
 <script>
