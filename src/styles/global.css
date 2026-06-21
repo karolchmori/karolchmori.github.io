@@ -182,9 +182,12 @@ img {
 }
 
 code {
+
+
 	padding: 3px 7px;
-	background-color: var(--gray);
-	border-radius: 2px;
+	background-color: var(--comp-bg-gray);
+	border: 0.1px solid var(--comp-border-gray);
+	border-radius: 0.3rem;
 	color: var(--accent);
 	font-size: 0.9rem;
 
