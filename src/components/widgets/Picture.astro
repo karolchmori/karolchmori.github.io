@@ -7,17 +7,137 @@ interface Props {
   alt: string;
   loading?: 'eager' | 'lazy';
   draggable?: boolean;
+  clickOn?: boolean;
   class?: string;
 }
 
-const { src, alt, loading = 'lazy', draggable, class: className } = Astro.props;
+const { src, alt, loading = 'lazy', draggable, class: className, clickOn = false } = Astro.props;
 
 const resolved = resolveImage(src, 'src');
 const isLocal = typeof resolved !== 'string';
 ---
 
-{isLocal ? (
-    <Image src={resolved as ImageMetadata} alt={alt} draggable={draggable} class={className} />
+{clickOn ? (
+    <button type="button" class="picture-trigger" data-click-modal="true" aria-label={`Open image: ${alt}`} >
+        {isLocal ? (
+            <Image src={resolved as ImageMetadata} alt={alt} draggable={draggable} class={className} />
+        ) : (
+            <img src={resolved as string} alt={alt} loading={loading} draggable={draggable} class={className} />
+        )}
+     </button>
 ) : (
-    <img src={resolved as string} alt={alt} loading={loading} draggable={draggable} class={className} />
+    isLocal ? (
+        <Image src={resolved as ImageMetadata} alt={alt} draggable={draggable} class={className} />
+    ) : (
+        <img src={resolved as string} alt={alt} loading={loading} draggable={draggable} class={className} />
+    )
 )}
+
+<style>
+    .picture-trigger {
+        all: unset;
+        display: inline-block;
+        line-height: 0;
+        cursor: pointer;
+    }
+
+    .picture-trigger img {
+        cursor: pointer;
+    }
+
+    .picture-trigger:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+</style>
+
+
+<style is:global>
+    .picture-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: rgba(0, 0, 0, 0.85);
+        cursor: zoom-out;
+        animation: picture-modal-fade 0.15s ease-out;
+    }
+
+    .picture-modal-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        cursor: default;
+    }
+
+    @keyframes picture-modal-fade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+</style>
+
+<script>
+
+    if (!(window as any).__pictureModalInit) {
+        (window as any).__pictureModalInit = true;
+
+        let overlay: HTMLDivElement | null = null;
+        let lastFocused: HTMLElement | null = null;
+
+        function disableScroll() {
+            document.documentElement.style.overflow = 'hidden';
+        }
+        function enableScroll() {
+            document.documentElement.style.overflow = '';
+        }
+
+        function onKeydown(e: KeyboardEvent) {
+            if (e.key === 'Escape') closeModal();
+        }
+
+        function closeModal() {
+            if (!overlay) return;
+            overlay.remove();
+            overlay = null;
+            enableScroll();
+            document.removeEventListener('keydown', onKeydown);
+            lastFocused?.focus();
+        }
+
+        function openModal(trigger: HTMLElement) {
+            const img = trigger.querySelector('img');
+            if (!img) return;
+
+            lastFocused = trigger;
+
+            overlay = document.createElement('div');
+            overlay.className = 'picture-modal-overlay';
+            overlay.setAttribute('role', 'dialog');
+            overlay.setAttribute('aria-modal', 'true');
+
+            const fullImg = document.createElement('img');
+            fullImg.src = img.currentSrc || img.src;
+            fullImg.alt = img.alt;
+            fullImg.className = 'picture-modal-image';
+            overlay.appendChild(fullImg);
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeModal();
+            });
+
+            document.body.appendChild(overlay);
+            document.addEventListener('keydown', onKeydown);
+            disableScroll();
+        }
+
+        document.addEventListener('click', (e) => {
+            const trigger = (e.target as HTMLElement)?.closest('[data-click-modal="true"]');
+            if (trigger) openModal(trigger as HTMLElement);
+        });
+    }
+</script>
+
