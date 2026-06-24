@@ -47,7 +47,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
                 }
             </div>
             <div class="tool-card-description">
-                <h4>{title}</h4>
+                <h3>{title}</h3>
                 <p>{description}</p>
                 <div class="tool-card-stack">
                     {stack.map(tech => <StackBadge name={tech} />)}
@@ -144,7 +144,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
 
     .tool-card-stack {
         position: absolute; 
-        bottom: 1rem;
+        bottom: 0.9rem;
         left: 1.25rem;
         display: flex;
         flex-direction: row;
