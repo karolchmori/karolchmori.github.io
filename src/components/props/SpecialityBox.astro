@@ -1,0 +1,86 @@
+---
+
+
+import Icon from '../widgets/Icon.astro';
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const { title, description } = Astro.props;
+
+---
+
+<div class="speciality">
+    <div class="speciality-header">
+        <div class="speciality-icon" aria-hidden="true">
+            <Icon name="dot" size={20} />
+        </div>
+        <h5 class="speciality-title">{title}</h5>
+    </div>
+    <div class="speciality-content">
+        <p class="speciality-description">{description}</p>
+    </div>
+</div>
+
+<style>
+    .speciality {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 0.9rem 1rem;
+        border-radius: 0.6rem;
+        border: 0.5px solid var(--comp-border-gray);
+        background: transparent;
+    }
+
+
+    .speciality-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .speciality-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        color: var(--accent);
+    }
+
+    .speciality-title {
+        margin: 0;
+        font-weight: 700;
+        color: var(--black);
+        font-size: 0.90rem;
+    }
+
+    .speciality-content {
+        line-height: 1.7;
+        color: var(--gray-medium);
+        font-size: 0.80rem;
+    }
+
+    .speciality-content :global(p) {
+        margin: 0;
+    }
+
+    .speciality-content :global(p + p) {
+        margin-top: 0.5rem;
+    }
+
+    .speciality-content :global(a) {
+        text-decoration: underline;
+    }
+
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+	}
+
+ 
+
+</style>
