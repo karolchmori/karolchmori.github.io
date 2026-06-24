@@ -49,11 +49,8 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
             <div class="tool-card-description">
                 <h4>{title}</h4>
                 <p>{description}</p>
-                <div class="tool-card-footer">
-                    <div class="tool-card-stack">
-                        {stack.map(tech => <StackBadge name={tech} />)}
-                    </div>
-                    <a class="tool-card-more"></a>
+                <div class="tool-card-stack">
+                    {stack.map(tech => <StackBadge name={tech} />)}
                 </div>
             </div>
         </div>
@@ -110,16 +107,17 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         
     }
 
+    /*  Content  */
     .tool-card-information {
-        position: absolute;   /* ← add this */
-        inset: 0;             /* ← fill the card */
+        position: absolute;  
+        inset: 0;             
         display: flex;
         flex-direction: column;
-        z-index: 1;           /* ← sit above the CardFrame img */
+        z-index: 1;           
         overflow: hidden;
         border-radius: 14px;
-        
     }
+
 
 
     .tool-card-thumbnail {
@@ -140,30 +138,19 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     .tool-card-description {
         flex: 1;
         padding: 1rem;
+        position: relative;
     
     }
 
-    .tool-card-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: auto;
-    }
-
     .tool-card-stack {
+        position: absolute; 
+        bottom: 1rem;
+        left: 1.25rem;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 0.5em;
     }
-
-    .tool-card-more {
-        font-size: 0.75rem;
-        opacity: 0.7;
-        cursor: pointer;
-        color: black;
-    }
-
 
     /* Visibility status */
     .tool-card[data-state="hidden"] { visibility: hidden; pointer-events: none;}

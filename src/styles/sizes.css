@@ -1,0 +1,40 @@
+body {
+	font-size: 1.7vh;
+
+}
+
+@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+	body {
+		font-size: 1.9vh;
+	}
+}
+
+h1 {
+	font-size: 2.4em;
+}
+
+h2 {
+	font-size: 2.1em;
+}
+
+h3 {
+	font-size: 1.8em;
+}
+
+h4 {
+	font-size: 1.5em;
+}
+
+h5 {
+	font-size: 1.2em;
+}
+
+
+p, td, th, blockquote, li, ol, span {
+	font-size: 1em;
+}
+
+
+pre, code {
+	font-size: 0.9em;
+}
