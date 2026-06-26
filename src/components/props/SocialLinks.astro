@@ -7,52 +7,67 @@ interface Props {
     orientation?: 'horizontal' | 'vertical';
     size?: number;
     gap?: number;
+    showLabels?: boolean;
         
 }
 
-const { orientation = 'horizontal', size = 27, gap = 0.5} = Astro.props;
+const { orientation = 'horizontal', size = 27, gap = 0.5, showLabels = false} = Astro.props;
 ---
 
 <div class={`social-links ${orientation}`} style={`--custom-gap: ${gap}em;`} >
-	<a href="YOUR_LINK_HERE" target="_blank">
-		<span class="sr-only">Go to my GitHub</span>
+	<a href="https://github.com/karolchmori" target="_blank">
 		<img src={Icon_Github.src} alt="GitHub icon" width={size} height={size} />
+		{showLabels && <span class="link-label">karolchmori</span>}
 	</a>
-	<a href="YOUR_LINK_HERE" target="_blank">
-		<span class="sr-only">Go to my LinkedIn</span>
+	<a href="https://linkedin.com/in/karolchmori" target="_blank">
 		<img src={Icon_Linkedin.src} alt="LinkedIn icon" width={size} height={size} />
+		{showLabels && <span class="link-label">karolchmori</span>}
 	</a>
-	<a href="YOUR_LINK_HERE" target="_blank">
-		<span class="sr-only">Send me an email</span>
-		<img src={Icon_Email.src} alt="Email icon" width={size*1.3} height={size*1.3}  />
+	<a href="mailto:karolchmori@hotmail.com" target="_blank">
+		<img src={Icon_Email.src} alt="Email icon" width={size*1.2} height={size*1.2} />
+		{showLabels && <span class="link-label">karolchmori@hotmail.com</span>}
 	</a>
 </div>
 
 <style>
-
     .social-links {
         display: flex;
-        justify-content: right;
         align-items: center;
         gap: var(--custom-gap);
         margin-top: 1em;
     }
 
     .social-links img {
-		border-radius: 3px;
-	}
+        border-radius: 3px;
+    }
+
+    .social-links a {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        text-decoration: none;
+        color: var(--gray-medium);
+    }
 
     .social-links a:hover {
-        filter: brightness(1.3);
+        color: var(--accent);
     }
+
+    .link-label {
+        font-size: 0.9em;
+    }
+
 
     .horizontal {
         flex-direction: row;
+        justify-content: right;
     }
 
     .vertical {
         flex-direction: column;
+        justify-content: left;
+        align-items: flex-start;
+        
     }
-
 
 </style>
