@@ -1,0 +1,64 @@
+---
+
+interface Props {
+    title?: string;
+    items: string[];
+    accent?: number;
+}
+
+
+const { title, items, accent = 0 } = Astro.props;
+---
+
+<div class="skills">
+    <div class="skills-container">
+        <span class="skill-label">{title}</span>
+        <div class="skill-grid">
+            {items.map((item, i) => {
+                return (
+                    <span class={`skill-chip ${i <= (accent-1) ? "accent" : ""}`}>{item}</span>
+                );
+            })}
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+
+    .skills {
+        margin: 1.2rem 0.5rem;
+	}
+
+    .skill-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+	}
+ 
+	.skill-label {
+		display: block;
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--gray-dark);
+		margin-bottom: 0.65rem;
+	}
+ 
+	
+ 
+	.skill-chip {
+		font-size: 0.75rem;
+		padding: 0.3rem 0.7rem;
+		border-radius: 10px;
+		background: var(--comp-bg-gray);
+		color: var(--gray-medium);
+	}
+ 
+	.skill-chip.accent {
+		background: color-mix(in srgb, var(--color-primary) 14%, var(--comp-bg-white));
+		color: var(--color-primary);
+	}
+
+
+</style>
