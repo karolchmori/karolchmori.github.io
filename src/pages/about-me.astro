@@ -13,6 +13,8 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
     DynamicTable, IconList, PictureSequence, Columns, Column, Picture, VideoPlayer
  } from '../components/mdx-components';
 
+import Icon from '../components/widgets/Icon.astro';
+
 ---
 <html lang="en">
 	<head>
@@ -23,48 +25,34 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 		<div class="about-container">
 			<main>
 				<section class="about-page">
+					<div class="about-banner">
+						<Columns stackOnMobile>
+							<Column width='75%'>
+								<h2 class="about-name">Tools &amp; Pipeline TD</h2>
+								<p class="about-bio">
+									I'm a Pipeline &amp; Tools TD with a background in technical project management.
+									I build the tools and systems that keep artists and productions moving — from 
+									procedural Houdini setups to the publish pipelines around them. Comfortable
+									moving between DCC scripting and the production side of a studio.
+								</p>
+								<div class="banner-actions">
+									<a href="mailto:karolchmori@hotmail.com" class="btn btn-primary">Get in touch</a>
+									<a href="/karolchmori-cv.pdf" class="btn btn-secondary" download>
+										<Icon class="btn-icon" name="download" size={16}/>
+										CV
+									</a>
+								</div>
+							</Column>
+							<Column>
+								<div class="banner-photo">
+									<div class="avatar-placeholder"></div>
+								</div>
+							</Column>
+						</Columns>
+					</div>
+
+					<!-- LIGHT CONTENT BELOW -->
 					<div class="prose">
-						<!-- HEADER -->
-						<div class="about-banner">
-							<Columns stackOnMobile>
-								<Column>
-									<div class="banner-photo">
-										<div class="avatar-placeholder"></div>
-									</div>
-								</Column>
-								<Column>
-									
-									<h1 class="about-name">Karol Ch. Mori</h1>
-									<span class="eyebrow">Pipeline &amp; Tools TD</span>
-									<SocialLinks orientation="vertical" size={20} showLabels/>
-									<Columns>
-										<Column width='20%'>
-											<a href="/karolchmori-cv.pdf" class="btn btn-secondary" download>
-												<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 18v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-												CV
-											</a>
-
-										</Column>
-										<Column>
-											<a href="mailto:karolchmori@hotmail.com" class="btn btn-primary">Get in touch</a>
-										</Column>
-										
-									</Columns>
-								</Column>
-							</Columns>
-							
-							
-						</div>
-
-						<!-- DESCRIPTION -->
-						<p class="about-bio">
-							I'm a Pipeline &amp; Tools TD with a background in technical project management.
-							I build the tools and systems that keep artists and productions moving — from
-							procedural Houdini setups to the publish pipelines around them. Comfortable
-							moving between DCC scripting and the production side of a studio.
-						</p>
-
-						<div class="divider"></div>
 
 						<!-- SKILLS -->
 						<div class="section-label">SPECIALITIES</div>
@@ -157,7 +145,6 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 						</div>
 
 					</div>
-					
 
 				</section>
 
@@ -220,7 +207,6 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 		flex: 1;     
 		display: flex;
 		flex-direction: column;
-		
 	}
 
 	.prose {
@@ -232,59 +218,40 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 	}
 
 
-	/* ── HEADER ── */
-	/* ── BANNER ── */
+	/* ── HERO (dark, full-bleed) ── */
 	.about-banner {
 		display: flex;
-		gap: 1.5rem;
 		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
 		background: color-mix(in srgb, var(--color-primary) 14%, var(--comp-bg-white));
-		border-radius: 14px;
-		padding: 1.75rem;
-		margin: 1.5rem 0;
-
+		border-radius: 0px 0px 0 0;
+		padding: 1rem 2.5rem;
+		margin: 0 0 1em;
 	}
 
-	.about-banner > :global(*) {
-		width: 100%;
-	}
- 
+
 	.banner-photo {
 		flex-shrink: 0;
 	}
  
 	.avatar-placeholder {
 		width: 150px;
-		height:  150px;
-
-
+		height: 150px;
 		border-radius: 50%;
 		background: var(--comp-bg-gray);
 		border: 2px solid var(--comp-border-gray);
-				
 	}
  
 	.about-name {
-		font-size: 1.9rem;
-		font-weight: 700;
-		line-height: 1.1;
-		margin: 0 0 0.3rem;
-		color: var(--black);
-	}
-
-
- 
-	.eyebrow {
-		display: block;
-		font-size: 0.7rem;
 		font-family: monospace;
-		letter-spacing: 0.15em;
+		letter-spacing: 0.1em;
+		font-size: 1.5rem;
 		text-transform: uppercase;
 		color: var(--color-primary);
 		margin-bottom: 0.9rem;
-		
 	}
- 
+
 	.banner-actions {
 		display: flex;
 		gap: 0.65rem;
@@ -331,12 +298,9 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 	/* ── BIO ── */
 	.about-bio {
 		font-size: 0.95rem;
-		line-height: 1.75;
-		
-		margin: 0 0 0.5rem;
+		line-height: 1.5;
+		color: var(--gray-medium);
 	}
-
-
 
 	/* ── DIVIDER ── */
 	.divider {
@@ -428,7 +392,23 @@ import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare,
 		color: var(--gray-light);
 		font-family: monospace;
 	}
-	
+
+	/* ── MOBILE ── */
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+		.about-container {
+			padding-top: 2em;
+		}
+
+		.about-banner {
+			flex-direction: column;
+			text-align: center;
+			padding: 0.7rem 1.5rem 2rem;
+		}
+
+		.banner-actions {
+			justify-content: center;
+		}
+	}
 
 </style>
- 
