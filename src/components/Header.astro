@@ -23,13 +23,13 @@ const { status = 'static' } = Astro.props;
                 <Logo/>
             </div>
 			<a class="menu-close">✕</a>
-			<HeaderLink href="/about">About</HeaderLink>
+			<HeaderLink href="/about-me">About Me</HeaderLink>
 			<DropdownLink label="Work" href="/work" children={[
 							{ label: 'Credits', href: '/work/credits' },
 							{ label: 'Tools',   href: '/work/tools'   },
 						]} />
 			<HeaderLink href="/blog">Blog</HeaderLink>
-
+			<HeaderLink href="/contact">Contact</HeaderLink>
 			<div class="menu-social">
 				<SocialLinks orientation="horizontal" size={30} gap={0.5}/>
 			</div>

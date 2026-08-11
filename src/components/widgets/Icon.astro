@@ -18,6 +18,7 @@ const ICONS = {
     'close': 'M6 6l12 12M18 6L6 18',
     'check': 'M5 13l4 4L19 7',                                     // USED
     'copy': 'M9 9h10v10H9zM5 15V5h10',                             // USED
+    'download': 'M12 3v12m0 0 4-4m-4 4-4-4M4 18v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2',  // USED                                     
     'arrow-right': 'M5 12h14M13 6l6 6-6 6',
     'note' : 'M7 2.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V4A1.5 1.5 0 0 1 7 2.5Zm7 0V6a1 1 0 0 0 1 1h3.5',   // USED
     'info' : 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm1 11h-2v-7h2v7Z',           // USED
@@ -35,6 +36,7 @@ const ICONS = {
     'volume': 'M11 5L6 9H2v6h4l5 4V5Z M15.54 8.46a5 5 0 0 1 0 7.07 M19.07 4.93a10 10 0 0 1 0 14.14',                                                         // USED
     'volume-muted': 'M11 5L6 9H2v6h4l5 4V5Z M22 9l-6 6 M16 9l6 6',  // USED
 } as const;
+
 
 export type IconName = keyof typeof ICONS;
 

@@ -6,26 +6,27 @@ import Icon_Email from '../../assets/icons/AS_Email.svg';
 interface Props {
     orientation?: 'horizontal' | 'vertical';
     size?: number;
+    sizeLabel ?: string;
     gap?: number;
     showLabels?: boolean;
         
 }
 
-const { orientation = 'horizontal', size = 27, gap = 0.5, showLabels = false} = Astro.props;
+const { orientation = 'horizontal', size = 27, gap = 0.5, sizeLabel = '1rem', showLabels = false} = Astro.props;
 ---
 
 <div class={`social-links ${orientation}`} style={`--custom-gap: ${gap}em;`} >
 	<a href="https://github.com/karolchmori" target="_blank">
 		<img src={Icon_Github.src} alt="GitHub icon" width={size} height={size} />
-		{showLabels && <span class="link-label">karolchmori</span>}
+		{showLabels && <span class="link-label" style={`--custom-size: ${sizeLabel};`}>karolchmori</span>}
 	</a>
 	<a href="https://linkedin.com/in/karolchmori" target="_blank">
 		<img src={Icon_Linkedin.src} alt="LinkedIn icon" width={size} height={size} />
-		{showLabels && <span class="link-label">karolchmori</span>}
+		{showLabels && <span class="link-label" style={`--custom-size: ${sizeLabel};`}>karolchmori</span>}
 	</a>
 	<a href="mailto:karolchmori@hotmail.com" target="_blank">
 		<img src={Icon_Email.src} alt="Email icon" width={size*1.2} height={size*1.2} />
-		{showLabels && <span class="link-label">karolchmori@hotmail.com</span>}
+		{showLabels && <span class="link-label" style={`--custom-size: ${sizeLabel};`}>karolchmori@hotmail.com</span>}
 	</a>
 </div>
 
@@ -54,7 +55,7 @@ const { orientation = 'horizontal', size = 27, gap = 0.5, showLabels = false} = 
     }
 
     .link-label {
-        font-size: 0.9em;
+        font-size: var(--custom-size);
     }
 
 
