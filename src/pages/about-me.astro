@@ -4,9 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Vignette from '../components/widgets/Vignette.astro';
-import SpecialityItem from '../components/props/SpecialityItem.astro';
 import SkillsGroup from '../components/props/SkillsGroup.astro';
-import SocialLinks from '../components/props/SocialLinks.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../consts';
 
 import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare, 
@@ -28,7 +26,7 @@ import Icon from '../components/widgets/Icon.astro';
 					<div class="about-banner">
 						<Columns stackOnMobile>
 							<Column width='75%'>
-								<h2 class="about-name">Tools &amp; Pipeline TD</h2>
+								<h1 class="about-title">Tools &amp; Pipeline TD</h1>
 								<p class="about-bio">
 									I'm a Pipeline &amp; Tools TD with a background in technical project management.
 									I build the tools and systems that keep artists and productions moving — from 
@@ -56,17 +54,14 @@ import Icon from '../components/widgets/Icon.astro';
 
 						<!-- SKILLS -->
 						<div class="section-label">SPECIALITIES</div>
-						<Columns stackOnMobile>
-							<Column>
-								<SpecialityItem title='Tools Development' description='Python and C++ tooling for artists: custom DCCs, shelf tools, validators, and procedural systems.'/>
-							</Column>
-							<Column>
-								<SpecialityItem title='Pipeline TD' description='End-to-end pipeline design and automation. Asset management, publish systems, and cross-DCC interop for film, TV, and games.'/>
-							</Column>
-							<Column>
-								<SpecialityItem title='Project Management' description='Production planning, team coordination and technical roadmaps. Keeping creative teams unblocked and shipping on time.'/>
-							</Column>
-						</Columns>
+
+						<IconList defaultIcon='dot' 
+							items={[
+							{ text: "**Tools Development:** Python and C++ tooling for artists: custom DCCs, shelf tools, validators, and procedural systems.", iconColor: "var(--color-primary)"},
+							{ text: "**Pipeline TD:** End-to-end pipeline design and automation. Asset management, publish systems, and cross-DCC interop for film, TV, and games.", iconColor: "var(--color-primary)"},
+							{ text: "**Project Management**: Production planning, team coordination and technical roadmaps. Keeping creative teams unblocked and shipping on time.", iconColor: "var(--color-primary)"},
+							]}
+						/>
 
 						<div class="divider"></div>
 
@@ -217,6 +212,11 @@ import Icon from '../components/widgets/Icon.astro';
 		color: var(--gray-medium);
 	}
 
+	.prose :global(.icon-list-text strong) {
+		color: var(--black);
+		font-weight: 700;
+	}
+
 
 	/* ── HERO (dark, full-bleed) ── */
 	.about-banner {
@@ -243,10 +243,9 @@ import Icon from '../components/widgets/Icon.astro';
 		border: 2px solid var(--comp-border-gray);
 	}
  
-	.about-name {
+	.about-title{
 		font-family: monospace;
 		letter-spacing: 0.1em;
-		font-size: 1.5rem;
 		text-transform: uppercase;
 		color: var(--color-primary);
 		margin-bottom: 0.9rem;
@@ -297,7 +296,6 @@ import Icon from '../components/widgets/Icon.astro';
  
 	/* ── BIO ── */
 	.about-bio {
-		font-size: 0.95rem;
 		line-height: 1.5;
 		color: var(--gray-medium);
 	}
@@ -312,7 +310,7 @@ import Icon from '../components/widgets/Icon.astro';
 	/* ── SECTION LABEL ── */
 	.section-label {
 		font-family: monospace;
-		font-size: 0.65rem;
+		font-size: 0.9rem;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
 		color: var(--gray-light);
