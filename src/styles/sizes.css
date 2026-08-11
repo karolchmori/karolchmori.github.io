@@ -1,11 +1,11 @@
 body {
-	font-size: 1.7vh;
+	font-size: 16px;
 
 }
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 	body {
-		font-size: 1.9vh;
+		font-size: 17px;
 	}
 }
 
