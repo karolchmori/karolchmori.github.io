@@ -1,5 +1,6 @@
 ---
 import Picture from './Picture.astro';
+import SkillsGroup from '../props/SkillsGroup.astro';
 
 interface Props {
 	thumbnail?: ImageMetadata | null; // pass the first carousel frame here, not a separate thumbnail
@@ -22,12 +23,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		<h2 class="hero-banner-title">{title}</h2>
 		{description && <p class="hero-banner-description">{description}</p>}
 		{(software || stack.length > 0) && (
-			<div class="hero-banner-tags">
-				{software && <span class="tag tag-software">{software}</span>}
-				{stack.map((item) => (
-					<span class="tag">{item}</span>
-				))}
-			</div>
+			<SkillsGroup  title='' items={[software, ...stack].filter((item): item is string => Boolean(item))}  accent={software ? 1 : 0} />
 		)}
 	</div>
 </div>
@@ -43,6 +39,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
 		border-start-start-radius: 14px;
 		overflow: visible;
+		
 	}
 
 	.hero-banner-thumb {
@@ -52,6 +49,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		border-radius: 8px;
 		overflow: hidden;
 		background: var(--comp-bg-white);
+		
 	}
 
 	.hero-banner-thumb :global(img) {
@@ -64,6 +62,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 	.hero-banner-content {
 		flex: 1;
 		min-width: 0;
+		flex-wrap: wrap;
 	}
 
 	.hero-banner-title {
@@ -80,26 +79,6 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		color: var(--gray-medium);
 	}
 
-	.hero-banner-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4rem;
-		font-size: 0.85rem;
-	}
-
-	.tag {
-		
-		padding: 0.15rem 0.55rem;
-		border-radius: 6px;
-		background: var(--comp-bg-gray);
-		color: var(--gray-medium);
-	}
-
-	.tag-software {
-		background: var(--comp-bg-gray);
-		color: var(--accent) !important;
-		font-weight: 500;
-	}
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
         .hero-banner-thumb {
