@@ -5,7 +5,7 @@ body {
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 	body {
-		font-size: 14px;
+		font-size: 15px;
 	}
 }
 
