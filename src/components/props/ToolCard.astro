@@ -47,7 +47,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
                 }
             </div>
             <div class="tool-card-description">
-                <h3>{title}</h3>
+                <h4>{title}</h4>
                 <p>{description}</p>
                 <div class="tool-card-stack">
                     {stack.map(tech => <StackBadge name={tech} />)}
@@ -204,6 +204,17 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
             transform: rotateY(-90deg) scale(0.9);
         }
     }
+
+    /* ── MOBILE ── */
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+		.tool-card-thumbnail {
+            width: 100%;
+            flex: 0 0 45%;   
+            overflow: hidden;
+        }
+	}
+
 
 </style>
 
