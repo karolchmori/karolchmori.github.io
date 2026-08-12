@@ -5,10 +5,11 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Vignette from '../components/widgets/Vignette.astro';
 import SkillsGroup from '../components/props/SkillsGroup.astro';
+import LanguageGrid from '../components/props/LanguageGrid.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../consts';
 
 import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare, 
-    DynamicTable, IconList, PictureSequence, Columns, Column, Picture, VideoPlayer
+    DynamicTable, IconList, PictureSequence, Columns, Column, TimelineItem, Timeline, Picture, VideoPlayer
  } from '../components/mdx-components';
 
 import Icon from '../components/widgets/Icon.astro';
@@ -26,9 +27,9 @@ import Icon from '../components/widgets/Icon.astro';
 					<div class="about-banner">
 						<Columns stackOnMobile>
 							<Column width='75%'>
-								<h1 class="about-title">Tools &amp; Pipeline TD</h1>
+								<h1 class="about-title">Technical Artist</h1>
 								<p class="about-bio">
-									I'm a Pipeline &amp; Tools TD with a background in technical project management.
+									I'm Technical Artist focused in Tools and Pipeline with a background in technical project management.
 									I build the tools and systems that keep artists and productions moving — from 
 									procedural Houdini setups to the publish pipelines around them. Comfortable
 									moving between DCC scripting and the production side of a studio.
@@ -53,8 +54,7 @@ import Icon from '../components/widgets/Icon.astro';
 					<div class="prose">
 
 						<!-- SKILLS -->
-						<div class="section-label">SPECIALITIES</div>
-
+						<div class="section-label">Specialities</div>
 						<IconList defaultIcon='dot' 
 							items={[
 							{ text: "**Tools Development:** Python and C++ tooling for artists: custom DCCs, shelf tools, validators, and procedural systems.", iconColor: "var(--color-primary)"},
@@ -65,79 +65,61 @@ import Icon from '../components/widgets/Icon.astro';
 
 						<div class="divider"></div>
 
-						<!-- SOFTWARE -->
-						<!-- SKILLS & SOFTWARE, grouped by category, no proficiency labels -->
+						<!-- SKILLS & SOFTWARE-->
 						<div class="section-label">Skills &amp; Software</div>
 						<Columns stackOnMobile>
 							<Column>
-								<SkillsGroup title='Pipeline & Tools' items={['USD','Git','GitHub','Qt / PySide']} accent={1} />
 								<SkillsGroup title='Programming & Scripting' items={['Python','C++','VEX','C#','Java','Dart']} accent={1} />
+								<SkillsGroup title='DCC & Creative Tools' items={['Houdini','Maya','Nuke','Substance Painter','Unreal Engine','Photoshop']} accent={3} />
 							</Column>
 							<Column>
-								<SkillsGroup title='DCC & Creative Tools' items={['Houdini','Maya','Nuke','Substance Painter','Unreal Engine','Photoshop']} accent={3} />
-								
+								<SkillsGroup title='Pipeline & Tools' items={['USD','Git','GitHub','Qt / PySide']} accent={1} />
 								<SkillsGroup title='Production & PM' items={['ShotGrid', 'Jira', 'Notion','Confluence','Agile / Scrum']} accent={0} />
 							</Column>
 						</Columns>
 
 						<div class="divider"></div>
-
-						<!-- WORK EXPERIENCE + EDUCATION, side by side, light touch -->
-						<div class="split-columns">
-							<div>
-								<div class="section-label">Work Experience</div>
-								<div class="timeline">
-									<div class="timeline-item">
-										<span class="timeline-dot timeline-dot-current"></span>
-										<span class="timeline-title">Technical Project Manager</span>
-										<span class="timeline-sub">Esteve Teijin · 2021 – Present</span>
-									</div>
-									<div class="timeline-item">
-										<span class="timeline-dot"></span>
-										<span class="timeline-title">IT Help Desk</span>
-										<span class="timeline-sub">Esteve Teijin · 2020 – 2021</span>
-									</div>
-								</div>
-							</div>
-							<div>
-								<div class="section-label">Education</div>
-								<div class="timeline">
-									<div class="timeline-item">
-										<span class="timeline-dot timeline-dot-current"></span>
-										<span class="timeline-title">B. 3D Animation &amp; VFX</span>
-										<span class="timeline-sub">La Salle URL · 2017 – Present</span>
-									</div>
-									<div class="timeline-item">
-										<span class="timeline-dot"></span>
-										<span class="timeline-title">Associate in Programming</span>
-										<span class="timeline-sub">Salesians Sarrià · 2019 – 2021</span>
-									</div>
-								</div>
-							</div>
-						</div>
- 
-						<div class="divider"></div>
- 
+						<div class="section-label">Work Experience</div>
+						<Timeline>
+							<TimelineItem current
+								title="Technical Project Manager"
+								sub="Esteve Teijin · 2021 - Present"
+								brief="Leading cross-functional delivery for internal tooling."
+								detail="Longer writeup here."
+							/>
+							<TimelineItem
+								title="IT Help Desk"
+								sub="Esteve Teijin · 2020 - 2021"
+								brief="First-line technical support across the org."
+							/>
+						</Timeline>
+						
 						<!-- LANGUAGES -->
+						<div class="divider"></div>
 						<div class="section-label">Languages</div>
-						<div class="lang-grid">
-							<div class="lang-item">
-								<span class="lang-name">Spanish</span>
-								<span class="lang-level">Native</span>
-							</div>
-							<div class="lang-item">
-								<span class="lang-name">English</span>
-								<span class="lang-level">Fluent</span>
-							</div>
-							<div class="lang-item">
-								<span class="lang-name">Catalan</span>
-								<span class="lang-level">Fluent</span>
-							</div>
-							<div class="lang-item">
-								<span class="lang-name">Japanese</span>
-								<span class="lang-level">Elementary</span>
-							</div>
-						</div>
+						<LanguageGrid languages={[
+							{ name: 'Spanish', level: 'Native' },
+							{ name: 'English', level: 'Fluent' },
+							{ name: 'Catalan', level: 'Fluent' },
+							{ name: 'Japanese', level: 'Elementary' },
+						]} />
+
+
+						<div class="divider"></div>
+						<div class="section-label">Education</div>
+						<Timeline>
+							<TimelineItem current
+								title="Technical Project Manager"
+								sub="Esteve Teijin · 2021 - Present"
+								brief="Leading cross-functional delivery for internal tooling."
+								detail="Longer writeup here."
+							/>
+							<TimelineItem
+								title="IT Help Desk"
+								sub="Esteve Teijin · 2020 - 2021"
+								brief="First-line technical support across the org."
+							/>
+						</Timeline>
 
 					</div>
 
@@ -149,8 +131,6 @@ import Icon from '../components/widgets/Icon.astro';
 		<Vignette />
 	</body>
 </html>
-
-
 
 
 
@@ -208,7 +188,7 @@ import Icon from '../components/widgets/Icon.astro';
 		width: auto;
 		max-width: 90%;
 		margin: auto;
-		padding: 0.5em;
+		padding: 0.5em 0.5em 2rem;
 		color: var(--gray-medium);
 	}
 
@@ -216,7 +196,6 @@ import Icon from '../components/widgets/Icon.astro';
 		color: var(--black);
 		font-weight: 700;
 	}
-
 
 	/* ── HERO ── */
 	.about-banner {
@@ -246,7 +225,7 @@ import Icon from '../components/widgets/Icon.astro';
  
 	.about-title{
 		font-family: monospace;
-		letter-spacing: 0.1em;
+		letter-spacing: 0.05rem;
 		text-transform: uppercase;
 		color: var(--color-primary);
 		margin-bottom: 0.9rem;
@@ -311,85 +290,11 @@ import Icon from '../components/widgets/Icon.astro';
 	/* ── SECTION LABEL ── */
 	.section-label {
 		font-family: monospace;
-		font-size: 0.9rem;
+		font-size: 1rem;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
 		color: var(--gray-light);
 		margin-bottom: 1.25rem;
-	}
-	
-	/* ── LANGUAGES ── */
-	.split-columns {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 2.5rem;
-	}
- 
-	.timeline {
-		display: flex;
-		flex-direction: column;
-		gap: 1.1rem;
-		position: relative;
-		padding-left: 1.1rem;
-		border-left: 1px solid var(--comp-border-gray);
-	}
- 
-	.timeline-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-		position: relative;
-	}
- 
-	.timeline-dot {
-		position: absolute;
-		left: -1.35rem;
-		top: 0.25rem;
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--comp-border-gray);
-	}
- 
-	.timeline-dot-current {
-		background: var(--color-primary);
-	}
- 
-	.timeline-title {
-		font-size: 0.85rem;
-		font-weight: 700;
-		color: var(--black);
-	}
- 
-	.timeline-sub {
-		font-size: 0.72rem;
-		color: var(--gray-light);
-		font-family: monospace;
-	}
- 
-	/* ── LANGUAGES ── */
-	.lang-grid {
-		display: flex;
-		gap: 2rem;
-		flex-wrap: wrap;
-	}
- 
-	.lang-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.2rem;
-	}
- 
-	.lang-name {
-		font-size: 0.875rem;
-		font-weight: 600;
-		color: var(--black);
-	}
- 
-	.lang-level {
-		font-size: 0.75rem;
-		color: var(--gray-light);
-		font-family: monospace;
 	}
 
 	/* ── MOBILE ── */

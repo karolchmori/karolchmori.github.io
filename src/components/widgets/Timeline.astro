@@ -1,0 +1,28 @@
+---
+/**
+ * Timeline.astro
+ *
+ * Usage:
+ * <Timeline>
+ *   <TimelineItem title="Technical Project Manager" sub="Company · 2021 – Present" ... current />
+ *   <TimelineItem title="IT Help Desk" sub="Company · 2020 – 2021" ... />
+ * </Timeline>
+ */
+---
+
+<div class="timeline">
+	<slot />
+</div>
+
+<style>
+
+	.timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		position: relative;
+		padding-left: 1.1rem;
+		border-left: 2px solid var(--comp-border-gray);
+	}
+
+</style>

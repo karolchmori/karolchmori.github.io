@@ -1,0 +1,158 @@
+---
+/**
+ * TimelineItem.astro
+ * A single expandable entry for a timeline. Once detail is filled it can get expanded.
+ *
+ * Usage:
+ * <div class="timeline">
+ *   <TimelineItem current
+ *     title="Technical Project Manager"
+ *     sub="Company · 2021 – Present"
+ *     brief="Leading cross-functional delivery for internal tooling."
+ *     detail="Longer writeup, achievements, bullet points, etc."
+ *   />
+ *   <TimelineItem title="IT Help Desk" sub="Company · 2020 – 2021" brief="..." />
+ * </div>
+ */
+
+import Icon from '../widgets/Icon.astro';
+
+interface Props {
+    title: string;
+    sub?: string;
+    brief?: string;
+    detail?: string;
+    current?: boolean;
+}
+
+const { title, sub, brief, detail, current = false } = Astro.props;
+---
+
+<details class="timeline-item">
+	<summary class="timeline-summary">
+		<span class={`timeline-dot ${current ? 'timeline-dot-current' : ''}`}></span>
+		<div class="timeline-summary-text">
+			<div class="timeline-title-row">
+				<span class="timeline-title">{title}</span>
+				<span class="timeline-sub">{sub}</span>
+			</div>
+			{brief && <p class="timeline-brief">{brief}</p>}
+		</div>
+		{detail && (
+			<span class="timeline-chevron" aria-hidden="true">
+				<Icon name="chevron-down" size={26}/>
+			</span>
+		)}
+	</summary>
+	{detail &&  <p class="timeline-detail">{detail}</p>}
+</details>
+
+<style>
+
+	.timeline-item {
+		position: relative;
+	}
+
+	.timeline-summary {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.6rem;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	/* ELEMENTS: DOT & ARROW */
+	.timeline-dot {
+		flex-shrink: 0;
+		position: absolute;
+		left: -1.39rem;
+		top: 0.7rem;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--comp-border-gray);
+	}
+
+	.timeline-dot-current {
+		background: var(--color-primary);
+	}
+
+	.timeline-chevron {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		margin-top: 0.2rem;
+		color: var(--gray-light);
+		transition: transform 0.2s ease;
+	}
+
+	.timeline-item[open] .timeline-chevron {
+		transform: rotate(90deg);
+	}
+
+	/* CONTENT */
+	.timeline-title-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem;
+	}
+
+	.timeline-title {
+		font-weight: 700;
+		color: var(--black);
+	}
+
+	.timeline-sub {
+		color: var(--gray-light);
+		font-family: monospace;
+	}
+
+	.timeline-summary-text {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		min-width: 0;
+	}
+
+	.timeline-brief {
+		margin: 0.15rem 0 0;
+		line-height: 1.5;
+		color: var(--gray-medium);
+	}
+
+
+	/* EXPANDABLE DETAIL */
+	.timeline-detail {
+		margin: 0.6rem 0 0 0;
+		padding: 0.7rem;
+		border-radius: 0.5rem;
+		background: var(--comp-bg-gray);
+		line-height: 1.65;
+		color: var(--gray-medium);
+		animation: detailIn 0.18s ease;
+	}
+
+
+	@keyframes detailIn {
+		from {
+			opacity: 0;
+			transform: translateY(-4px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.timeline-detail {
+			animation: none;
+		}
+		.timeline-chevron {
+			transition: none;
+		}
+	}
+
+</style>

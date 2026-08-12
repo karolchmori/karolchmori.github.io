@@ -1,0 +1,62 @@
+---
+/**
+ * LanguageGrid.astro
+ * A grid of language + proficiency pairs.
+ *
+ * Usage:
+ * <LanguageGrid languages={[
+ *   { name: 'Spanish', level: 'Native' },
+ *   { name: 'English', level: 'Fluent' },
+ *   { name: 'Catalan', level: 'Fluent' },
+ *   { name: 'Japanese', level: 'Elementary' },
+ * ]} />
+ */
+
+
+interface Language {
+	name: string;
+	level: string;
+}
+
+interface Props {
+	languages: Language[];
+}
+
+const { languages } = Astro.props;
+---
+
+<div class="language-grid">
+	{languages.map((lang) => (
+		<div class="language-item">
+			<span class="language-name">{lang.name}</span>
+			<span class="language-level">{lang.level}</span>
+		</div>
+	))}
+</div>
+
+<style>
+	.language-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+		gap: 1.2rem 1rem;
+	}
+
+	.language-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+	}
+
+	.language-name {
+        font-size: 1rem;
+		font-weight: 700;
+		color: var(--black);
+	}
+
+	.language-level {
+		font-family: monospace;
+		font-size: 0.95rem;
+		color: var(--gray-light);
+	}
+    
+</style>

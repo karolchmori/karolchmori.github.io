@@ -23,6 +23,8 @@ export { default as PictureSequence } from './widgets/PictureSequence.astro';
 export { default as Columns } from './widgets/Columns.astro';
 export { default as Column } from './widgets/Column.astro';
 export { default as Picture } from './widgets/Picture.astro';
+export { default as Timeline} from './widgets/Timeline.astro';
+export { default as TimelineItem } from './widgets/TimelineItem.astro';
 
 
 export { default as VideoEmbed } from './widgets/VideoEmbed.astro';
