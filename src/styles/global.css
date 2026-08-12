@@ -26,8 +26,9 @@
 		0 16px 32px rgba(var(--gray), 33%);
 
 
-	--astro-code-foreground: #dfd7dc;
-	--astro-code-background: ##24292E;
+	/* CODEBLOC COLOURS */
+	--astro-code-foreground: #dfd7d9;
+	--astro-code-background: #24292E;
 
 
 	--astro-code-token-comment: #7f848e;
@@ -41,10 +42,71 @@
 	--astro-code-token-keyword: #D77583;
 
 
-	--comp-bg-white: #ece8ec;
-	--comp-bg-gray: #DCD8DC;
-	--comp-border-gray: #8a8a966e;
+
+	/* PAGE COLOURS */
+	--page-mainbg: #e8e3e6;
+	--page-secondarybg: #ece8ec;
+	--page-border: #8a8a966e;
 	
+	/* GREY LEVELS */
+	--page-mainfont: #262124;
+	--page-secondaryfont: #5a5a68;
+	--page-thirdfont: #9ea7b3;
+	--page-fourfont: #161A20; /* STRONGEST */
+	
+	/* ACCENT LEVELS */
+	--page-primary: #c65381;
+
+	/* COMP COLOURS */
+	--comp-mainbg: #ece8ec;
+	--comp-secondarybg: #dcd8d9;
+	--comp-border: #8a8a966e;
+	
+
+	
+	--comp-bg-white: #ece8ea;
+	--comp-bg-gray: #dcd8d9;
+	--comp-border-gray: #8a8a966e;	
+
+}
+
+
+[data-theme="dark"] {
+
+	/* PAGE COLOURS */
+	--page-mainbg: #252325;
+	--page-secondarybg: #1e1c1e;
+	--page-border: #8a8a9633;
+
+	/* GREY LEVELS */
+	--page-mainfont: #d3d3d3;
+	--page-secondaryfont: #b0b0b0; 
+	--page-thirdfont: #7a7a7a;
+	--page-fourfont: #cfcfcf; /* STRONGEST */
+	
+	/* ACCENT LEVELS */
+	--page-primary: #e0568b;
+	
+
+
+	/* COMP COLOURS */
+	--comp-mainbg: #1e1c1e;
+	--comp-secondarybg: #2a282a;
+	--comp-border: #8a8a9633;
+
+
+
+	--comp-bg-white: #1e1c1e;
+	--comp-bg-gray: #2a282a;
+	--comp-border-gray: #8a8a9633;
+
+	--black: #cfcfcf;
+	--gray-dark: #d3d3d3;
+	--gray-medium: #b0b0b0;
+	--gray-light: #7a7a7a;
+	--color-primary: #e0568b;
+
+
 
 }
 
@@ -78,7 +140,7 @@ body {
 	background-color: black;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: var(--gray-dark);
+	color: var(--page-mainfont);
 
 }
 

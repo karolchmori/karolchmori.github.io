@@ -58,7 +58,6 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 		align-items: flex-start;
 		gap: 0.6rem;
 		cursor: pointer;
-		user-select: none;
 	}
 
 	/* ELEMENTS: DOT & ARROW */
@@ -96,6 +95,7 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 		flex-wrap: wrap;
 		align-items: baseline;
 		gap: 0.5rem;
+		
 	}
 
 	.timeline-title {
@@ -106,6 +106,7 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 	.timeline-sub {
 		color: var(--gray-light);
 		font-family: monospace;
+		font-size: 1rem;
 	}
 
 	.timeline-summary-text {

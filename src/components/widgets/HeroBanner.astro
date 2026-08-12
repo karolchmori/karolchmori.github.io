@@ -35,8 +35,8 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		gap: 1.25rem;
 		width: 100%;
 		padding: 1.25rem 1.25rem;
-		background: var(--comp-bg-white);
-		border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+		background: var(--page-secondarybg);
+		border-bottom: 1px solid color-mix(in srgb, var(--comp-secondarybg) 95%, var(--page-fourfont));
 		border-start-start-radius: 14px;
 		overflow: visible;
 		
@@ -48,7 +48,7 @@ const { thumbnail, title, description, software, stack = [] } = Astro.props;
 		aspect-ratio: 1 / 1;
 		border-radius: 8px;
 		overflow: hidden;
-		background: var(--comp-bg-white);
+		background: var(--page-secondarybg);
 		
 	}
 

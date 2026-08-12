@@ -14,6 +14,7 @@
 
 import { Code } from 'astro:components';
 import Icon from './Icon.astro';
+import { getSharedHighlighter } from '../../lib/highlighter';
 
 interface Props {
   lang?: string;
@@ -51,6 +52,11 @@ const LANG_LABELS: Record<string, string> = {
 
 const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
 
+const highlighter = await getSharedHighlighter();
+const html = highlighter.codeToHtml(code, {
+	lang: highlighter.getLoadedLanguages().includes(lang as any) ? lang : 'text',
+	theme,
+});
 
 ---
 
@@ -63,9 +69,7 @@ const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
             <Icon class="icon-check" name="check" size={20}/>
         </button>
     </div>
-    <div class={`code-block-body ${showLineNumbers ? 'has-line-numbers' : ''}`}>
-        <Code code={code} lang={lang as any} theme={theme as any} wrap={false} />
-    </div>
+     <div class={`code-block-body ${showLineNumbers ? 'has-line-numbers' : ''}`} set:html={html} />
 </div>
 
 <style>
@@ -73,16 +77,15 @@ const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
         margin: 1.25rem 0;
         border-radius: 0.5rem;
         overflow: hidden;
-        border: 1px solid var(--cb-border, rgba(255, 255, 255, 0.08));
-        background: var(--gray);
+        background: #24292E;
     }
 
     .code-block-header {
         display: flex;
         align-items: center;
         gap: 0.65rem;
-        padding: 0.5rem 0.85rem;
-        background: var(--black);
+        padding: 0.5rem 0.85rem;    
+        background: #161A20;
         font-size:  0.85rem;
     }
 
@@ -151,7 +154,7 @@ const label = LANG_LABELS[lang.toLowerCase()] ?? lang.toUpperCase();
         border-radius: 0.3rem;
         border: none;
         background: transparent;
-        color: var(--gray-light);
+        color: #9ea7b3;
         cursor: pointer;
     }
 

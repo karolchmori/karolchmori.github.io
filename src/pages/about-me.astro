@@ -30,7 +30,7 @@ import Icon from '../components/widgets/Icon.astro';
 					<div class="about-banner">
 						<Columns stackOnMobile>
 							<Column width='75%'>
-								<h1 class="about-title">Technical Artist</h1>
+								<h2 class="about-title">Technical Artist</h2>
 								<p class="about-bio">
 									I'm Technical Artist focused in Tools and Pipeline with a background in technical project management.
 									I build the tools and systems that keep artists and productions moving — from 
@@ -176,7 +176,7 @@ import Icon from '../components/widgets/Icon.astro';
  
 
 	.about-page {
-		background-color: #e8e3e6;
+		background-color: var(--page-mainbg);
 		border-radius: 16px;
 		max-width: 900px;
 		width: 100%;
@@ -192,11 +192,11 @@ import Icon from '../components/widgets/Icon.astro';
 		max-width: 90%;
 		margin: auto;
 		padding: 0.5em 0.5em 2.5rem;
-		color: var(--gray-medium);
+		color: var(--page-secondaryfont);
 	}
 
 	.prose :global(.icon-list-text strong) {
-		color: var(--black);
+		color: var(--page-fourfont);
 		font-weight: 700;
 	}
 
@@ -206,8 +206,7 @@ import Icon from '../components/widgets/Icon.astro';
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
-		background: var(--comp-bg-white);
-		border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+		background: var(--page-secondarybg);
 		
 		padding: 1rem 2.5rem;
 		margin: 0 0 1em;
@@ -236,7 +235,7 @@ import Icon from '../components/widgets/Icon.astro';
 		font-family: monospace;
 		letter-spacing: 0.05rem;
 		text-transform: uppercase;
-		color: var(--color-primary);
+		color: var(--page-primary);
 		margin-bottom: 0.9rem;
 	}
 
@@ -263,36 +262,28 @@ import Icon from '../components/widgets/Icon.astro';
 	}
  
 	.about-btn-secondary {
-		background: var(--comp-bg-white);
-		border: 1px solid var(--comp-border-gray);
-		color: var(--gray-dark);
+		background: var(--page-secondarybg);
+		border: 1px solid var(--page-border);
+		color: var(--page-mainfont);
 	}
  
-	.about-btn-secondary:hover {
-		background: var(--comp-bg-gray);
-	}
  
 	.about-btn-primary {
-		background: var(--color-primary);
+		background: var(--page-primary);
 		color: #fff;
-		border: 1px solid var(--color-primary);
-	}
- 
-	.about-btn-primary:hover {
-		background: var(--accent-dark);
-		border-color: var(--accent-dark);
+		border: 1px solid var(--page-primary);
 	}
  
 	/* ── BIO ── */
 	.about-bio {
 		line-height: 1.5;
-		color: var(--gray-medium);
+		color: var(--page-secondaryfont);
 	}
 
 	/* ── DIVIDER ── */
 	.divider {
 		height: 1px;
-		background: var(--comp-border-gray);
+		background: var(--page-border);
 		margin: 2rem 0;
 	}
 	
@@ -302,7 +293,7 @@ import Icon from '../components/widgets/Icon.astro';
 		font-size: 1rem;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--gray-light);
+		color: var(--page-thirdfont);
 		margin-bottom: 1.25rem;
 	}
 

@@ -11,11 +11,6 @@ export default defineConfig({
     site: 'https://karolchmori.github.io',
     base: '/',
     integrations: [mdx(), sitemap(), react()],
-    markdown: {
-        shikiConfig: {
-            theme: 'css-variables', //horizon    one-dark-pro    css-variables
-        },
-    },
     fonts: [
         {
             provider: fontProviders.local(),

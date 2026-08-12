@@ -33,6 +33,10 @@ const { status = 'static' } = Astro.props;
 			<div class="menu-social">
 				<SocialLinks orientation="horizontal" size={30} gap={0.5}/>
 			</div>
+			<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+				<span class="theme-icon-light">☀</span>
+				<span class="theme-icon-dark">☾</span>
+			</button>
 			
 		</div>
 	</nav>
@@ -63,6 +67,21 @@ const { status = 'static' } = Astro.props;
 	.menu-close { display: none; }
 	.menu-logo { display: none;	}
 	.menu-social { display: none; }
+
+	.theme-toggle {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 20px;
+		line-height: 1;
+		padding: 0.3em;
+		color: white; /* match your header's current text color */
+	}
+
+	.theme-icon-dark { display: none; }
+
+	:global([data-theme="dark"]) .theme-icon-light { display: none; }
+	:global([data-theme="dark"]) .theme-icon-dark { display: inline; }
 
 
 	/* -------------------------------------------------------------- */ 
@@ -162,6 +181,17 @@ const { status = 'static' } = Astro.props;
 				navPages.classList.remove('is-open');
 				document.body.style.overflow = '';
 			});
+		});
+	}
+
+	const themeToggle = document.getElementById('theme-toggle');
+
+	if (themeToggle) {
+		themeToggle.addEventListener('click', () => {
+			const html = document.documentElement;
+			const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+			html.setAttribute('data-theme', next);
+			localStorage.setItem('theme', next);
 		});
 	}
 
