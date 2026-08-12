@@ -37,16 +37,16 @@ import Icon from '../components/widgets/Icon.astro';
 									procedural Houdini setups to the publish pipelines around them. Comfortable
 									moving between DCC scripting and the production side of a studio.
 								</p>
-								<div class="banner-actions">
-									<a href="mailto:karolchmori@hotmail.com" class="btn btn-primary">Get in touch</a>
-									<a href="/karolchmori-cv.pdf" class="btn btn-secondary" download>
-										<Icon class="btn-icon" name="download" size={16}/>
+								<div class="about-actions">
+									<a href="mailto:karolchmori@hotmail.com" class="about-btn about-btn-primary">Get in touch</a>
+									<a href="/KarolChMori_CV.pdf" class="about-btn about-btn-secondary" download>
+										<Icon class="about-btn-icon" name="download" size={16}/>
 										CV
 									</a>
 								</div>
 							</Column>
 							<Column>
-								<div class="banner-photo">
+								<div class="about-photo">
 									<img src={MyPicture.src} alt="" />
 								</div>
 							</Column>
@@ -214,7 +214,7 @@ import Icon from '../components/widgets/Icon.astro';
 	}
 
 
-	.banner-photo {
+	.about-photo {
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;
@@ -224,7 +224,7 @@ import Icon from '../components/widgets/Icon.astro';
 		padding-left: 0.5rem;
 	}
 
-	.banner-photo img {
+	.about-photo img {
 		width: 170px;
 		height: 170px;
 		border-radius: 10%;
@@ -240,12 +240,12 @@ import Icon from '../components/widgets/Icon.astro';
 		margin-bottom: 0.9rem;
 	}
 
-	.banner-actions {
+	.about-actions {
 		display: flex;
 		gap: 0.65rem;
 	}
  
-	.btn {
+	.about-btn {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4rem;
@@ -257,28 +257,28 @@ import Icon from '../components/widgets/Icon.astro';
 		transition: opacity 0.15s ease, background 0.15s ease;
 	}
  
-	.btn-icon {
+	.about-btn-icon {
 		width: 14px;
 		height: 14px;
 	}
  
-	.btn-secondary {
+	.about-btn-secondary {
 		background: var(--comp-bg-white);
 		border: 1px solid var(--comp-border-gray);
 		color: var(--gray-dark);
 	}
  
-	.btn-secondary:hover {
+	.about-btn-secondary:hover {
 		background: var(--comp-bg-gray);
 	}
  
-	.btn-primary {
+	.about-btn-primary {
 		background: var(--color-primary);
 		color: #fff;
 		border: 1px solid var(--color-primary);
 	}
  
-	.btn-primary:hover {
+	.about-btn-primary:hover {
 		background: var(--accent-dark);
 		border-color: var(--accent-dark);
 	}
