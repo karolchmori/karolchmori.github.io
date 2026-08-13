@@ -7,6 +7,12 @@ import SocialLinks from '../components/props/SocialLinks.astro';
 import DropdownLink from './DropdownLink.astro'; 
 
 
+interface Props {
+    showThemeToggle?: boolean;
+}
+
+const { showThemeToggle = true } = Astro.props;
+
 ---
 <header>
 	<nav>
@@ -16,7 +22,7 @@ import DropdownLink from './DropdownLink.astro';
 		
 		<a class="hamburger" aria-label="Menu">☰</a>
 		<div class="navigator-pages">
-			<ThemeToggle />
+			{showThemeToggle && <ThemeToggle />}
 			<HeaderLink href="/about-me">About Me</HeaderLink>
 			<DropdownLink label="Work" href="/work" children={[
 							{ label: 'Credits', href: '/work/credits' },
