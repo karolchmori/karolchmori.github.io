@@ -63,7 +63,8 @@
 	--comp-border: #8a8a966e;
 	
 	/* NAV COLOURS */ 
-	--menu-title: #EAE5E8;
+	--menu-logo: #dfd8dc;
+	--menu-title: #cfcacd;
 	--menu-accent: #C33F6A;
 	--menu-mainbg: #271f25;
 	--menu-secondarybg: #e4dbe2;
@@ -75,8 +76,8 @@
 [data-theme="dark"] {
 
 	/* PAGE COLOURS */
-	--page-mainbg: #252325;
-	--page-secondarybg: #1e1c1e;
+	--page-mainbg: #151416;
+	--page-secondarybg: #121113;
 	--page-border: #8a8a9633;
 
 	/* GREY LEVELS */

@@ -18,25 +18,24 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 	.nav-link {
 		display: inline-block;
 		text-decoration: none;
-		font-family: IBM Plex Sans;
-		font-weight: 300;
-		
-		font-size: 15pt;
+		font-family: monospace;
+		text-transform: uppercase;
+		letter-spacing: 0.02rem;
+		font-size: 14pt;
 		color: var(--menu-title);
-		padding: 0.5em 1.3em;
+
 		user-select: none;
 		
 	}
 
 	.nav-link:hover {
 		color: var(--menu-accent);
-		font-weight: 400;
 	}
+
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 		.nav-link {
-
-			font-size: 1.5rem;
+			font-size: 14pt;
 		}
 
 

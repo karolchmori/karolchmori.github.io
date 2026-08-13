@@ -13,8 +13,9 @@ const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 ---
 
-<div class:list={['dropdown', { active: isActive }]}>
-     <div class="dropdown-trigger">
+<!-- ADDED 'expanded' to the class:list here -->
+<div class:list={['dropdown', 'expanded', { active: isActive }]}>
+    <div class="dropdown-trigger">
         <a href={href} class="nav-link">{label}</a>
         <button class="arrow-btn" aria-label="Toggle submenu">▾</button>
     </div>
@@ -41,19 +42,18 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
     .dropdown-trigger {
         display: inline-block;
-        padding: 0.5em 0.8em;
         user-select: none;
         cursor: pointer;
     }
 
     .dropdown-trigger a.nav-link {
         text-decoration: none;
+        font-family: monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+        font-size: 14pt;
         color: var(--menu-title);
-        font-family: IBM Plex Sans;
-        font-weight: 300;
-        font-size: 15pt;
     }
-
 
     .dropdown-trigger:hover a.nav-link {
         color: var(--menu-accent);
@@ -70,9 +70,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         cursor: pointer;
         transition: transform 0.2s ease;
         line-height: 1;
-        
     }
-
 
     /* Desktop dropdown panel */
     .dropdown-menu {
@@ -100,7 +98,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         .dropdown {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-end; /* Matches your right-alignment */
         }
 
         .dropdown-trigger {
@@ -108,43 +106,45 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
             align-items: center;
         }
 
+
         .arrow-btn {
-            font-size: 1rem; 
+            font-size: 0.9rem; 
         }
-
-        .dropdown-trigger a.nav-link {
-            font-size: 1.5rem;
-        }
-
 
         .dropdown-menu {
             display: none !important; 
         }
 
         .mobile-children {
-            display: none;
+            display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 0.2em;
+            align-items: flex-end;
+            gap: 0.2rem; /* Matches your main menu vertical spacing */
+        }
+
+        /* Optional: Make Credits and Tools slightly smaller to look like nested sub-items */
+        .mobile-children :global(.nav-link) {
+            font-size: 0.85rem !important; 
+            opacity: 0.85;
         }
 
         .dropdown.expanded .mobile-children {
             display: flex;
         }
 
-        .dropdown.expanded .arrow {
+        .dropdown.expanded .arrow-btn {
             transform: rotate(180deg);
         }
     }
+
+
 </style>
 
 <script>
-
     document.querySelectorAll('.arrow-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const dropdown = btn.closest('.dropdown');
             dropdown?.classList.toggle('expanded');
         });
     });
-
-</script> 
+</script>

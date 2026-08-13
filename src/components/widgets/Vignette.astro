@@ -3,7 +3,7 @@ interface Props {
   opacity?: number;
 }
 
-const { opacity = 0.9 } = Astro.props;
+const { opacity = 0.97 } = Astro.props;
 ---
 
 <div class="vignette" style={`--vignette-opacity: ${opacity};`} />
@@ -15,15 +15,14 @@ const { opacity = 0.9 } = Astro.props;
     pointer-events: none;
 
     background: radial-gradient(
-      ellipse 200% 70% at 50% 58%,
+      ellipse 300% 70% at 50% 60%,
       transparent 0%,
-      transparent 70%,
-      rgba(233, 155, 207, 0) 55%,
-      rgba(12, 9, 12, 0.755) 80%,
-      rgba(0, 0, 0, 0.912) 100%
+      transparent 75%,
+      rgba(12, 9, 12, 0.836) 80%,
+      rgba(0, 0, 0, 0.952) 100%
     );
 
     opacity: var(--vignette-opacity);
-    z-index: 100;
+    z-index: 99;
   }
 </style>
