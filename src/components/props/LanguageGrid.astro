@@ -57,5 +57,11 @@ const { languages } = Astro.props;
 		font-size: 0.95rem;
 		color: var(--page-thirdfont);
 	}
+
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .language-item {
+            padding-left: 0.3rem;
+        }
+    }
     
 </style>
