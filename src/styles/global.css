@@ -26,7 +26,7 @@
 		0 16px 32px rgba(var(--gray), 33%);
 
 
-	/* CODEBLOC COLOURS */
+	/* CODEBLOCK COLOURS */
 	--astro-code-foreground: #dfd7d9;
 	--astro-code-background: #24292E;
 
@@ -168,11 +168,11 @@ b {
 }
 
 a {
-	color: var(--accent);
+	color: var(--page-primary);
 }
 
 a:hover {
-	color: var(--accent);
+	color: var(--page-primary);
 }
 
 p {
@@ -214,7 +214,7 @@ code {
 	background-color: var(--comp-secondarybg);
 	border: 0.1px solid var(--comp-border);
 	border-radius: 0.3rem;
-	color: var(--accent);
+	color: var(--page-primary);
 }
 
 pre {
@@ -231,7 +231,7 @@ pre > code {
 }
 
 blockquote {
-	border-left: 4px solid var(--accent);
+	border-left: 4px solid var(--page-primary);
 	padding: 0 0 0 20px;
 	margin: 0;
 }
@@ -239,7 +239,7 @@ blockquote {
 
 hr {
 	border: none;
-	border-top: 2px dashed var(--gray);
+	border-top: 2px dashed var(--page-thirdfont);
 }
 
 @media (orientation: portrait), (max-aspect-ratio: 9/16) {
