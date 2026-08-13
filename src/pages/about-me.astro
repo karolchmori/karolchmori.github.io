@@ -60,9 +60,9 @@ import Icon from '../components/widgets/Icon.astro';
 						<div class="section-label">Specialities</div>
 						<IconList defaultIcon='dot' 
 							items={[
-							{ text: "**Tools Development:** Python and C++ tooling for artists: custom DCCs, shelf tools, validators, and procedural systems.", iconColor: "var(--color-primary)"},
-							{ text: "**Pipeline TD:** End-to-end pipeline design and automation. Asset management, publish systems, and cross-DCC interop for film, TV, and games.", iconColor: "var(--color-primary)"},
-							{ text: "**Project Management**: Production planning, team coordination and technical roadmaps. Keeping creative teams unblocked and shipping on time.", iconColor: "var(--color-primary)"},
+							{ text: "**Tools Development:** Python and C++ tooling for artists: custom DCCs, shelf tools, validators, and procedural systems.", iconColor: "var(--page-primary)"},
+							{ text: "**Pipeline TD:** End-to-end pipeline design and automation. Asset management, publish systems, and cross-DCC interop for film, TV, and games.", iconColor: "var(--page-primary)"},
+							{ text: "**Project Management**: Production planning, team coordination and technical roadmaps. Keeping creative teams unblocked and shipping on time.", iconColor: "var(--page-primary)"},
 							]}
 						/>
 
@@ -235,7 +235,7 @@ import Icon from '../components/widgets/Icon.astro';
 		font-family: monospace;
 		letter-spacing: 0.05rem;
 		text-transform: uppercase;
-		color: var(--page-primary);
+		color: color-mix(in srgb, var(--page-primary) 85%, var(--page-secondarybg));
 		margin-bottom: 0.9rem;
 	}
 
@@ -260,6 +260,12 @@ import Icon from '../components/widgets/Icon.astro';
 		width: 14px;
 		height: 14px;
 	}
+
+	.about-btn-primary {
+		background: color-mix(in srgb, var(--page-primary) 85%, var(--page-secondarybg));
+		color: #fff;
+		border: 1px solid var(--page-primary);
+	}
  
 	.about-btn-secondary {
 		background: var(--page-secondarybg);
@@ -267,12 +273,6 @@ import Icon from '../components/widgets/Icon.astro';
 		color: var(--page-mainfont);
 	}
  
- 
-	.about-btn-primary {
-		background: var(--page-primary);
-		color: #fff;
-		border: 1px solid var(--page-primary);
-	}
  
 	/* ── BIO ── */
 	.about-bio {

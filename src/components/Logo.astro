@@ -15,7 +15,7 @@ const { status = 'static' } = Astro.props;
 <style>
     .site-logo {
 		text-decoration: none;
-        color: #F0EBEC;
+        color: var(--menu-title);
         font-family: 'SandorTrial', sans-serif;
         font-weight: 400;
 
@@ -32,11 +32,11 @@ const { status = 'static' } = Astro.props;
 
     /* Hover */
     :global(header.scrolled) .site-logo:hover {
-        color: #C33F6A;
+        color: var(--menu-accent);
     }
 
     .site-logo:hover {
-		color: #C33F6A;
+		color: var(--menu-accent);
 		font-weight: 300;
 	}
 

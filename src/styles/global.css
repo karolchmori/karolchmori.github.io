@@ -62,11 +62,11 @@
 	--comp-secondarybg: #dcd8d9;
 	--comp-border: #8a8a966e;
 	
+	/* NAV COLOURS */ 
+	--menu-title: #EAE5E8;
+	--menu-accent: #C33F6A;
+	--menu-maingbg: #181317;
 
-	
-	--comp-bg-white: #ece8ea;
-	--comp-bg-gray: #dcd8d9;
-	--comp-border-gray: #8a8a966e;	
 
 }
 
@@ -87,25 +87,10 @@
 	/* ACCENT LEVELS */
 	--page-primary: #e0568b;
 	
-
-
 	/* COMP COLOURS */
 	--comp-mainbg: #1e1c1e;
 	--comp-secondarybg: #2a282a;
 	--comp-border: #8a8a9633;
-
-
-
-	--comp-bg-white: #1e1c1e;
-	--comp-bg-gray: #2a282a;
-	--comp-border-gray: #8a8a9633;
-
-	--black: #cfcfcf;
-	--gray-dark: #d3d3d3;
-	--gray-medium: #b0b0b0;
-	--gray-light: #7a7a7a;
-	--color-primary: #e0568b;
-
 
 
 }
@@ -170,7 +155,7 @@ h6 {
 	font-stretch: normal;
 
 	margin: 0 0 0.0 0;
-	color: var(--black);
+	color: var(--page-fourfont);
 	line-height: 1.2;
 }
 
@@ -226,8 +211,8 @@ img {
 
 code {
 	padding: 3px 7px;
-	background-color: var(--comp-bg-gray);
-	border: 0.1px solid var(--comp-border-gray);
+	background-color: var(--comp-secondarybg);
+	border: 0.1px solid var(--comp-border);
 	border-radius: 0.3rem;
 	color: var(--accent);
 }

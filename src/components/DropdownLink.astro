@@ -48,7 +48,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
     .dropdown-trigger a.nav-link {
         text-decoration: none;
-        color: #EAE5E8;
+        color: var(--menu-title);
         font-family: IBM Plex Sans;
         font-weight: 300;
         font-size: 15pt;
@@ -56,7 +56,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 
     .dropdown-trigger:hover a.nav-link {
-        color: #C33F6A;
+        color: var(--menu-accent);
         font-weight: 400;
     }
 
@@ -64,7 +64,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         background: none;
         border: none;
         outline: none;
-        color: #EAE5E8;
+        color: var(--menu-title);
         font-size: 1em;
         padding: 0 0em;
         cursor: pointer;
@@ -80,7 +80,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         position: absolute;
         top: 100%;
         left: 0;
-        background: #181317;
+        background: var(--menu-maingbg);
         flex-direction: column;
         min-width: 5em;
         z-index: 999;

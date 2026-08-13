@@ -69,11 +69,11 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		background: var(--comp-border-gray);
+		background: var(--comp-border);
 	}
 
 	.timeline-dot-current {
-		background: var(--color-primary);
+		background: var(--page-primary);
 	}
 
 	.timeline-chevron {
@@ -81,7 +81,7 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 		display: inline-flex;
 		align-items: center;
 		margin-top: 0.2rem;
-		color: var(--gray-light);
+		color: var(--page-thirdfont);
 		transition: transform 0.2s ease;
 	}
 
@@ -100,11 +100,11 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 
 	.timeline-title {
 		font-weight: 700;
-		color: var(--black);
+		color: var(--page-fourfont);
 	}
 
 	.timeline-sub {
-		color: var(--gray-light);
+		color: var(--page-thirdfont);
 		font-family: monospace;
 		font-size: 1rem;
 	}
@@ -120,7 +120,7 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 	.timeline-brief {
 		margin: 0.15rem 0 0;
 		line-height: 1.5;
-		color: var(--gray-medium);
+		color: var(--page-secondaryfont);
 	}
 
 
@@ -129,9 +129,9 @@ const { title, sub, brief, detail, current = false } = Astro.props;
 		margin: 0.6rem 0 0 0;
 		padding: 0.7rem;
 		border-radius: 0.5rem;
-		background: var(--comp-bg-gray);
+		background: var(--comp-secondarybg);
 		line-height: 1.65;
-		color: var(--gray-medium);
+		color: var(--page-secondaryfont);
 		animation: detailIn 0.18s ease;
 	}
 
