@@ -65,7 +65,8 @@
 	/* NAV COLOURS */ 
 	--menu-title: #EAE5E8;
 	--menu-accent: #C33F6A;
-	--menu-maingbg: #181317;
+	--menu-mainbg: #271f25;
+	--menu-secondarybg: #e4dbe2;
 
 
 }

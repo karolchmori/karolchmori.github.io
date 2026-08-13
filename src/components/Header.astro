@@ -1,20 +1,17 @@
 ---
 import Logo from './Logo.astro';
 import HeaderLink from './HeaderLink.astro';
+
+import ThemeToggle from './props/ThemeToggle.astro';
 import SocialLinks from '../components/props/SocialLinks.astro';
 import DropdownLink from './DropdownLink.astro'; 
 
-interface Props {
-    status?: 'animated'|'static';
-}
-
-const { status = 'static' } = Astro.props;
 
 ---
 <header>
 	<nav>
 		<div class="header-logo">
-			<Logo status={status}/>
+			<Logo/>
 		</div>
 		
 		<a class="hamburger" aria-label="Menu">☰</a>
@@ -23,6 +20,9 @@ const { status = 'static' } = Astro.props;
                 <Logo/>
             </div>
 			<a class="menu-close">✕</a>
+			
+			
+			<ThemeToggle />
 			<HeaderLink href="/about-me">About Me</HeaderLink>
 			<DropdownLink label="Work" href="/work" children={[
 							{ label: 'Credits', href: '/work/credits' },
@@ -33,10 +33,6 @@ const { status = 'static' } = Astro.props;
 			<div class="menu-social">
 				<SocialLinks orientation="horizontal" size={30} gap={0.5}/>
 			</div>
-			<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-				<span class="theme-icon-light">☀</span>
-				<span class="theme-icon-dark">☾</span>
-			</button>
 			
 		</div>
 	</nav>
@@ -62,26 +58,18 @@ const { status = 'static' } = Astro.props;
 		user-select: none;
 	}
 
+	.navigator-pages {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;  
+    }
+
 
 	.hamburger  { display: none; }
 	.menu-close { display: none; }
 	.menu-logo { display: none;	}
 	.menu-social { display: none; }
 
-	.theme-toggle {
-		background: none;
-		border: none;
-		cursor: pointer;
-		font-size: 20px;
-		line-height: 1;
-		padding: 0.3em;
-		color: var(--menu-title); /* match your header's current text color */
-	}
-
-	.theme-icon-dark { display: none; }
-
-	:global([data-theme="dark"]) .theme-icon-light { display: none; }
-	:global([data-theme="dark"]) .theme-icon-dark { display: inline; }
 
 
 	/* -------------------------------------------------------------- */ 
@@ -183,18 +171,6 @@ const { status = 'static' } = Astro.props;
 			});
 		});
 	}
-
-	const themeToggle = document.getElementById('theme-toggle');
-
-	if (themeToggle) {
-		themeToggle.addEventListener('click', () => {
-			const html = document.documentElement;
-			const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-			html.setAttribute('data-theme', next);
-			localStorage.setItem('theme', next);
-		});
-	}
-
 
 
 </script>
