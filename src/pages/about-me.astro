@@ -22,7 +22,8 @@ import Icon from '../components/widgets/Icon.astro';
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>	<body>
+	</head>	
+	<body>
 		<Header />
 		<div class="about-container">
 			<main>
@@ -139,12 +140,6 @@ import Icon from '../components/widgets/Icon.astro';
 
 <style>
 
-	html, body {
-		margin: 0;
-		padding: 0;
-		min-height: 100%;
-	}
-
 	.about-container {
 		position: relative;
 		min-height: 100vh;      /* ← container itself must have a height to push against */
@@ -187,13 +182,6 @@ import Icon from '../components/widgets/Icon.astro';
 		flex-direction: column;
 	}
 
-	.prose {
-		width: auto;
-		max-width: 90%;
-		margin: auto;
-		padding: 0.5rem 1rem 2.5rem;
-		color: var(--page-secondaryfont);
-	}
 
 	.prose :global(.icon-list-text strong) {
 		color: var(--page-fourfont);

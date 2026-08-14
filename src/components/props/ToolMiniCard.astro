@@ -1,0 +1,160 @@
+---
+// ProjectCard.astro
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import StackBadge from './StackBadge.astro';
+
+interface Props {
+    entry: CollectionEntry<'tool'>;
+}
+
+const { entry } = Astro.props;
+
+const title       = entry.data.title;
+const description = entry.data.description;
+const thumbnail   = entry.data.thumbnail;
+const software    = entry.data.software;
+const stack       = entry.data.stack;
+const department  = entry.data.department;
+const filePath    = entry.id;
+const slug        = title.toLowerCase().replace(/\s+/g, '-');
+---
+
+<div
+    class="tool-minicard"
+    data-path={filePath}
+    data-software={software}
+    data-department={department.join(',')}
+    data-stack={stack.join(',')}
+    data-state="active"
+    data-href={`/work/tools/${slug}`}
+>
+    <div class="tool-minicard-thumbnail">
+        {thumbnail
+            ? <Image src={thumbnail} alt={title} />
+            : <div class="tool-minicard-thumbnail-empty" />
+        }
+    </div>
+    <div class="tool-minicard-body">
+        <h4>{title}</h4>
+        <p>{description}</p>
+    </div>
+    <div class="tool-minicard-stack">
+        {stack.map(tech => <StackBadge name={tech} size={28} />)}
+    </div>
+</div>
+
+<style>
+    .tool-minicard {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #D8D2D2;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+
+
+    .tool-minicard-thumbnail {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: linear-gradient(160deg, #1c3a4a, #2fa4a0 55%, #2f6fbf);
+    }
+
+    .tool-minicard-thumbnail img,
+    .tool-minicard-thumbnail-empty {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 0px;
+    }
+
+    .tool-minicard-body {
+        padding: 0.65rem 0.75rem 0.4rem;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .tool-minicard-body h4 {
+        margin: 0 0 0.3rem;
+        font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+        color: #161A20;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .tool-minicard-body p {
+        margin: 0;
+        font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+        line-height: 1.3;
+        color: #3a3f47;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .tool-minicard-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        padding: 0 0.75rem 0.6rem;
+    }
+
+    /* ── Visibility / filtering states ── */
+    .tool-minicard[data-state="gone"] {
+        display: none;
+    }
+
+    .tool-minicard[data-state="leaving"] {
+        animation: cardOut 0.22s ease forwards;
+        pointer-events: none;
+    }
+
+    .tool-minicard[data-state="active"] {
+        animation: cardIn 0.28s ease forwards;
+    }
+
+    @keyframes cardIn {
+        from { opacity: 0; transform: translateY(8px) scale(0.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes cardOut {
+        from { opacity: 1; transform: scale(1); }
+        to   { opacity: 0; transform: scale(0.95); }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .tool-minicard:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    /* ── MOBILE: keep it tight so 2 fit per row ── */
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .tool-minicard-body {
+            padding: 0.5rem 0.6rem 0.3rem;
+        }
+
+        .tool-minicard-stack {
+            padding: 0 0.6rem 0.5rem;
+        }
+    }
+</style>
+
+<script>
+    document.querySelectorAll<HTMLElement>('.tool-minicard[data-href]').forEach(card => {
+        card.addEventListener('click', () => {
+            const href = card.dataset.href;
+            if (href) window.location.href = href;
+        });
+    });
+</script>
