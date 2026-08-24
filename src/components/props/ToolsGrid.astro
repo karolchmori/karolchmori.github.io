@@ -14,19 +14,24 @@ const uniqueSorted = (values: string[]) =>
 
 const softwareOptions   = uniqueSorted(entries.map(e => e.data.software).filter(Boolean));
 const departmentOptions = uniqueSorted(entries.flatMap(e => e.data.department));
-const stackOptions      = uniqueSorted(entries.flatMap(e => e.data.stack));
 
+// Stack dropped from the filter UI on purpose — two facets (software, department)
+// is enough to narrow the grid; stack is still visible on each card itself.
 const filterGroups = [
-    { key: 'software',   label: 'Software',   options: softwareOptions },
-    { key: 'department', label: 'Department', options: departmentOptions },
-    { key: 'stack',      label: 'Stack',      options: stackOptions },
+    { key: 'software',   label: 'Software',   icon: '♣', options: softwareOptions },
+    { key: 'department', label: 'Department', icon: '♦', options: departmentOptions },
 ].filter(group => group.options.length > 0);
+
+const totalTools = entries.length;
 ---
 
 <div class="filter-container">
     {filterGroups.map(group => (
-        <div class="filter-row">
-            <span class="filter-label">{group.label}</span>
+        <div class="filter-row" data-group={group.key}>
+            <span class="filter-label">
+                <span class="suit-icon" aria-hidden="true">{group.icon}</span>
+                {group.label}
+            </span>
             <div class="filter-options">
                 {group.options.map(value => (
                     <button
@@ -41,6 +46,13 @@ const filterGroups = [
             </div>
         </div>
     ))}
+
+    <div class="filter-foot">
+        <span class="result-count" id="result-count" data-total={totalTools}>
+            {totalTools} of {totalTools} tools match
+        </span>
+        <button type="button" class="clear-btn" id="clear-filters">Clear filters</button>
+    </div>
 </div>
 
 <div class="tools-grid" id="tools-grid">
@@ -55,10 +67,10 @@ const filterGroups = [
         flex-direction: column;
         gap: 0.9rem;
         margin-bottom: 2rem;
-        background: var(--page-secondarybg);
+        background: var(--page-mainbg);
         border: 1px solid var(--page-border);
         border-radius: 12px;
-        padding: 1rem 1.25rem;
+        padding: 1rem 1.25rem 0.9rem;
     }
 
     .filter-row {
@@ -66,15 +78,40 @@ const filterGroups = [
         flex-wrap: wrap;
         align-items: center;
         gap: 0.75rem;
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid var(--page-border);
     }
 
     .filter-label {
         flex: 0 0 auto;
         min-width: 6.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
         font-size: 0.7rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--page-secondaryfont);
+    }
+
+    .suit-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.15rem;
+        height: 1.15rem;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        line-height: 1;
+        background: var(--page-fourfont);
+        color: var(--page-secondarybg);
+        flex: none;
+    }
+
+    /* diamonds read as the "red" suit, matching the card motif used elsewhere on the site */
+    .filter-row[data-group="department"] .suit-icon {
+        background: color-mix(in srgb, var(--page-primary) 80%, black 10%);
+        color: white;
     }
 
     .filter-options {
@@ -84,6 +121,7 @@ const filterGroups = [
     }
 
     .filter-pill {
+        position: relative;
         font: inherit;
         font-size: 0.8rem;
         padding: 0.35rem 0.85rem;
@@ -92,16 +130,59 @@ const filterGroups = [
         background: var(--comp-secondarybg);
         color: var(--page-mainfont);
         cursor: pointer;
-        transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
     }
 
     .filter-pill:hover {
         background: color-mix(in srgb, var(--comp-secondarybg) 90%, var(--page-fourfont));
+        transform: translateY(-1px);
     }
 
+
     .filter-pill.is-active {
-        background: color-mix(in srgb, var(--page-primary) 14%, var(--page-secondarybg));
+        background: var(--page-primary);
+        color: white;
+        box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--page-primary) 50%, transparent);
+    }
+
+
+    .filter-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 0.2rem;
+    }
+
+    .result-count {
+        font-size: 0.75rem;
+        color: var(--page-secondaryfont);
+    }
+
+    .clear-btn {
+        background: none;
+        border: none;
+        font: inherit;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--page-secondaryfont);
+        cursor: pointer;
+        padding: 0.2rem 0;
+        border-bottom: 1px solid transparent;
+        transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .clear-btn:hover {
         color: var(--page-primary);
+        border-color: var(--page-primary);
+    }
+
+    .clear-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
     }
 
     .tools-grid {
@@ -112,9 +193,8 @@ const filterGroups = [
 
 
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
-        .tools-filters {
-            padding: 0.75rem 1rem;
-            margin: 0 0.5rem 1.5rem;
+        .filter-container {
+            padding: 0.75rem 1rem 0.65rem;
         }
 
         .filter-label {
@@ -141,6 +221,9 @@ const filterGroups = [
     if (grid) {
         const cards = Array.from(grid.querySelectorAll<HTMLElement>('.tool-minicard'));
         const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-pill'));
+        const countEl = document.getElementById('result-count');
+        const clearBtn = document.getElementById('clear-filters') as HTMLButtonElement | null;
+        const total = cards.length;
 
         const state: FilterState = {};
         buttons.forEach(btn => {
@@ -153,7 +236,6 @@ const filterGroups = [
         function matches(card: HTMLElement): boolean {
             const cardSoftware = card.dataset.software ?? '';
             const cardDepartment = (card.dataset.department ?? '').split(',').filter(Boolean);
-            const cardStack = (card.dataset.stack ?? '').split(',').filter(Boolean);
 
             for (const group of Object.keys(state)) {
                 const active = state[group];
@@ -163,8 +245,6 @@ const filterGroups = [
                     if (!active.has(cardSoftware)) return false;
                 } else if (group === 'department') {
                     if (!cardDepartment.some(v => active.has(v))) return false;
-                } else if (group === 'stack') {
-                    if (!cardStack.some(v => active.has(v))) return false;
                 }
             }
             return true;
@@ -186,14 +266,30 @@ const filterGroups = [
             }, LEAVE_MS);
         }
 
+        function hasActiveFilters(): boolean {
+            return Object.values(state).some(set => set.size > 0);
+        }
+
+        function updateFoot(matchCount: number) {
+            if (countEl) {
+                countEl.textContent = `${matchCount} of ${total} tools match`;
+            }
+            if (clearBtn) {
+                clearBtn.disabled = !hasActiveFilters();
+            }
+        }
+
         function applyFilters() {
+            let matchCount = 0;
             for (const card of cards) {
                 const isMatch = matches(card);
-                const isVisible = card.dataset.state === 'active';
+                if (isMatch) matchCount++;
 
+                const isVisible = card.dataset.state === 'active';
                 if (isMatch && !isVisible) reveal(card);
                 if (!isMatch && isVisible) conceal(card);
             }
+            updateFoot(matchCount);
         }
 
         buttons.forEach(btn => {
@@ -211,5 +307,13 @@ const filterGroups = [
                 applyFilters();
             });
         });
+
+        clearBtn?.addEventListener('click', () => {
+            buttons.forEach(btn => btn.classList.remove('is-active'));
+            Object.values(state).forEach(set => set.clear());
+            applyFilters();
+        });
+
+        updateFoot(total);
     }
 </script>

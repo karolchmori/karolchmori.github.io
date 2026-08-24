@@ -44,9 +44,10 @@
 
 
 	/* PAGE COLOURS */
-	--page-mainbg: #e8e3e6;
-	--page-secondarybg: #ece8ec;
-	--page-border: #8a8a966e;
+	
+	--page-mainbg: #f3eef1; 
+	--page-secondarybg: #f5f1f5;
+	--page-border: #968a916e;
 	
 	/* GREY LEVELS */
 	--page-mainfont: #262124;
@@ -58,7 +59,7 @@
 	--page-primary: #c65381;
 
 	/* COMP COLOURS */
-	--comp-mainbg: #ece8ec;
+	--comp-mainbg: #ece8ea;
 	--comp-secondarybg: #dcd8d9;
 	--comp-border: #8a8a966e;
 	
@@ -76,8 +77,8 @@
 [data-theme="dark"] {
 
 	/* PAGE COLOURS */
-	--page-mainbg: #151416;
-	--page-secondarybg: #121113;
+	--page-mainbg: #141414;
+	--page-secondarybg: #111111;
 	--page-border: #8a8a9633;
 
 	/* GREY LEVELS */

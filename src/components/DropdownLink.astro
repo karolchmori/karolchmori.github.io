@@ -78,9 +78,14 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         position: absolute;
         top: 100%;
         left: 0;
-        background: var(--menu-maingbg);
+        background: #0C0A0D; /* explicit opaque color, matches your mobile menu bg */
         flex-direction: column;
-        min-width: 5em;
+        min-width: 6em;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0 0 8px 8px;
+        box-shadow: -5px 10px 25px rgba(0, 0, 0, 0.4);
+        border-left: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         z-index: 999;
     }
 
@@ -98,7 +103,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         .dropdown {
             display: flex;
             flex-direction: column;
-            align-items: flex-end; /* Matches your right-alignment */
+            align-items: flex-end;
         }
 
         .dropdown-trigger {
@@ -124,7 +129,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
         /* Optional: Make Credits and Tools slightly smaller to look like nested sub-items */
         .mobile-children :global(.nav-link) {
-            font-size: 0.85rem !important; 
+            font-size: 0.9rem !important; 
             opacity: 0.85;
         }
 
