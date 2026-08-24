@@ -1,7 +1,8 @@
 ---
 // ToolsGrid.astro
 import type { CollectionEntry } from 'astro:content';
-import ProjectCard from './ToolMiniCard.astro';
+import ToolMiniCard from './ToolMiniCard.astro';
+import Icon, { type IconName } from '../widgets/Icon.astro'; // adjust path to wherever Icon.astro actually lives
 
 interface Props {
     entries: CollectionEntry<'tool'>[];
@@ -17,10 +18,11 @@ const departmentOptions = uniqueSorted(entries.flatMap(e => e.data.department));
 
 // Stack dropped from the filter UI on purpose — two facets (software, department)
 // is enough to narrow the grid; stack is still visible on each card itself.
-const filterGroups = [
-    { key: 'software',   label: 'Software',   icon: '♣', options: softwareOptions },
-    { key: 'department', label: 'Department', icon: '♦', options: departmentOptions },
-].filter(group => group.options.length > 0);
+const rawFilterGroups: { key: string; label: string; icon: IconName; options: string[] }[] = [
+    { key: 'software',   label: 'Software',   icon: 'club',    options: softwareOptions },
+    { key: 'department', label: 'Department', icon: 'diamond', options: departmentOptions },
+];
+const filterGroups = rawFilterGroups.filter(group => group.options.length > 0);
 
 const totalTools = entries.length;
 ---
@@ -29,7 +31,9 @@ const totalTools = entries.length;
     {filterGroups.map(group => (
         <div class="filter-row" data-group={group.key}>
             <span class="filter-label">
-                <span class="suit-icon" aria-hidden="true">{group.icon}</span>
+                <span class="suit-icon" aria-hidden="true">
+                    <Icon name={group.icon} size={11} />
+                </span>
                 {group.label}
             </span>
             <div class="filter-options">
@@ -57,7 +61,7 @@ const totalTools = entries.length;
 
 <div class="tools-grid" id="tools-grid">
     {entries.map(entry => (
-        <ProjectCard entry={entry} />
+        <ToolMiniCard entry={entry} />
     ))}
 </div>
 
@@ -101,14 +105,12 @@ const totalTools = entries.length;
         width: 1.15rem;
         height: 1.15rem;
         border-radius: 50%;
-        font-size: 0.8rem;
-        line-height: 1;
         background: var(--page-fourfont);
         color: var(--page-secondarybg);
         flex: none;
     }
 
-    /* diamonds read as the "red" suit, matching the card motif used elsewhere on the site */
+
     .filter-row[data-group="department"] .suit-icon {
         background: color-mix(in srgb, var(--page-primary) 80%, black 10%);
         color: white;

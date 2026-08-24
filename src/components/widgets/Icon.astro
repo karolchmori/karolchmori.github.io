@@ -35,12 +35,14 @@ const ICONS = {
     'pause' : 'M7 5h4v14H7V5Zm6 0h4v14h-4V5Z',                      // USED
     'volume': 'M11 5L6 9H2v6h4l5 4V5Z M15.54 8.46a5 5 0 0 1 0 7.07 M19.07 4.93a10 10 0 0 1 0 14.14',                                                         // USED
     'volume-muted': 'M11 5L6 9H2v6h4l5 4V5Z M22 9l-6 6 M16 9l6 6',  // USED    
+    'club': 'M15.6 7.8A3.6 3.6 0 1 1 8.4 7.8A3.6 3.6 0 1 1 15.6 7.8Z M11.2 13A3.6 3.6 0 1 1 4 13A3.6 3.6 0 1 1 11.2 13Z M20 13A3.6 3.6 0 1 1 12.8 13A3.6 3.6 0 1 1 20 13Z M10.5 14.2L13.5 14.2L14.6 21.4L9.4 21.4Z',   // USED
+    'diamond': 'M12 2L20 12L12 22L4 12Z',                          // USED
 } as const;
 
 
 export type IconName = keyof typeof ICONS;
 
-const FILLED_ICONS = new Set<IconName>(['dot', 'play', 'pause']);
+const FILLED_ICONS = new Set<IconName>(['dot', 'play', 'pause',  'club', 'diamond']);
 
 interface Props {
     name: IconName;
