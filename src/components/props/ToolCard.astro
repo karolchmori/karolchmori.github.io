@@ -24,7 +24,7 @@ const slug        = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null
 
 
 const initialState = entry ? "hidden" : "empty";
-const suits = ["♣", "♥", "♦", "♠"];
+const suits = ["♣\uFE0E", "♥\uFE0E", "♦\uFE0E", "♠\uFE0E"];
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A"];
 
 
@@ -215,7 +215,7 @@ const cardSuit = suits[index % suits.length];
     .tool-card-content::after {
         content: "";
         position: absolute;
-        top: 24px; bottom: 24px; left: 25px; right: 25px; 
+        top: 24px; bottom: 24px; left: 24px; right: 24px; 
         z-index: 5;
         pointer-events: none;
         
@@ -349,12 +349,48 @@ const cardSuit = suits[index % suits.length];
 
     /* ── MOBILE ── */
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
-
-		.tool-card-thumbnail {
-            width: 100%;
-            flex: 0 0 45%;   
-            overflow: hidden;
+        .tool-card-content {
+            padding: 26px;
         }
+
+        .card-notch {
+            width: 45px;
+            height: 73px;
+        }
+
+        .card-notch .rank {
+            top: 10px;
+            left: 7px;
+            font-size: 3rem;
+        }
+
+        .card-notch .suit {
+            left: 10px;
+            font-size: 2rem;
+        }
+
+        .tool-card-content::before {
+            top: 23px; bottom: 23px; left: 23px; right: 23px; 
+            clip-path: polygon(
+                21% 0%,    /* Start top edge just after the dot */
+                100% 0%,   /* Keep the top-right corner intact */
+                110% 63%,    /* Start right edge just before bottom gap */
+                71% 110%,    /* Cut the bottom edge */
+                -10% 110%,   /* Keep the bottom-left corner intact */
+                -10% 35%     /* Cut the left edge */
+            );
+
+        }
+
+        .tool-card-content::after {
+            top: 23px; bottom: 23px; left: 23px; right: 23px; 
+            background-position: 
+                left 16% top -0px, 
+                right 16% bottom -0px, 
+                left -1px top 20%, 
+                right -1px bottom 20%;
+        }
+		
 	}
 
 
