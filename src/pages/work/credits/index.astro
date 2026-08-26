@@ -1,0 +1,98 @@
+---
+// About.astro
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import Header from '../../../components/Header.astro';
+import Vignette from '../../../components/widgets/Vignette.astro';
+
+import SkillsGroup from '../../../components/props/SkillsGroup.astro';
+import LanguageGrid from '../../../components/props/LanguageGrid.astro';
+import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../../../consts';
+
+import { VideoEmbed, Collapsible, Callout, CodeBlock, PictureCompare, 
+    DynamicTable, IconList, PictureSequence, Columns, Column, TimelineItem, Timeline, Picture, VideoPlayer
+ } from '../../../components/mdx-components';
+
+import Icon from '../../../components/widgets/Icon.astro';
+
+
+---
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>	
+	<body>
+		<Header/>
+        <div class="credits-container">
+			<main>
+				<section class="credits-page">
+					
+				</section>
+				
+			</main>
+        </div>
+        <Footer />
+		<Vignette />
+	</body>
+</html>
+
+
+<style>
+
+	.credits-container {
+		position: relative;
+		min-height: 100vh;      /* ← container itself must have a height to push against */
+		display: flex;
+		flex-direction: column;
+	}
+
+	.credits-container::before {
+		content: "";
+		position: fixed;
+		inset: 0;
+		background-image: url('../../../assets/BG/BG_High.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top center;
+		z-index: -1;
+	}
+
+	main {
+		position: relative;
+		z-index: 1;
+		width: calc(100% - 2em);
+		max-width: 100%;
+		margin: 0 auto;
+		flex: 1;                /* ← takes remaining space inside tool-container */
+		display: flex;
+		flex-direction: column;
+	}
+
+	.credits-page {
+		max-width: 900px;
+		width: 100%;
+		margin: 1rem auto;
+		overflow: hidden;
+		flex: 1;     
+		display: flex;
+		flex-direction: column;
+	}
+
+	
+
+	.prose :global(.icon-list-text strong) {
+		color: var(--page-fourfont);
+		font-weight: 700;
+	}
+
+
+	/* ── MOBILE ── */
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+		.credits-container {
+			padding-top: 2em;
+		}
+
+	}
+
+</style>

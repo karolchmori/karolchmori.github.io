@@ -13,10 +13,10 @@ const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 ---
 
-<!-- ADDED 'expanded' to the class:list here -->
+
 <div class:list={['dropdown', 'expanded', { active: isActive }]}>
     <div class="dropdown-trigger">
-        <a href={href} class="nav-link">{label}</a>
+        <span class="nav-link">{label}</span>
         <button class="arrow-btn" aria-label="Toggle submenu">▾</button>
     </div>
 
@@ -46,7 +46,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         cursor: pointer;
     }
 
-    .dropdown-trigger a.nav-link {
+    .dropdown-trigger .nav-link {
         text-decoration: none;
         font-family: monospace;
         text-transform: uppercase;
@@ -93,6 +93,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
         display: flex;
     }
 
+
     /* Mobile children hidden on desktop */
     .mobile-children {
         display: none;
@@ -106,16 +107,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
             align-items: flex-end;
         }
 
-        .dropdown-trigger {
-            display: flex;
-            align-items: center;
-        }
-
-
-        .arrow-btn {
-            font-size: 0.9rem; 
-        }
-
+    
         .dropdown-menu {
             display: none !important; 
         }
@@ -137,18 +129,18 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
             display: flex;
         }
 
-        .dropdown.expanded .arrow-btn {
-            transform: rotate(180deg);
-        }
+        
     }
 
 
 </style>
 
 <script>
-    document.querySelectorAll('.arrow-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const dropdown = btn.closest('.dropdown');
+    document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            
+            if ((e.target as HTMLElement).closest('.arrow-btn')) return;
+            const dropdown = trigger.closest('.dropdown');
             dropdown?.classList.toggle('expanded');
         });
     });

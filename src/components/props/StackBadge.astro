@@ -1,41 +1,58 @@
 ---
+
+import PythonIcon from '../../assets/stack/python.svg';
+import QtIcon from '../../assets/stack/qt.svg';
+import CPPIcon from '../../assets/stack/cpp.svg';
+import CIcon from '../../assets/stack/c.svg';
+import CSharpIcon from '../../assets/stack/csharp.svg';
+import JavaIcon from '../../assets/stack/java.svg';
+import { string } from 'astro:schema';
+
+
+
 interface Props {
     name: string;
     size?: number;
+    backgroundcolor?: string;
+    color?: string;
 }
 
-const { name, size = 30} = Astro.props;
+const { name, size = 30, backgroundcolor = "#34222D", color = "#CBC5C3"} = Astro.props;
 
-const iconMap: Record<string, string> = {
-    "Python": "/stack/python.svg",
-    "Qt":     "/stack/qt.svg",
-    "C++":    "/stack/cpp.svg",
-    "C":      "/stack/c.svg",
-    "C#":     "/stack/csharp.svg",
-    "Java":     "/stack/java.svg",
+
+const iconMap: Record<string, any> = {
+    "Python": PythonIcon,
+    "Qt": QtIcon,
+    "C++": CPPIcon,
+    "C": CIcon,
+    "C#": CSharpIcon,
+    "Java": JavaIcon,
 };
 
-const icon = iconMap[name] ?? null;
+const IconComponent = iconMap[name] ?? null;
+
 ---
 
-
-{icon
+{IconComponent
     ?   <div class="stack-badge-wrapper">
-            <img src={icon} alt={name} class="stack-badge stack-badge--icon" />
+            <IconComponent style={`color: var(--badgeBGColor); width: var(--badgeSize); height: var(--badgeSize);`} class="stack-badge" />
             <span class="stack-tooltip">{name}</span>
         </div>
     :   <span class="stack-badge stack-badge--text">{name}</span>
 }
 
-<style define:vars={{ badgeSize: size }}>
-    .stack-badge--icon {
-        width: calc(var(--badgeSize) * 1px);
-        height: calc(var(--badgeSize) * 1px);
-    }
+<style define:vars={{ badgeSize: `${size}px`, badgeBGColor: backgroundcolor, badgeColor: color }}>
+
 
     .stack-badge-wrapper {
         position: relative;
         display: inline-flex;
+    }
+
+    .stack-badge-wrapper :global(svg path),
+    .stack-badge-wrapper :global(svg circle),
+    .stack-badge-wrapper :global(svg rect) {
+        fill: var(--badgeBGColor) !important;
     }
 
     .stack-tooltip {
@@ -61,10 +78,10 @@ const icon = iconMap[name] ?? null;
     }
 
     .stack-badge--text {
-        font-size: calc((var(--badgeSize) - 14) * 1px);
-        padding: 2px 6px;
+        font-size: 15px;
+        padding: 0px 6px;
         border-radius: 4px;
-        background: #34222D;
-        color: #CBC5C3;
+        background: var(--badgeBGColor);
+        color: var(--badgeColor);
     }
 </style>

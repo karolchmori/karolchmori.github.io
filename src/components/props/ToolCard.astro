@@ -2,7 +2,6 @@
 // ToolCard.astro
 import CardA from '../../assets/icons/AS_CardA.svg';
 import CardB from '../../assets/icons/AS_CardB.svg';
-import CardFrame from '../../assets/icons/AS_CardFrame.svg';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import StackBadge from './StackBadge.astro';
@@ -25,9 +24,13 @@ const slug        = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null
 
 
 const initialState = entry ? "hidden" : "empty";
+const suits = ["♣", "♥", "♦", "♠"];
+const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A"];
 
 
 const cardIcon = index % 2 !== 0 ? CardA : CardB;
+const cardRank = ranks[index % ranks.length]; 
+const cardSuit = suits[index % suits.length];
 
 
 ---
@@ -38,7 +41,17 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         <img src={cardIcon.src} alt="" />
     </div>
     <div class="tool-card-content">
-        <img src={CardFrame.src} />
+        <div class="card-notch top-left">
+            <span class="rank">{cardRank}</span>
+            <span class="suit">{cardSuit}</span>
+        </div>
+
+        <!-- Bottom Right Cutout -->
+        <div class="card-notch bottom-right">
+            <span class="rank">{cardRank}</span>
+            <span class="suit">{cardSuit}</span>
+        </div>
+
         <div class="tool-card-information">
             <div class="tool-card-thumbnail">
                 {thumbnail 
@@ -46,12 +59,9 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
                     : <div class="tool-card-thumbnail-empty" />
                 }
             </div>
-            <div class="tool-card-description">
-                <h4>{title}</h4>
-                <p>{description}</p>
-                <div class="tool-card-stack">
-                    {stack.map(tech => <StackBadge name={tech} />)}
-                </div>
+            <h4 class="tool-card-title">{title}</h4>
+            <div class="tool-card-stack">
+                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='#D5CFCE', color='#2b2b2b' />)}
             </div>
         </div>
 
@@ -61,6 +71,11 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
 
 <style>
 
+    :root {
+        --card-border-color: #D5CFCE; 
+        --card-pink-line: #AE385E;
+    }
+
     .tool-card p {
         margin-top: 4%;
     }
@@ -69,7 +84,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         color: #161A20;
     }
 
-    .tool-card,
+    
     .tool-card-empty,
     .tool-card-content {
         height: 100%;
@@ -83,6 +98,11 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     }
 
     .tool-card {
+        width: 100%;
+        height: auto; 
+        aspect-ratio: 500 / 750;
+
+
         overflow: visible;
         cursor: pointer;
         transform-style: preserve-3d;
@@ -108,26 +128,118 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     .tool-card-content {
         position: relative;
         display: none;
-        
+
+        background-color: var(--card-border-color);
+        padding: 29px;
+        box-sizing: border-box;
+        border-radius: 17px;
+        width: 96%;
     }
+
+    
+
+    /* ── The Notches / Inverse Corners ── */
+    .card-notch {
+        position: absolute;
+        background-color: var(--card-border-color); /* Matches the border perfectly */
+        width: 55px;
+        height: 100px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        color: #2b2b2b;
+    }
+
+    .card-notch .rank {
+        position: relative;
+        top: 18px;
+        left: 7px;
+        line-height: 0.5;
+        font-family: 'Barqen', sans-serif;
+        font-size: 4rem;
+    }
+
+    .card-notch .suit {
+        position: relative;
+        left: 10px;
+        font-family: 'Barqen', sans-serif;
+        font-size: 3.1rem;
+    }
+
+    .card-notch.top-left {
+        top: 26px;
+        left: 18px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .card-notch.bottom-right {
+        bottom: 26px;
+        right: 18px;
+        border-bottom-right-radius: 20px; 
+        transform: rotate(180deg);
+    }
+
 
     /*  Content  */
     .tool-card-information {
-        position: absolute;  
-        inset: 0;             
-        display: flex;
-        flex-direction: column;
-        z-index: 1;           
-        overflow: hidden;
-        border-radius: 14px;
+        height: 100%;
+        border-radius: 2px;
+        overflow: hidden;    
     }
 
 
+    /* PINK LINES*/
+    .tool-card-content::before {
+        content: "";
+        position: absolute;
+        top: 26px; bottom: 26px; left: 26px; right: 26px; 
+        z-index: 5;
+        pointer-events: none;
+        
+        border: 3.7px solid var(--card-pink-line);
+        border-radius: 7px;
+        
+        /* This cuts diagonally across the gaps to hide the border */
+        clip-path: polygon(
+            20% 0%,    /* Start top edge just after the dot */
+            100% 0%,   /* Keep the top-right corner intact */
+            110% 61%,    /* Start right edge just before bottom gap */
+            72% 110%,    /* Cut the bottom edge */
+            -10% 110%,   /* Keep the bottom-left corner intact */
+            -10% 40%     /* Cut the left edge */
+        );
+    }
+
+    /* PINK DOTS */
+    .tool-card-content::after {
+        content: "";
+        position: absolute;
+        top: 24px; bottom: 24px; left: 25px; right: 25px; 
+        z-index: 5;
+        pointer-events: none;
+        
+        background-image: 
+            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%),
+            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%),
+            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%),
+            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%);
+            
+        background-repeat: no-repeat;
+        background-size: 8px 8px;
+        
+        background-position: 
+            left 16% top -0px, 
+            right 16% bottom -0px, 
+            left -1px top 22.5%, 
+            right -1px bottom 22.5%;
+    }
+
 
     .tool-card-thumbnail {
-        width: 100%;
-        flex: 0 0 55%;   
+        height: 100%;
         overflow: hidden;
+        position: relative;
     }
 
     .tool-card-thumbnail img {
@@ -136,25 +248,50 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         object-fit: cover;
         display: block;
         border-radius: 0px;
+        filter: grayscale(20%);
     }
 
+    .tool-card-thumbnail::after {
+        content: "";
+        position: absolute;
+        inset: 0; 
+        mix-blend-mode: multiply;
+        
+        background: linear-gradient(
+            to bottom, 
+            #575555 0%, 
+            transparent 15%, 
+            transparent 75%, 
+            #575555 100%
+        );
+        
+        pointer-events: none; 
+    }
 
-    .tool-card-description {
-        flex: 1;
-        padding: 1rem;
-        position: relative;
-        text-overflow: ellipsis;
-    
+    .tool-card-title {
+        position: absolute; 
+        top: 2.5rem;
+        right: 2.5rem;
+        width: 62%;
+        
+
+        text-align: right;
+        font-family: 'Citylight';
+        font-size: 2.5rem;
+        font-weight: 100;
+        text-transform: uppercase;
+        color: #eee7e7;
     }
 
     .tool-card-stack {
         position: absolute; 
-        bottom: 0.9rem;
-        left: 1.25rem;
+        bottom: 2.5rem;
+        left: 2.5rem;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 0.5em;
+        
     }
 
     /* Visibility status */

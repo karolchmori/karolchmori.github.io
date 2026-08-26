@@ -25,8 +25,8 @@ const { showThemeToggle = true } = Astro.props;
 			{showThemeToggle && <ThemeToggle />}
 			<HeaderLink href="/about-me">About Me</HeaderLink>
 			<DropdownLink label="Work" href="/work" children={[
+                            { label: 'Tools',   href: '/work/tools'},
 							{ label: 'Credits', href: '/work/credits' },
-							{ label: 'Tools',   href: '/work/tools'},
 						]} />
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/contact">Contact</HeaderLink>
