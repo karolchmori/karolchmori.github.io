@@ -42,14 +42,14 @@ const cardSuit = suits[index % suits.length];
     </div>
     <div class="tool-card-content">
         <div class="card-notch top-left">
-            <span class="rank">{cardRank}</span>
-            <span class="suit">{cardSuit}</span>
+            <h1 class="rank">{cardRank}</h1>
+            <h1 class="suit">{cardSuit}</h1>
         </div>
 
         <!-- Bottom Right Cutout -->
         <div class="card-notch bottom-right">
-            <span class="rank">{cardRank}</span>
-            <span class="suit">{cardSuit}</span>
+            <h1 class="rank">{cardRank}</h1>
+            <h1 class="suit">{cardSuit}</h1>
         </div>
 
         <div class="tool-card-information">
@@ -115,7 +115,6 @@ const cardSuit = suits[index % suits.length];
         .tool-card[data-state="active"] .tool-card-content:hover{
             transform: translateY(-3px);
         }
-    
     }
 
     .tool-card-empty {
@@ -125,15 +124,15 @@ const cardSuit = suits[index % suits.length];
         filter: brightness(70%) opacity(60%);
     }
 
+
     .tool-card-content {
         position: relative;
         display: none;
-
         background-color: var(--card-border-color);
-        padding: 29px;
         box-sizing: border-box;
-        border-radius: 17px;
+        border-radius: 1.53cqh;
         width: 96%;
+        padding: 2.6cqh;
     }
 
     
@@ -142,42 +141,37 @@ const cardSuit = suits[index % suits.length];
     .card-notch {
         position: absolute;
         background-color: var(--card-border-color); /* Matches the border perfectly */
-        width: 55px;
-        height: 100px;
+        width: 4cqh;
+        height: 9.5cqh;
         z-index: 2;
         display: flex;
         flex-direction: column;
         align-items: left;
+        
+        border-bottom-right-radius: 1.79cqh;
+    }
+
+    .card-notch h1{
         color: #2b2b2b;
-    }
-
-    .card-notch .rank {
-        position: relative;
-        top: 18px;
-        left: 7px;
-        line-height: 0.5;
         font-family: 'Barqen', sans-serif;
-        font-size: 4rem;
-    }
-
-    .card-notch .suit {
-        position: relative;
-        left: 10px;
-        font-family: 'Barqen', sans-serif;
-        font-size: 3.1rem;
-    }
-
-    .card-notch.top-left {
-        top: 26px;
-        left: 18px;
-        border-bottom-right-radius: 20px;
+        line-height: 1;
+        
     }
 
     .card-notch.bottom-right {
-        bottom: 26px;
-        right: 18px;
-        border-bottom-right-radius: 20px; 
+        bottom: 2.50cqh; 
+        right: 2.50cqh;
         transform: rotate(180deg);
+    }
+
+    .card-notch .rank {
+        font-size: 6cqh;
+        margin: 0.2rem 0;
+    }
+
+    .card-notch .suit {
+        font-size: 4.3cqh;
+        margin: -1.4cqh 0.2cqh;
     }
 
 
@@ -346,58 +340,6 @@ const cardSuit = suits[index % suits.length];
             transform: rotateY(-90deg) scale(0.9);
         }
     }
-
-    /* ── MOBILE ── */
-	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
-        .tool-card-content {
-            padding: 26px;
-        }
-
-        .card-notch {
-            width: 45px;
-            height: 70px;
-        }
-
-        .card-notch .rank {
-            top: 10px;
-            left: 5px;
-            font-size: 2.6rem;
-        }
-
-        .card-notch .suit {
-            left: 7px;
-            top: 5px;
-            font-size: 1.3rem;
-        }
-
-        .tool-card-content::before {
-            top: 23px; bottom: 23px; left: 23px; right: 23px; 
-            clip-path: polygon(
-                21% 0%,    /* Start top edge just after the dot */
-                100% 0%,   /* Keep the top-right corner intact */
-                110% 63%,    /* Start right edge just before bottom gap */
-                71% 110%,    /* Cut the bottom edge */
-                -10% 110%,   /* Keep the bottom-left corner intact */
-                -10% 35%     /* Cut the left edge */
-            );
-
-        }
-
-        .tool-card-content::after {
-            top: 23px; bottom: 23px; left: 23px; right: 23px; 
-            background-position: 
-                left 16% top -1px, 
-                right 16% bottom -1px, 
-                left -1px top 20%, 
-                right -1px bottom 20%;
-        }
-
-        .tool-card-title {
-            font-size: 2rem;
-            width: 58%;
-        }
-		
-	}
 
 
 </style>
