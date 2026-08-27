@@ -5,6 +5,7 @@ import CardB from '../../assets/icons/AS_CardB.svg';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import StackBadge from './StackBadge.astro';
+import Icon from '../widgets/Icon.astro'
 
 
 interface Props {
@@ -24,13 +25,14 @@ const slug        = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null
 
 
 const initialState = entry ? "hidden" : "empty";
-const suits = ["♣\uFE0E", "♥\uFE0E", "♦\uFE0E", "♠\uFE0E"];
+const suits = ['club', 'heart', 'diamond', 'spade'] as const;
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A"];
 
 
 const cardIcon = index % 2 !== 0 ? CardA : CardB;
 const cardRank = ranks[index % ranks.length]; 
 const cardSuit = suits[index % suits.length];
+const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
 
 ---
@@ -41,15 +43,15 @@ const cardSuit = suits[index % suits.length];
         <img src={cardIcon.src} alt="" />
     </div>
     <div class="tool-card-content">
-        <div class="card-notch top-left">
+        <div class="card-notch top-left" data-red={isRed}>
             <h1 class="rank">{cardRank}</h1>
-            <h1 class="suit">{cardSuit}</h1>
+            <Icon name={cardSuit} size="4.3cqh" class="suit"/>
         </div>
 
         <!-- Bottom Right Cutout -->
-        <div class="card-notch bottom-right">
+        <div class="card-notch bottom-right" data-red={isRed}>
             <h1 class="rank">{cardRank}</h1>
-            <h1 class="suit">{cardSuit}</h1>
+            <Icon name={cardSuit} size="4.3cqh" class="suit"/>
         </div>
 
         <div class="tool-card-information">
@@ -156,6 +158,14 @@ const cardSuit = suits[index % suits.length];
         
     }
 
+    .card-notch[data-red="true"] {
+        color: var(--card-pink-line);
+    }
+
+    .card-notch[data-red="true"] .rank {
+        color: var(--card-pink-line);
+    }
+
     .card-notch.bottom-right {
         bottom: 2.7cqh; 
         right: 2.7cqh;
@@ -167,10 +177,11 @@ const cardSuit = suits[index % suits.length];
         margin: 0.2cqh 0;
     }
 
-    .card-notch .suit {
-        font-size: 4.3cqh;
-        margin: -1.4cqh 0.2cqh;
+    .card-notch :global(.suit) {
+        margin: -1.4cqh -0.5cqh;
     }
+
+
 
 
     /*  Content  */
@@ -189,7 +200,7 @@ const cardSuit = suits[index % suits.length];
         z-index: 5;
         pointer-events: none;
         
-        border: 0.4cqh solid var(--card-pink-line);
+        border: 0.35cqh solid var(--card-pink-line);
         border-radius: 0.63cqh; 
         
         /* This cuts diagonally across the gaps to hide the border */
@@ -368,9 +379,8 @@ const cardSuit = suits[index % suits.length];
                 right 0px bottom 20%;
         }
 
-        .card-notch .suit {
-            font-size: 3.5cqh;
-            margin: -0.5cqh 0.05cqh;
+        .card-notch :global(.suit) {
+            margin: -1cqh -0.5cqh;
         }
 
 
@@ -378,7 +388,7 @@ const cardSuit = suits[index % suits.length];
             top: 4.2cqh;
             right: 4.2cqh;
             font-size: 5cqh;
-            width: 24cqh;
+            width: 25cqh;
         }
 
         .tool-card-stack {
