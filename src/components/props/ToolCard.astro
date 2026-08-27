@@ -260,6 +260,8 @@ const cardSuit = suits[index % suits.length];
         pointer-events: none; 
     }
 
+
+
     .tool-card-title {
         position: absolute; 
         top: 3.8cqh;
@@ -268,7 +270,7 @@ const cardSuit = suits[index % suits.length];
         
         text-align: right;
         font-family: 'Citylight';
-        font-size: 4.5cqh;
+        font-size: 4.2cqh;
         font-weight: 100;
         text-transform: uppercase;
         color: #eee7e7;
@@ -336,6 +338,32 @@ const cardSuit = suits[index % suits.length];
             opacity: 0;
             transform: rotateY(-90deg) scale(0.9);
         }
+    }
+
+     /* ── MOBILE ── */
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .card-notch {
+            width: 4.5cqh;
+            height: 9.7cqh;
+        }
+
+        .card-notch .suit {
+            font-size: 3.5cqh;
+            margin: -0.5cqh 0.05cqh;
+        }
+
+
+        .tool-card-title {
+            top: 4.2cqh;
+            right: 4.2cqh;
+            font-size: 4.6cqh;
+        }
+
+        .tool-card-stack {
+            bottom: 4.2cqh;
+            left: 4.2cqh;
+        }
+
     }
 
 
