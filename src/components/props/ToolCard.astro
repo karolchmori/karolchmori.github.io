@@ -355,7 +355,7 @@ const cardSuit = suits[index % suits.length];
 
         .card-notch {
             width: 45px;
-            height: 73px;
+            height: 70px;
         }
 
         .card-notch .rank {
@@ -366,7 +366,8 @@ const cardSuit = suits[index % suits.length];
 
         .card-notch .suit {
             left: 10px;
-            font-size: 2rem;
+            top: 3px;
+            font-size: 1.7rem;
         }
 
         .tool-card-content::before {
@@ -385,10 +386,14 @@ const cardSuit = suits[index % suits.length];
         .tool-card-content::after {
             top: 23px; bottom: 23px; left: 23px; right: 23px; 
             background-position: 
-                left 16% top -0px, 
-                right 16% bottom -0px, 
+                left 16% top -1px, 
+                right 16% bottom -1px, 
                 left -1px top 20%, 
                 right -1px bottom 20%;
+        }
+
+        .tool-card-title {
+            font-size: 2rem;
         }
 		
 	}
