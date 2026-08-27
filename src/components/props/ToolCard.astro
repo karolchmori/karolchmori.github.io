@@ -61,7 +61,7 @@ const cardSuit = suits[index % suits.length];
             </div>
             <h4 class="tool-card-title">{title}</h4>
             <div class="tool-card-stack">
-                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='#D5CFCE', color='#2b2b2b' />)}
+                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='#D5CFCE', color='#2b2b2b' size="4cqh"/>)}
             </div>
         </div>
 
@@ -135,14 +135,12 @@ const cardSuit = suits[index % suits.length];
         padding: 2.6cqh;
     }
 
-    
-
     /* ── The Notches / Inverse Corners ── */
     .card-notch {
         position: absolute;
         background-color: var(--card-border-color); /* Matches the border perfectly */
-        width: 4cqh;
-        height: 9.5cqh;
+        width: 4.3cqh;
+        height: 9.6cqh;
         z-index: 2;
         display: flex;
         flex-direction: column;
@@ -166,7 +164,7 @@ const cardSuit = suits[index % suits.length];
 
     .card-notch .rank {
         font-size: 6cqh;
-        margin: 0.2rem 0;
+        margin: 0.2cqh 0;
     }
 
     .card-notch .suit {
@@ -187,12 +185,12 @@ const cardSuit = suits[index % suits.length];
     .tool-card-content::before {
         content: "";
         position: absolute;
-        top: 26px; bottom: 26px; left: 26px; right: 26px; 
+        top: 2.33cqh; bottom: 2.33cqh; left: 2.33cqh; right: 2.33cqh;
         z-index: 5;
         pointer-events: none;
         
-        border: 3.7px solid var(--card-pink-line);
-        border-radius: 7px;
+        border: 0.33cqh solid var(--card-pink-line);
+        border-radius: 0.63cqh; 
         
         /* This cuts diagonally across the gaps to hide the border */
         clip-path: polygon(
@@ -209,7 +207,7 @@ const cardSuit = suits[index % suits.length];
     .tool-card-content::after {
         content: "";
         position: absolute;
-        top: 24px; bottom: 24px; left: 24px; right: 24px; 
+        top: 2.15cqh; bottom: 2.15cqh; left: 2.15cqh; right: 2.15cqh;
         z-index: 5;
         pointer-events: none;
         
@@ -220,13 +218,13 @@ const cardSuit = suits[index % suits.length];
             radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%);
             
         background-repeat: no-repeat;
-        background-size: 8px 8px;
+        background-size: 0.72cqh 0.72cqh;
         
         background-position: 
             left 16% top -0px, 
             right 16% bottom -0px, 
-            left -1px top 22.5%, 
-            right -1px bottom 22.5%;
+            left 0px top 22.5%, 
+            right 0px bottom 22.5%;
     }
 
 
@@ -264,28 +262,27 @@ const cardSuit = suits[index % suits.length];
 
     .tool-card-title {
         position: absolute; 
-        top: 2.5rem;
-        right: 2.5rem;
-        width: 62%;
+        top: 3.5cqh;
+        right: 3.5cqh;
+        width: 21cqh;
         
-
         text-align: right;
         font-family: 'Citylight';
-        font-size: 2.5rem;
+        font-size: 4.5cqh;
         font-weight: 100;
         text-transform: uppercase;
         color: #eee7e7;
     }
 
+
     .tool-card-stack {
         position: absolute; 
-        bottom: 2.5rem;
-        left: 2.5rem;
+        bottom: 3.5cqh;
+        left: 3.5cqh;
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0.5em;
-        
+        gap: 0.5cqh;
     }
 
     /* Visibility status */

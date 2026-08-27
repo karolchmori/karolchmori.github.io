@@ -12,12 +12,12 @@ import { string } from 'astro:schema';
 
 interface Props {
     name: string;
-    size?: number;
+    size?: string;
     backgroundcolor?: string;
     color?: string;
 }
 
-const { name, size = 30, backgroundcolor = "#34222D", color = "#CBC5C3"} = Astro.props;
+const { name, size = "30px", backgroundcolor = "#34222D", color = "#CBC5C3"} = Astro.props;
 
 
 const iconMap: Record<string, any> = {
@@ -41,7 +41,7 @@ const IconComponent = iconMap[name] ?? null;
     :   <span class="stack-badge stack-badge--text">{name}</span>
 }
 
-<style define:vars={{ badgeSize: `${size}px`, badgeBGColor: backgroundcolor, badgeColor: color }}>
+<style define:vars={{ badgeSize: size, badgeBGColor: backgroundcolor, badgeColor: color }}>
 
 
     .stack-badge-wrapper {
@@ -78,7 +78,7 @@ const IconComponent = iconMap[name] ?? null;
     }
 
     .stack-badge--text {
-        font-size: 15px;
+        font-size: calc(var(--badgeSize)/2);
         padding: 0px 6px;
         border-radius: 4px;
         background: var(--badgeBGColor);
