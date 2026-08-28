@@ -149,6 +149,8 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         align-items: left;
         
         border-bottom-right-radius: 1.79cqh;
+        
+        
     }
 
     .card-notch h1{
@@ -167,9 +169,10 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     }
 
     .card-notch.bottom-right {
-        bottom: 2.7cqh; 
-        right: 2.7cqh;
+        bottom: 2.3cqh; 
+        right: 2.8cqh;
         transform: rotate(180deg);
+        
     }
 
     .card-notch .rank {
@@ -178,7 +181,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     }
 
     .card-notch :global(.suit) {
-        margin: -1.4cqh -0.5cqh;
+        margin: -1.5cqh -0.5cqh;
     }
 
 
@@ -189,53 +192,8 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         height: 100%;
         border-radius: 2px;
         overflow: hidden;    
-    }
-
-
-    /* PINK LINES*/
-    .tool-card-content::before {
-        content: "";
-        position: absolute;
-        top: 2.7cqh; bottom: 2.7cqh; left: 2.7cqh; right: 2.7cqh;
-        z-index: 5;
-        pointer-events: none;
-        
         border: 0.35cqh solid var(--card-pink-line);
         border-radius: 0.63cqh; 
-        
-        /* This cuts diagonally across the gaps to hide the border */
-        clip-path: polygon(
-            20% 0%,    /* Start top edge just after the dot */
-            100% 0%,   /* Keep the top-right corner intact */
-            110% 61%,    /* Start right edge just before bottom gap */
-            72% 110%,    /* Cut the bottom edge */
-            -10% 110%,   /* Keep the bottom-left corner intact */
-            -10% 40%     /* Cut the left edge */
-        );
-    }
-
-    /* PINK DOTS */
-    .tool-card-content::after {
-        content: "";
-        position: absolute;
-        top: 2.6cqh; bottom: 2.6cqh; left: 2.6cqh; right: 2.6cqh;
-        z-index: 5;
-        pointer-events: none;
-        
-        background-image: 
-            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%),
-            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%),
-            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%),
-            radial-gradient(circle, var(--card-pink-line) 50%, transparent 55%);
-            
-        background-repeat: no-repeat;
-        background-size: 0.72cqh 0.72cqh;
-        
-        background-position: 
-            left 17% top -0px, 
-            right 16% bottom -0px, 
-            left 0px top 23%, 
-            right 0px bottom 22%;
     }
 
 
@@ -357,29 +315,11 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
             width: 4.4cqh;
             height: 9.7cqh;
             border-bottom-right-radius: 2cqh;
-        }
-
-        .tool-card-content::before {
-            clip-path: polygon(
-                20% 0%,    /* Start top edge just after the dot */
-                100% 0%,   /* Keep the top-right corner intact */
-                110% 61%,    /* Start right edge just before bottom gap */
-                78% 110%,    /* Cut the bottom edge */
-                -10% 110%,   /* Keep the bottom-left corner intact */
-                -10% 35%     /* Cut the left edge */
-            );
-        }
-
-        .tool-card-content::after {          
-            background-position: 
-                left 16% top -0px, 
-                right 15% bottom -0px, 
-                left 0px top 21%, 
-                right 0px bottom 20%;
+            
         }
 
         .card-notch :global(.suit) {
-            margin: -1cqh -0.5cqh;
+            margin: -1.4cqh -0.5cqh;
         }
 
 
