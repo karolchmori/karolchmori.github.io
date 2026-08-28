@@ -31,7 +31,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 ---
 
 <div class="tool-minicard" data-path={filePath} data-software={software} data-department={department.join(',')} data-stack={stack.join(',')}
-    data-state="active" data-href={`/work/tools/${slug}`} >
+    data-state="pending" data-href={`/work/tools/${slug}`} >
     <div class="tool-minicard-content">
         <div class="card-notch top-left" data-red={isRed}>
             <h1 class="rank">{cardRank}</h1>
@@ -45,7 +45,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
                 }
             </div>
             <div class="tool-minicard-body">
-                <h4>{title}</h4>
+                <h4 class="tool-minicard-title">{title}</h4>
                 <p>{description}</p>
             </div>
             <div class="tool-minicard-stack">
@@ -76,6 +76,9 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         cursor: pointer;
         transform-style: preserve-3d;
         border-radius: 16px;
+
+        opacity: 0;
+        transform: translateX(20px) rotateY(-90deg) scale(0.9);
     }
 
     .tool-minicard-content {
@@ -162,19 +165,40 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         filter: grayscale(20%);
     }
 
+    .tool-minicard-thumbnail::after {
+        content: "";
+        position: absolute;
+        inset: 0; 
+        mix-blend-mode: multiply;
+        
+        background: linear-gradient(
+            to bottom, 
+            #575555af 0%, 
+            transparent 25%, 
+            transparent 100%
+        );
+        
+        pointer-events: none; 
+    }
+
     .tool-minicard-body {
         padding: 0.65rem 0.75rem 0.4rem;
         flex: 1;
         min-width: 0;
     }
 
-    .tool-minicard-body h4 {
-        margin: 0 0 0.3rem;
-        font-size: clamp(0.8rem, 1.4vw, 0.95rem);
-        color: #161A20;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .tool-minicard-title  {
+        position: absolute; 
+        top: 3cqh;
+        right: 3cqh;
+        width: 18cqh;
+        
+        text-align: right;
+        font-family: 'Citylight';
+        font-size: 3.2cqh;
+        font-weight: 100;
+        text-transform: uppercase;
+        color: var(--card-white);
     }
 
     .tool-minicard-body p {
@@ -196,6 +220,10 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     }
 
     /* ── Visibility / filtering states ── */
+    .tool-minicard[data-state="active"] {
+        animation: flipIn 0.5s ease forwards;
+    }
+
     .tool-minicard[data-state="gone"] {
         display: none;
     }
@@ -205,9 +233,17 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         pointer-events: none;
     }
 
-    .tool-minicard[data-state="active"] {
-        animation: cardIn 0.28s ease forwards;
+    @keyframes flipIn {
+        from {
+            transform: translateX(20px) rotateY(-90deg) scale(0.9);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0) rotateY(0deg) scale(1);
+            opacity: 1;
+        }
     }
+
 
     @keyframes cardIn {
         from { opacity: 0; transform: translateY(8px) scale(0.97); }

@@ -234,6 +234,8 @@ const totalTools = entries.length;
         });
 
         const LEAVE_MS = 220;
+        const STAGGER_MS = 80;
+        const FLIP_MS = 300;
 
         function matches(card: HTMLElement): boolean {
             const cardSoftware = card.dataset.software ?? '';
@@ -252,22 +254,73 @@ const totalTools = entries.length;
             return true;
         }
 
-        function reveal(card: HTMLElement) {
-            card.dataset.state = 'gone';
-            void card.offsetWidth;
+        // Plays the flipIn animation on a card, offset by its position in the
+        // current reveal batch (scroll batch or filter batch — both use this).
+        function flipIn(card: HTMLElement, delayMs: number) {
+            card.style.animationDelay = `${delayMs}ms`;
             card.dataset.state = 'active';
+            card.dataset.seen = 'true';
+        }
+
+        // Runs `mutate`, then smoothly animates any still-laid-out card from its
+        // old grid position to its new one instead of letting it snap when
+        // siblings appear/disappear (FLIP technique).
+        function withFlip(mutate: () => void) {
+            const tracked = cards.filter(c => c.dataset.state !== 'gone');
+            const firstRects = new Map<HTMLElement, DOMRect>();
+            tracked.forEach(c => firstRects.set(c, c.getBoundingClientRect()));
+
+            mutate();
+
+            requestAnimationFrame(() => {
+                tracked.forEach(card => {
+                    if (card.dataset.state === 'gone') return;
+                    const firstRect = firstRects.get(card)!;
+                    const lastRect = card.getBoundingClientRect();
+                    const dx = firstRect.left - lastRect.left;
+                    const dy = firstRect.top - lastRect.top;
+                    if (!dx && !dy) return;
+
+                    card.style.transition = 'none';
+                    card.style.translate = `${dx}px ${dy}px`;
+                    card.getBoundingClientRect(); // force reflow before transitioning
+                    requestAnimationFrame(() => {
+                        card.style.transition = `translate ${FLIP_MS}ms ease`;
+                        card.style.translate = '0 0';
+                    });
+                });
+            });
         }
 
         function conceal(card: HTMLElement) {
             if (card.dataset.state === 'gone' || card.dataset.state === 'leaving') return;
+            card.style.animationDelay = '0ms'; // clear any leftover stagger from flipIn
             card.dataset.state = 'leaving';
-            window.setTimeout(() => {
-                if (card.dataset.state === 'leaving') {
-                    card.dataset.state = 'gone';
-                }
-            }, LEAVE_MS);
         }
 
+        // ── Scroll-triggered reveal ──
+        // Cards start in the CSS "pending" pose (invisible). Each card flips in
+        // once, the first time it's ~1/3 visible. Cards that cross the threshold
+        // together in the same observer callback are treated as one batch and
+        // staggered against each other.
+        const io = new IntersectionObserver((entries) => {
+            const batch = entries
+                .filter(e => e.isIntersecting)
+                .map(e => e.target as HTMLElement)
+                .filter(c => c.dataset.seen !== 'true')
+                .sort((a, b) => cards.indexOf(a) - cards.indexOf(b));
+
+            batch.forEach((card, i) => {
+                flipIn(card, i * STAGGER_MS);
+                io.unobserve(card);
+            });
+        }, { threshold: 0.33 });
+
+        cards.forEach(card => {
+            if (card.dataset.state !== 'active') io.observe(card);
+        });
+
+        // ── Filtering ──
         function hasActiveFilters(): boolean {
             return Object.values(state).some(set => set.size > 0);
         }
@@ -283,14 +336,41 @@ const totalTools = entries.length;
 
         function applyFilters() {
             let matchCount = 0;
+            const toReveal: HTMLElement[] = [];
+            const toConceal: HTMLElement[] = [];
+
             for (const card of cards) {
                 const isMatch = matches(card);
                 if (isMatch) matchCount++;
 
                 const isVisible = card.dataset.state === 'active';
-                if (isMatch && !isVisible) reveal(card);
-                if (!isMatch && isVisible) conceal(card);
+                if (isMatch && !isVisible) {
+                    io.unobserve(card);
+                    toReveal.push(card);
+                } else if (!isMatch && isVisible) {
+                    toConceal.push(card);
+                }
             }
+
+            // Revealing a previously "gone" card re-enters the grid immediately,
+            // so wrap it in a FLIP.
+            withFlip(() => {
+                toReveal.forEach((card, i) => flipIn(card, i * STAGGER_MS));
+            });
+
+            // Concealing only affects layout once the leave animation finishes
+            // and the card goes display:none — batch that moment into one FLIP.
+            toConceal.forEach(card => conceal(card));
+            if (toConceal.length) {
+                window.setTimeout(() => {
+                    withFlip(() => {
+                        toConceal.forEach(card => {
+                            if (card.dataset.state === 'leaving') card.dataset.state = 'gone';
+                        });
+                    });
+                }, LEAVE_MS);
+            }
+
             updateFoot(matchCount);
         }
 
