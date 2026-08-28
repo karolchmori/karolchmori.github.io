@@ -51,9 +51,10 @@ interface Props {
     size?: number | string;
     strokeWidth?: number;
     class?: string;
+    color?: string; 
 }
 
-const { name, size = 14, strokeWidth = 2, class: className } = Astro.props;
+const { name, size = 14, strokeWidth = 2, class: className, color } = Astro.props;
 
 const path = ICONS[name];
 
@@ -64,7 +65,7 @@ if (!path) {
 const isFilled = FILLED_ICONS.has(name);
 ---
 
-<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class={className}>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class={className} style={color ? `color: ${color}` : undefined}>
     <path
         d={path}
         fill={isFilled ? 'currentColor' : 'none'}

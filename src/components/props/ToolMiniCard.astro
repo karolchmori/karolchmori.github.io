@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import StackBadge from './StackBadge.astro';
+import Icon from '../widgets/Icon.astro';
 
 interface Props {
     entry: CollectionEntry<'tool'>;
@@ -18,51 +19,137 @@ const stack       = entry.data.stack;
 const department  = entry.data.department;
 const filePath    = entry.id;
 const slug        = title.toLowerCase().replace(/\s+/g, '-');
+
+
+const suits = ['club', 'heart', 'diamond', 'spade'] as const;
+const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A"];
+
+const cardRank = ranks[Math.floor(Math.random() * ranks.length)];
+const cardSuit = suits[Math.floor(Math.random() * suits.length)];
+const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
+
 ---
 
-<div
-    class="tool-minicard"
-    data-path={filePath}
-    data-software={software}
-    data-department={department.join(',')}
-    data-stack={stack.join(',')}
-    data-state="active"
-    data-href={`/work/tools/${slug}`}
->
-    <div class="tool-minicard-thumbnail">
-        {thumbnail
-            ? <Image src={thumbnail} alt={title} />
-            : <div class="tool-minicard-thumbnail-empty" />
-        }
+<div class="tool-minicard" data-path={filePath} data-software={software} data-department={department.join(',')} data-stack={stack.join(',')}
+    data-state="active" data-href={`/work/tools/${slug}`} >
+    <div class="tool-minicard-content">
+        <div class="card-notch top-left" data-red={isRed}>
+            <h1 class="rank">{cardRank}</h1>
+            <Icon name={cardSuit} size="2.6cqh" class="suit"/>
+        </div>
+        <div class="tool-minicard-information">
+            <div class="tool-minicard-thumbnail">
+                {thumbnail
+                    ? <Image src={thumbnail} alt={title} />
+                    : <div class="tool-minicard-thumbnail-empty" />
+                }
+            </div>
+            <div class="tool-minicard-body">
+                <h4>{title}</h4>
+                <p>{description}</p>
+            </div>
+            <div class="tool-minicard-stack">
+                {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-black)', color='var(--tool-card-white)' size="2cqh"/>)}
+            </div>
+        </div>
+        
     </div>
-    <div class="tool-minicard-body">
-        <h4>{title}</h4>
-        <p>{description}</p>
-    </div>
-    <div class="tool-minicard-stack">
-        {stack.map(tech => <StackBadge name={tech} size={28} />)}
-    </div>
+
+    
 </div>
 
 <style>
-    .tool-minicard {
-        display: flex;
-        flex-direction: column;
-        border-radius: 10px;
-        overflow: hidden;
-        background: #D8D2D2;
-        border: 1px solid #5a5a68;
-        cursor: pointer;
-        transition: transform 0.15s ease, border-color 0.15s ease;
+
+    :root {
+        --card-bg: var(--tool-card-bg); 
+        --card-pink: var(--tool-card-pink);
+        --card-black: var(--tool-card-black);
+        --card-white: var(--tool-card-white);
     }
 
+
+    .tool-minicard {
+        width: 100%;
+        height: auto; 
+        
+        overflow: visible;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        border-radius: 16px;
+    }
+
+    .tool-minicard-content {
+        height: 100%;
+        position: relative;
+        background-color: var(--card-bg);
+        box-sizing: border-box;
+        border-radius: 1.53cqh;
+        width: 96%;
+        padding: 2cqh;
+    }
+
+    .tool-minicard-content:hover {
+        transform: translateY(-6px);
+    }
+
+
+    /* ── CORNERS ── */
+    .card-notch {
+        position: absolute;
+        background-color: var(--card-bg); /* Matches the border perfectly */
+        width: 3cqh;
+        height: 7cqh;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        
+        border-bottom-right-radius: 1.79cqh;
+
+    }
+
+    .card-notch h1{
+        color: var(--card-black);
+        font-family: 'Barqen', sans-serif;
+        line-height: 1;
+        
+    }
+
+    .card-notch[data-red="true"] .rank {
+        color: var(--card-pink);
+    }
+
+    .card-notch[data-red="true"] :global(.suit) {
+        color: var(--card-pink);
+    }
+
+
+    .card-notch .rank {
+        font-size: 3.7cqh;
+        margin: 0.2cqh 0;
+    }
+
+    .card-notch :global(.suit) {
+        margin: -1cqh -0.3cqh;
+        color: var(--card-black);
+    }
+
+    /*  Content  */
+    .tool-minicard-information {
+        height: 98%;
+        border-radius: 2px;
+        overflow: hidden;    
+        border: 0.25cqh solid var(--card-pink);
+        border-radius: 0.8cqh; 
+        border-bottom-right-radius: 2.5cqh;
+    }
 
 
     .tool-minicard-thumbnail {
         width: 100%;
-        aspect-ratio: 16 / 9;
+        
         overflow: hidden;
-        background: linear-gradient(160deg, #1c3a4a, #2fa4a0 55%, #2f6fbf);
+        position: relative;
     }
 
     .tool-minicard-thumbnail img,
@@ -72,6 +159,7 @@ const slug        = title.toLowerCase().replace(/\s+/g, '-');
         object-fit: cover;
         display: block;
         border-radius: 0px;
+        filter: grayscale(20%);
     }
 
     .tool-minicard-body {
@@ -131,14 +219,8 @@ const slug        = title.toLowerCase().replace(/\s+/g, '-');
         to   { opacity: 0; transform: scale(0.95); }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-        .tool-minicard:hover {
-            transform: translateY(-3px);
-            border: 2px solid var(--page-primary);
-        }
-    }
 
-    /* ── MOBILE: keep it tight so 2 fit per row ── */
+    /* ── MOBILE ── */
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
         .tool-minicard-body {
             padding: 0.5rem 0.6rem 0.3rem;

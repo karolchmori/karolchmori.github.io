@@ -5,7 +5,7 @@ import CardB from '../../assets/icons/AS_CardB.svg';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import StackBadge from './StackBadge.astro';
-import Icon from '../widgets/Icon.astro'
+import Icon from '../widgets/Icon.astro';
 
 
 interface Props {
@@ -30,8 +30,8 @@ const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A"];
 
 
 const cardIcon = index % 2 !== 0 ? CardA : CardB;
-const cardRank = ranks[index % ranks.length]; 
-const cardSuit = suits[index % suits.length];
+const cardRank = ranks[Math.floor(Math.random() * ranks.length)];
+const cardSuit = suits[Math.floor(Math.random() * suits.length)];
 const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
 
@@ -63,7 +63,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
             </div>
             <h4 class="tool-card-title">{title}</h4>
             <div class="tool-card-stack">
-                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='#e0dbda', color='#2b2b2b' size="3.6cqh"/>)}
+                {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-white)', color='var(--tool-card-black)' size="3.6cqh"/>)}
             </div>
         </div>
 
@@ -74,16 +74,10 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 <style>
 
     :root {
-        --card-border-color: #D5CFCE; 
-        --card-pink-line: #AE385E;
-    }
-
-    .tool-card p {
-        margin-top: 4%;
-    }
-
-    .tool-card p, h4{
-        color: #161A20;
+        --card-bg: var(--tool-card-bg); 
+        --card-pink: var(--tool-card-pink);
+        --card-black: var(--tool-card-black);
+        --card-white: var(--tool-card-white);
     }
 
     
@@ -92,12 +86,6 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         height: 100%;
     }
 
-    .tool-card img {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-    }
 
     .tool-card {
         width: 100%;
@@ -129,18 +117,17 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
     .tool-card-content {
         position: relative;
-        display: none;
-        background-color: var(--card-border-color);
+        background-color: var(--card-bg);
         box-sizing: border-box;
         border-radius: 1.53cqh;
         width: 96%;
         padding: 3cqh;
     }
 
-    /* ── The Notches / Inverse Corners ── */
+    /* ── CORNERS ── */
     .card-notch {
         position: absolute;
-        background-color: var(--card-border-color); /* Matches the border perfectly */
+        background-color: var(--card-bg); /* Matches the border perfectly */
         width: 4.3cqh;
         height: 9.6cqh;
         z-index: 2;
@@ -149,24 +136,25 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         align-items: left;
         
         border-bottom-right-radius: 1.79cqh;
-        
-        
+
     }
 
     .card-notch h1{
-        color: #2b2b2b;
+        color: var(--card-black);
         font-family: 'Barqen', sans-serif;
         line-height: 1;
         
     }
 
-    .card-notch[data-red="true"] {
-        color: var(--card-pink-line);
+    .card-notch[data-red="true"] .rank {
+        color: var(--card-pink);
     }
 
-    .card-notch[data-red="true"] .rank {
-        color: var(--card-pink-line);
+    .card-notch[data-red="true"] :global(.suit){
+        color: var(--card-pink);
     }
+
+    
 
     .card-notch.bottom-right {
         bottom: 2.3cqh; 
@@ -182,9 +170,8 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
     .card-notch :global(.suit) {
         margin: -1.5cqh -0.5cqh;
+        color: var(--card-black);
     }
-
-
 
 
     /*  Content  */
@@ -192,7 +179,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         height: 100%;
         border-radius: 2px;
         overflow: hidden;    
-        border: 0.35cqh solid var(--card-pink-line);
+        border: 0.35cqh solid var(--card-pink);
         border-radius: 0.63cqh; 
     }
 
@@ -242,7 +229,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         font-size: 4.4cqh;
         font-weight: 100;
         text-transform: uppercase;
-        color: #e0dbda;
+        color: var(--card-white);
     }
 
 
@@ -321,7 +308,6 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         .card-notch :global(.suit) {
             margin: -1.4cqh -0.5cqh;
         }
-
 
         .tool-card-title {
             top: 4.2cqh;
