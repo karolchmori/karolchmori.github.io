@@ -71,6 +71,8 @@
 	--menu-secondarybg: #E7D3DD;
 
 
+	/* TOOL CARD COLORS */
+	--tool-card-title: #e0dbda;
 	--tool-card-bg: #D5CFCE;
 	--tool-card-black: #2b2b2b;
 	--tool-card-pink: #AE385E;
@@ -105,7 +107,11 @@
 	--menu-secondarybg: #2F1B24;
 
 
-
+	/* TOOL CARD COLORS */
+	--tool-card-bg: #0f0f0f;
+	--tool-card-black: #b3afae;
+	--tool-card-pink: #862c48;
+	--tool-card-white:  #2b2b2b;
 }
 
 
