@@ -48,12 +48,6 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
             <Icon name={cardSuit} size="4.3cqh" class="suit"/>
         </div>
 
-        <!-- Bottom Right Cutout -->
-        <div class="card-notch bottom-right" data-red={isRed}>
-            <h1 class="rank">{cardRank}</h1>
-            <Icon name={cardSuit} size="4.3cqh" class="suit"/>
-        </div>
-
         <div class="tool-card-information">
             <div class="tool-card-thumbnail">
                 {thumbnail 
@@ -61,10 +55,14 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
                     : <div class="tool-card-thumbnail-empty" />
                 }
             </div>
-            <h4 class="tool-card-title">{title}</h4>
-            <div class="tool-card-stack">
-                {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-white)', color='var(--tool-card-black)' size="3.6cqh"/>)}
+            <div class="tool-card-body">
+                <h4 class="tool-card-title">{title}</h4>
+                <p class="tool-card-description">{description}</p>
+                <div class="tool-card-stack">
+                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-black)', color='var(--tool-card-white)' size="3.6cqh"/>)}
+                </div>
             </div>
+            
         </div>
 
   </div>
@@ -80,12 +78,6 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         --card-white: var(--tool-card-white);
     }
 
-    
-    .tool-card-empty,
-    .tool-card-content {
-        height: 100%;
-    }
-
 
     .tool-card {
         width: 100%;
@@ -97,31 +89,38 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         cursor: pointer;
         transform-style: preserve-3d;
         border-radius: 16px;
-        padding-top: 16px;
+        
         box-sizing: border-box;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-        .tool-card[data-state="active"] .tool-card-content:hover{
-            transform: translateY(-3px);
-        }
-    }
 
     .tool-card-empty {
+        height: 96%;
+        width: 96%;
         display: none;
         align-items: center;
         justify-content: center;
         filter: brightness(70%) opacity(60%);
+        transform: translateY(20px);
     }
 
 
     .tool-card-content {
+        height: 96%;
         position: relative;
         background-color: var(--card-bg);
         box-sizing: border-box;
         border-radius: 1.53cqh;
+        border-bottom-right-radius: 2.5cqh;
         width: 96%;
         padding: 3cqh;
+        transform: translateY(20px);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .tool-card[data-state="active"] .tool-card-content:hover{
+            transform: translateY(10px);
+        }
     }
 
     /* ── CORNERS ── */
@@ -154,12 +153,6 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         color: var(--card-pink);
     }
 
-    
-    .card-notch.bottom-right {
-        bottom: 3.2cqh; 
-        right: 2.8cqh;
-        transform: rotate(180deg);
-    }
 
     .card-notch .rank {
         font-size: 6cqh;
@@ -179,11 +172,12 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         overflow: hidden;    
         border: 0.35cqh solid var(--card-pink);
         border-radius: 0.63cqh; 
+        border-bottom-right-radius: 2.5cqh;
     }
 
 
     .tool-card-thumbnail {
-        height: 100%;
+        height: 70%;
         overflow: hidden;
         position: relative;
     }
@@ -205,15 +199,19 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         
         background: linear-gradient(
             to bottom, 
-            #575555 0%, 
-            transparent 15%, 
-            transparent 75%, 
-            #575555 100%
+            #575555af 0%, 
+            transparent 25%, 
+            transparent 100%
         );
         
         pointer-events: none; 
     }
 
+    .tool-card-body {
+        padding: 0.65rem 0.75rem 0.4rem;
+        flex: 1;
+        min-width: 0;
+    }
 
 
     .tool-card-title {
@@ -230,11 +228,23 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         color: var(--card-white);
     }
 
+    .tool-card-body p {
+        margin: 0;
+        font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+        font-size: 1.6cqh;
+        line-height: 1.3;
+        color: #3a3f47;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
 
     .tool-card-stack {
         position: absolute; 
-        bottom: 3.8cqh;
-        left: 3.8cqh;
+        bottom: 4.5cqh;
+        left: 4.5cqh;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -296,6 +306,11 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
      /* ── MOBILE ── */
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .tool-card-empty,
+        .tool-card-content  {
+            transform: translateY(10px);
+        }
+
         .card-notch {
             width: 4.4cqh;
             height: 9.7cqh;
