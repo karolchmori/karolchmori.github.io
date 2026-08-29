@@ -49,7 +49,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
                 <p class="tool-minicard-description">{description}</p>
             </div>
             <div class="tool-minicard-stack">
-                {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-black)', color='var(--tool-card-white)' size="2cqh"/>)}
+                {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-black)', color='var(--tool-card-white)' size="2.5cqh"/>)}
             </div>
         </div>
         
@@ -259,12 +259,26 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
     /* ── MOBILE ── */
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+        .tool-minicard-thumbnail {
+            height: 50%;
+        }
+
+
         .tool-minicard-body {
             padding: 0.5rem 0.6rem 0.3rem;
         }
 
         .tool-minicard-stack {
             padding: 0 0.6rem 0.5rem;
+        }
+
+        .tool-minicard-title  {
+            font-size: 4cqh;
+        }
+
+        .tool-minicard-body p {
+            font-size: 2cqh;
         }
     }
 </style>
