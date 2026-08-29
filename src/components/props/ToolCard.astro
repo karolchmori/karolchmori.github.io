@@ -126,7 +126,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     /* ── CORNERS ── */
     .card-notch {
         position: absolute;
-        background-color: var(--card-bg); /* Matches the border perfectly */
+        background-color: var(--card-bg); 
         width: 4.3cqh;
         height: 9.6cqh;
         z-index: 2;
@@ -216,13 +216,13 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
     .tool-card-title {
         position: absolute; 
-        top: 3.8cqh;
-        right: 3.8cqh;
-        width: 21cqh;
+        top: 4.5cqh;
+        right: 4.5cqh;
+        width: 20cqh;
         
         text-align: right;
         font-family: 'Citylight';
-        font-size: 4.4cqh;
+        font-size: 4.2cqh;
         font-weight: 100;
         text-transform: uppercase;
         color: var(--card-white);
@@ -337,6 +337,10 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         .tool-card-stack {
             bottom: 5cqh;
             left: 5cqh;
+        }
+
+        .tool-card-thumbnail {
+            height: 65%;
         }
 
     }
