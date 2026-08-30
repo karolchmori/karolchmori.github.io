@@ -83,15 +83,15 @@
 [data-theme="dark"] {
 
 	/* PAGE COLOURS */
-	--page-mainbg: #141414;
+	--page-mainbg: #0f0f0f;
 	--page-secondarybg: #111111;
 	--page-border: #8a8a9633;
 
 	/* GREY LEVELS */
-	--page-mainfont: #d3d3d3;
+	--page-mainfont: #c7c6c6;
 	--page-secondaryfont: #b0b0b0; 
 	--page-thirdfont: #7a7a7a;
-	--page-fourfont: #cfcfcf; /* STRONGEST */
+	--page-fourfont: #c2c1c1; /* STRONGEST */
 	
 	/* ACCENT LEVELS */
 	--page-primary: #e0568b;
@@ -109,8 +109,8 @@
 
 	/* TOOL CARD COLORS */
 	--tool-card-bg: #0f0f0f;
-	--tool-card-black: #b3afae;
-	--tool-card-pink: #862c48;
+	--tool-card-black: #9e9a99;
+	--tool-card-pink: #6b2239;
 	--tool-card-white:  #2b2b2b;
 }
 
