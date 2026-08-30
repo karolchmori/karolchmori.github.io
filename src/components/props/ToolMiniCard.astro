@@ -35,7 +35,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     <div class="tool-minicard-content">
         <div class="card-notch top-left" data-red={isRed}>
             <h1 class="rank">{cardRank}</h1>
-            <Icon name={cardSuit} size="11.3cqi" class="suit"/>
+            <Icon name={cardSuit} size="11.1cqi" class="suit"/>
         </div>
         <div class="tool-minicard-information">
             <div class="tool-minicard-thumbnail">
@@ -142,7 +142,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     }
 
     .card-notch :global(.suit) {
-        margin: -5cqi -1.6cqi;
+        margin: -4cqi -1.6cqi;
         color: color-mix(in srgb, var(--card-black) 88%, transparent);
     }
 
