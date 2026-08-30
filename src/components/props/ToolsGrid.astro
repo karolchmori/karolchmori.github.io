@@ -303,7 +303,7 @@ const totalTools = entries.length;
             const batch = entries
                 .filter(e => e.isIntersecting)
                 .map(e => e.target as HTMLElement)
-                .filter(c => c.dataset.seen !== 'true')
+                .filter(c => c.dataset.seen !== 'true' && matches(c))
                 .sort((a, b) => cards.indexOf(a) - cards.indexOf(b));
 
             batch.forEach((card, i) => {
