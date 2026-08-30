@@ -214,7 +214,7 @@ const totalTools = entries.length;
 
 <script>
     type FilterState = Record<string, Set<string>>;
-
+ 
     const grid = document.getElementById('tools-grid');
     if (grid) {
         const cards = Array.from(grid.querySelectorAll<HTMLElement>('.tool-minicard'));
@@ -222,25 +222,25 @@ const totalTools = entries.length;
         const countEl = document.getElementById('result-count');
         const clearBtn = document.getElementById('clear-filters') as HTMLButtonElement | null;
         const total = cards.length;
-
+ 
         const state: FilterState = {};
         buttons.forEach(btn => {
             const group = btn.dataset.group!;
             if (!state[group]) state[group] = new Set();
         });
-
+ 
         const LEAVE_MS = 220;
         const STAGGER_MS = 80;
         const FLIP_MS = 300;
-
+ 
         function matches(card: HTMLElement): boolean {
             const cardSoftware = card.dataset.software ?? '';
             const cardDepartment = (card.dataset.department ?? '').split(',').filter(Boolean);
-
+ 
             for (const group of Object.keys(state)) {
                 const active = state[group];
                 if (active.size === 0) continue;
-
+ 
                 if (group === 'software') {
                     if (!active.has(cardSoftware)) return false;
                 } else if (group === 'department') {
@@ -249,7 +249,7 @@ const totalTools = entries.length;
             }
             return true;
         }
-
+ 
         // Plays the flipIn animation on a card, offset by its position in the
         // current reveal batch (scroll batch or filter batch — both use this).
         function flipIn(card: HTMLElement, delayMs: number) {
@@ -257,7 +257,7 @@ const totalTools = entries.length;
             card.dataset.state = 'active';
             card.dataset.seen = 'true';
         }
-
+ 
         // Runs `mutate`, then smoothly animates any still-laid-out card from its
         // old grid position to its new one instead of letting it snap when
         // siblings appear/disappear (FLIP technique).
@@ -265,9 +265,9 @@ const totalTools = entries.length;
             const tracked = cards.filter(c => c.dataset.state !== 'gone');
             const firstRects = new Map<HTMLElement, DOMRect>();
             tracked.forEach(c => firstRects.set(c, c.getBoundingClientRect()));
-
+ 
             mutate();
-
+ 
             requestAnimationFrame(() => {
                 tracked.forEach(card => {
                     if (card.dataset.state === 'gone') return;
@@ -276,7 +276,7 @@ const totalTools = entries.length;
                     const dx = firstRect.left - lastRect.left;
                     const dy = firstRect.top - lastRect.top;
                     if (!dx && !dy) return;
-
+ 
                     card.style.transition = 'none';
                     card.style.translate = `${dx}px ${dy}px`;
                     card.getBoundingClientRect(); // force reflow before transitioning
@@ -287,13 +287,13 @@ const totalTools = entries.length;
                 });
             });
         }
-
+ 
         function conceal(card: HTMLElement) {
             if (card.dataset.state === 'gone' || card.dataset.state === 'leaving') return;
             card.style.animationDelay = '0ms'; // clear any leftover stagger from flipIn
             card.dataset.state = 'leaving';
         }
-
+ 
         // ── Scroll-triggered reveal ──
         // Cards start in the CSS "pending" pose (invisible). Each card flips in
         // once, the first time it's ~1/3 visible. Cards that cross the threshold
@@ -305,22 +305,22 @@ const totalTools = entries.length;
                 .map(e => e.target as HTMLElement)
                 .filter(c => c.dataset.seen !== 'true' && matches(c))
                 .sort((a, b) => cards.indexOf(a) - cards.indexOf(b));
-
+ 
             batch.forEach((card, i) => {
                 flipIn(card, i * STAGGER_MS);
                 io.unobserve(card);
             });
         }, { threshold: 0.33 });
-
+ 
         cards.forEach(card => {
             if (card.dataset.state !== 'active') io.observe(card);
         });
-
+ 
         // ── Filtering ──
         function hasActiveFilters(): boolean {
             return Object.values(state).some(set => set.size > 0);
         }
-
+ 
         function updateFoot(matchCount: number) {
             if (countEl) {
                 countEl.textContent = `${matchCount} of ${total} tools match`;
@@ -329,31 +329,37 @@ const totalTools = entries.length;
                 clearBtn.disabled = !hasActiveFilters();
             }
         }
-
+ 
         function applyFilters() {
             let matchCount = 0;
             const toReveal: HTMLElement[] = [];
             const toConceal: HTMLElement[] = [];
-
+ 
             for (const card of cards) {
                 const isMatch = matches(card);
                 if (isMatch) matchCount++;
-
+ 
                 const isVisible = card.dataset.state === 'active';
-                if (isMatch && !isVisible) {
+                const alreadySeen = card.dataset.seen === 'true';
+ 
+                // Only cards the user has already discovered via scrolling are
+                // eligible to be brought back immediately by a filter change.
+                // Never-seen cards stay pending — they still wait for the
+                // IntersectionObserver, same as on first load.
+                if (isMatch && !isVisible && alreadySeen) {
                     io.unobserve(card);
                     toReveal.push(card);
                 } else if (!isMatch && isVisible) {
                     toConceal.push(card);
                 }
             }
-
+ 
             // Revealing a previously "gone" card re-enters the grid immediately,
             // so wrap it in a FLIP.
             withFlip(() => {
                 toReveal.forEach((card, i) => flipIn(card, i * STAGGER_MS));
             });
-
+ 
             // Concealing only affects layout once the leave animation finishes
             // and the card goes display:none — batch that moment into one FLIP.
             toConceal.forEach(card => conceal(card));
@@ -366,32 +372,33 @@ const totalTools = entries.length;
                     });
                 }, LEAVE_MS);
             }
-
+ 
             updateFoot(matchCount);
         }
-
+ 
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const group = btn.dataset.group!;
                 const value = btn.dataset.value!;
-
+ 
                 btn.classList.toggle('is-active');
                 if (state[group].has(value)) {
                     state[group].delete(value);
                 } else {
                     state[group].add(value);
                 }
-
+ 
                 applyFilters();
             });
         });
-
+ 
         clearBtn?.addEventListener('click', () => {
             buttons.forEach(btn => btn.classList.remove('is-active'));
             Object.values(state).forEach(set => set.clear());
             applyFilters();
         });
-
+ 
         updateFoot(total);
     }
 </script>
+ 
