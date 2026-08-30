@@ -216,6 +216,8 @@ const totalTools = entries.length;
     type FilterState = Record<string, Set<string>>;
  
     const grid = document.getElementById('tools-grid');
+
+    
     if (grid) {
         const cards = Array.from(grid.querySelectorAll<HTMLElement>('.tool-minicard'));
         const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-pill'));
