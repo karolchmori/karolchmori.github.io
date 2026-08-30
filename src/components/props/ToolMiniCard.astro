@@ -48,7 +48,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
                 <h4 class="tool-minicard-title">{title}</h4>
                 <p class="tool-minicard-description">{description}</p>
                 <div class="tool-minicard-stack">
-                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='var(--tool-card-black)', color='var(--tool-card-white)' size="10cqi"/>)}
+                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='color-mix(in srgb, var(--card-black) 85%, transparent)', color='var(--tool-card-white)' size="10cqi"/>)}
                 </div>
             </div>
             
