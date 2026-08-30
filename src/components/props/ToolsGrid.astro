@@ -33,7 +33,7 @@ const totalTools = entries.length;
         <div class="filter-row" data-group={group.key}>
             <span class="filter-label">
                 <span class="suit-icon" aria-hidden="true">
-                    <Icon name={group.icon} size={11} />
+                    <Icon name={group.icon} size={20} />
                 </span>
                 {group.label}
             </span>
@@ -106,15 +106,12 @@ const totalTools = entries.length;
         width: 1.15rem;
         height: 1.15rem;
         border-radius: 50%;
-        background: var(--page-fourfont);
-        color: var(--page-secondarybg);
+        color: var(--page-fourfont);
         flex: none;
     }
 
-
     .filter-row[data-group="department"] .suit-icon {
-        background: color-mix(in srgb, var(--page-primary) 80%, black 10%);
-        color: white;
+        color: var(--page-primary);
     }
 
     .filter-options {
