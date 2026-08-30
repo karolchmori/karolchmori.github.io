@@ -155,7 +155,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     }
 
     .card-notch[data-red="true"] :global(.suit){
-        color: color-mix(in srgb, var(--card-pink) 85%, transparent);
+        color: color-mix(in srgb, var(--card-pink) 88%, transparent);
     }
 
 
@@ -166,7 +166,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
     .card-notch :global(.suit) {
         margin: -5cqi -1.6cqi;
-        color: color-mix(in srgb, var(--card-black) 85%, transparent);
+        color: color-mix(in srgb, var(--card-black) 88%, transparent);
     }
 
 
@@ -224,13 +224,15 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         top: 14cqi;
         right: 13cqi;
         width: 56cqi;
-        
+        color: var(--card-title);
         text-align: right;
+        text-transform: uppercase;
+
         font-family: 'Citylight';
         font-size: 14cqi;
         font-weight: 100;
-        text-transform: uppercase;
-        color: var(--card-title);
+        
+        
     }
 
     .tool-card-body p {
@@ -248,7 +250,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     .tool-card-stack {
         position: absolute; 
         bottom: 14cqi;
-        left: 14cqi;
+        left: 12cqi;
         display: flex;
         flex-direction: row;
         align-items: center;
