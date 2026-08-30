@@ -197,12 +197,12 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     .tool-minicard-title  {
         position: absolute; 
         top: 14cqi;
-        right: 14cqi;
-        width: 55cqi;
+        right: 13cqi;
+        width: 56cqi;
         
         text-align: right;
         font-family: 'Citylight';
-        font-size: 11cqi;
+        font-size: 13cqi;
         font-weight: 100;
         text-transform: uppercase;
         color: var(--card-title);
@@ -222,7 +222,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
     .tool-minicard-stack {
         position: absolute; 
         bottom: 14cqi;
-        left: 14cqi;
+        left: 13cqi;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -272,14 +272,13 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
             padding: 0.50rem 0.50rem 0.4rem;
         }
 
-        .tool-minicard-title  {
-            font-size: 12.2cqi;
-            width: 57cqi;
+        .tool-minicard-thumbnail {
+            height: 50%;
         }
 
-        .tool-minicard-stack {
-            bottom: 13cqi;
-            left: 13cqi;
+        .tool-minicard-body p {
+            font-size: 6cqi;
+            -webkit-line-clamp: 4;
         }
 
     }
