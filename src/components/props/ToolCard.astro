@@ -120,7 +120,24 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         width: 96%;
         padding: 7.6cqi; 
         transform: translateY(3cqi);
+        overflow: hidden;
     }
+
+    .tool-card-content::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        mix-blend-mode: multiply;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 90%,
+            #8577773b 100%
+        );
+
+    }
+
 
     @media (hover: hover) and (pointer: fine) {
         .tool-card[data-state="active"] .tool-card-content:hover{

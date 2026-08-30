@@ -98,6 +98,9 @@ const toolEntries = (await getCollection('tool'))
 		-webkit-user-select: none;
 	}
 
+	:root {
+        --home-title: #553D45;
+    }
 	
 
 
@@ -258,7 +261,7 @@ const toolEntries = (await getCollection('tool'))
 
 	.home-portfolio-title {
 		position: absolute;
-        color: #5f5457; 
+        color: var(--home-title); 
 		font-family: 'IBM Plex Sans';
 		font-weight: 700;
   		font-style: normal;

@@ -97,6 +97,22 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         border-bottom-right-radius: 8.3cqi;
         width: 96%;
         padding: 7.6cqi; 
+        overflow: hidden;
+    }
+
+    .tool-minicard-content::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        mix-blend-mode: multiply;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 90%,
+            #8577773b 100%
+        );
+
     }
 
     .tool-minicard-content:hover {
