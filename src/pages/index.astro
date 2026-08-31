@@ -56,8 +56,8 @@ const toolEntries = (await getCollection('tool'))
 					</div>
 				</section>
 				<section class="home-portfolio">
-					<a class="home-portfolio-title">
-						<span class="home-portfolio-title-small">MY</span>TOOLS
+					<a class="home-title">
+						<span class="home-title-small">MY</span>TOOLS
 					</a>
 					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 						<ToolCard index={0} variant="full" />
@@ -74,8 +74,9 @@ const toolEntries = (await getCollection('tool'))
 
 				</section>
 				<section class="home-credits">
-
-
+					<a class="home-title">
+						<span class="home-title-small">LAST</span>CREDITS
+					</a>
 				</section>
 				<section class="home-ending">
 
@@ -128,6 +129,26 @@ const toolEntries = (await getCollection('tool'))
 		overflow: hidden;
 	}
 
+	.home-title {
+		position: absolute;
+        color: var(--home-title); 
+		font-family: 'IBM Plex Sans';
+		font-weight: 700;
+  		font-style: normal;
+		font-stretch: condensed;
+        font-size: 7vh;
+		
+		filter: opacity(70%);
+		user-select: none;
+		
+	}
+
+	.home-title-small {
+		font-size: 4.5vh;
+		font-weight: 600;
+	}
+
+
 	.home-hero {
 		position: relative;
   		min-height: 100vh;
@@ -146,8 +167,14 @@ const toolEntries = (await getCollection('tool'))
 	}
 
 	.home-credits {
+		position: relative;
 		min-height: 100vh;
 		width: 100%;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.home-ending {
@@ -248,39 +275,18 @@ const toolEntries = (await getCollection('tool'))
 	}
 
 
-
-
-	/* -------------------------------------------------------------- */ 
-	/* ---------------------- PORTFOLIO CONFIG ---------------------- */ 
-	/* -------------------------------------------------------------- */ 
-
 	.home-portfolio {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.home-portfolio-title {
-		position: absolute;
-        color: var(--home-title); 
-		font-family: 'IBM Plex Sans';
-		font-weight: 700;
-  		font-style: normal;
-		font-stretch: condensed;
-        font-size: 7vh;
-
-
-		filter: opacity(70%);
-        margin-bottom: 0.1em;
+	
+	.home-portfolio .home-title {
 		bottom: 79%;
-		user-select: none;
-		
+		margin-bottom: 0.1em;
 	}
 
-	.home-portfolio-title-small {
-		font-size: 4.5vh;
-		font-weight: 600;
-	}
-
+	
 
 	.home-portfolio :global(.home-softwareChips) {
         position: absolute;
@@ -298,6 +304,16 @@ const toolEntries = (await getCollection('tool'))
 	.home-portfolio :global(.tool-card-selected) {
         display: none;
     }
+
+	/* -------------------------------------------------------------- */ 
+	/* ----------------------- CREDITS CONFIG ----------------------- */ 
+	/* -------------------------------------------------------------- */ 
+	.home-credits .home-title {
+		bottom: 79%;
+		margin-bottom: 0.1em;
+	}
+
+
 
 	/* -------------------------------------------------------------- */ 
 	/* ------------------- PHONE MODIFICATIONS ---------------------- */ 
@@ -342,14 +358,20 @@ const toolEntries = (await getCollection('tool'))
 			bottom: 31%;
 		}
 
-		.home-portfolio-title {
+		.home-title {
 			font-size: 5vh;
-			bottom: 82%;
+			
 		}
 
-		.home-portfolio-title-small {
+		.home-title-small {
 			font-size: 3vh;
 		}
+
+
+		.home-portfolio .home-title {
+			bottom: 82%;
+		}
+		
 
 	}
 
