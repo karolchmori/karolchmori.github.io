@@ -364,8 +364,6 @@ const toolEntries = (await getCollection('tool'))
 	let changedPlaceholder = false;
 	let cardsLimit = 4;
 
-	const CARD_OUT_MS = 500;
-
 	arrow?.addEventListener("click", () => {
 		portfolio?.scrollIntoView({
 			behavior: "smooth",
@@ -381,10 +379,10 @@ const toolEntries = (await getCollection('tool'))
 		const matching = allCards.filter(c => c.dataset.software === id);
 		const rest = allCards.filter(c => c.dataset.software !== id);
 
-		// Hide non-matching cards right away — no need to wait on the placeholder for this
+		// Hide non-matching cards
 		rest.forEach(c => {
-			c.dataset.state = 'hidden';
 			c.style.display = 'none';
+			c.dataset.state = 'hidden';
 		});
 
 		function revealMatching() {
@@ -426,7 +424,7 @@ const toolEntries = (await getCollection('tool'))
 				revealMatching();
 			}
 
-			changedPlaceholder = true; // you're checking this flag but never setting it — worth fixing too
+			changedPlaceholder = true;
 		} else {
 			revealMatching();
 		}
