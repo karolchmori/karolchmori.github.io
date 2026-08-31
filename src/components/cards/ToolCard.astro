@@ -100,7 +100,6 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         width: 100%;
         height: 100%;
         overflow: visible;
-        cursor: pointer;
         transform-style: preserve-3d;
         border-radius: 16px;
         box-sizing: border-box;
@@ -116,6 +115,8 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         justify-content: center;
         filter: brightness(70%) opacity(60%);
         transform: translateY(3cqi);
+        cursor: default;
+        pointer-events: none;
     }
 
     .tool-card-content {
@@ -128,6 +129,8 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         width: 96%;
         padding: 7.6cqi;
         overflow: hidden;
+        cursor: pointer;
+        user-select: none;
     }
 
     .tool-card-content::after {
