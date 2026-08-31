@@ -1,19 +1,18 @@
 ---
-// ToolCard.astro
 import CardA from '../../assets/icons/AS_CardA.svg';
 import CardB from '../../assets/icons/AS_CardB.svg';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import StackBadge from './StackBadge.astro';
+import StackBadge from '../props/StackBadge.astro';
 import Icon from '../widgets/Icon.astro';
-
 
 interface Props {
     entry?: CollectionEntry<'tool'>;
-    index: number;
+    index?: number;
+    variant?: 'full' | 'mini';
 }
 
-const { entry, index = 0 } = Astro.props;
+const { entry, index = 0, variant = 'full' } = Astro.props;
 
 const title       = entry?.data.title       ?? "";
 const description = entry?.data.description ?? "";
@@ -21,37 +20,51 @@ const thumbnail   = entry?.data.thumbnail   ?? null;
 const software    = entry?.data.software    ?? "";
 const filePath    = entry?.id               ?? null;
 const stack       = entry?.data.stack       ?? [];
+const department  = entry?.data.department  ?? [];
 const slug        = entry?.data.title.toLowerCase().replace(/\s+/g, '-') ?? null;
 
-
-const initialState = entry ? "hidden" : "empty";
 const suits = ['club', 'heart', 'diamond', 'spade'] as const;
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "J", "K", "A"];
 
-
-const cardIcon = index % 2 !== 0 ? CardA : CardB;
 const cardRank = ranks[Math.floor(Math.random() * ranks.length)];
 const cardSuit = suits[Math.floor(Math.random() * suits.length)];
 const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
 
+// "full" variant supports the empty/hidden placeholder states used in decks.
+// "mini" variant is used for filtered grids and starts as "pending".
+const initialState = variant === 'full'
+    ? (entry ? "hidden" : "empty")
+    : "pending";
 
+const cardIcon = index % 2 !== 0 ? CardA : CardB;
 ---
 
+<div
+    class="tool-card"
+    data-variant={variant}
+    data-path={filePath}
+    data-software={software}
+    data-department={department.join(',')}
+    data-stack={stack.join(',')}
+    data-state={initialState}
+    data-href={slug ? `/work/tools/${slug}` : null}
+>
+    {variant === 'full' && (
+        <div class="tool-card-empty">
+            <img src={cardIcon.src} alt="" />
+        </div>
+    )}
 
-<div class="tool-card" data-path={filePath} data-software={software} data-state={initialState} data-href={slug ? `/work/tools/${slug}` : null}>
-    <div class="tool-card-empty">
-        <img src={cardIcon.src} alt="" />
-    </div>
     <div class="tool-card-content">
         <div class="card-notch top-left" data-red={isRed}>
             <h1 class="rank">{cardRank}</h1>
-            <Icon name={cardSuit} size="14.3cqi" class="suit"/>
+            <Icon name={cardSuit} size="var(--notch-icon-size)" class="suit" />
         </div>
 
         <div class="tool-card-information">
             <div class="tool-card-thumbnail">
-                {thumbnail 
-                    ? <Image src={thumbnail} alt={title}/>
+                {thumbnail
+                    ? <Image src={thumbnail} alt={title} />
                     : <div class="tool-card-thumbnail-empty" />
                 }
             </div>
@@ -59,45 +72,41 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
                 <h4 class="tool-card-title">{title}</h4>
                 <p class="tool-card-description">{description}</p>
                 <div class="tool-card-stack">
-                    {stack.map(tech => <StackBadge name={tech}, backgroundcolor='color-mix(in srgb, var(--card-black) 85%, transparent)', color='var(--tool-card-white)' size="10cqi"/>)}
+                    {stack.map(tech => (
+                        <StackBadge
+                            name={tech}
+                            backgroundcolor="color-mix(in srgb, var(--card-black) 85%, transparent)"
+                            color="var(--tool-card-white)"
+                            size="10cqi"
+                        />
+                    ))}
                 </div>
             </div>
-            
         </div>
-
-  </div>
+    </div>
 </div>
 
-
 <style>
-
     :root {
-        --card-bg: var(--tool-card-bg); 
+        --card-bg: var(--tool-card-bg);
         --card-pink: var(--tool-card-pink);
         --card-black: var(--tool-card-black);
         --card-white: var(--tool-card-white);
         --card-title: var(--tool-card-title);
     }
 
-
+    /* ── Base (shared) ── */
     .tool-card {
         width: 100%;
-        height: 100%; 
-        aspect-ratio: 500 / 750;
-
-
+        height: 100%;
         overflow: visible;
         cursor: pointer;
         transform-style: preserve-3d;
         border-radius: 16px;
-        
         box-sizing: border-box;
-
         container-type: inline-size;
         container-name: tool-card;
-
     }
-
 
     .tool-card-empty {
         height: 96%;
@@ -109,7 +118,6 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         transform: translateY(3cqi);
     }
 
-
     .tool-card-content {
         height: 96%;
         position: relative;
@@ -118,8 +126,7 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         border-radius: 5.1cqi;
         border-bottom-right-radius: 8.3cqi;
         width: 96%;
-        padding: 7.6cqi; 
-        transform: translateY(3cqi);
+        padding: 7.6cqi;
         overflow: hidden;
     }
 
@@ -129,105 +136,79 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         inset: 0;
         pointer-events: none;
         mix-blend-mode: multiply;
-        background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            transparent 90%,
-            #8577773b 100%
-        );
-
+        background: linear-gradient(to bottom, transparent 0%, transparent 90%, #8577773b 100%);
     }
 
-
-    @media (hover: hover) and (pointer: fine) {
-        .tool-card[data-state="active"] .tool-card-content:hover{
-            transform: translateY(2cqi);
-        }
-    }
-
-    /* ── CORNERS ── */
+    /* ── Corners ── */
     .card-notch {
         position: absolute;
-        background-color: var(--card-bg); 
-        width: 14.3cqi;
-        height: 32cqi;
+        background-color: var(--card-bg);
+        width: var(--notch-w);
+        height: var(--notch-h);
         top: 7cqi;
         z-index: 2;
         display: flex;
         flex-direction: column;
         align-items: left;
-        
         border-bottom-right-radius: 6cqi;
-
     }
 
-    .card-notch h1{
+    .card-notch h1 {
         color: color-mix(in srgb, var(--card-black) 85%, transparent);
         font-family: 'Barqen', sans-serif;
         line-height: 1;
-        
     }
 
     .card-notch[data-red="true"] .rank {
         color: color-mix(in srgb, var(--card-pink) 85%, transparent);
     }
 
-    .card-notch[data-red="true"] :global(.suit){
+    .card-notch[data-red="true"] :global(.suit) {
         color: color-mix(in srgb, var(--card-pink) 88%, transparent);
     }
 
-
     .card-notch .rank {
-        font-size: 20cqi;
+        font-size: var(--rank-size);
         margin: 0.6cqi 0;
     }
 
     .card-notch :global(.suit) {
-        margin: -5cqi -1.6cqi;
+        margin: var(--notch-suit-margin);
         color: color-mix(in srgb, var(--card-black) 88%, transparent);
     }
 
-
-    /* ── CONTENT ── */
+    /* ── Content ── */
     .tool-card-information {
         height: 98%;
-        border-radius: 2px;
-        overflow: hidden;    
+        overflow: hidden;
         border: 1.16cqi solid color-mix(in srgb, var(--card-pink) 85%, transparent);
-        border-radius: 2.1cqi; 
+        border-radius: 2.1cqi;
         border-bottom-right-radius: 8.3cqi;
     }
 
-
     .tool-card-thumbnail {
-        height: 68%;
+        height: var(--thumb-height);
         overflow: hidden;
         position: relative;
     }
 
-    .tool-card-thumbnail img {
+    .tool-card-thumbnail img,
+    .tool-card-thumbnail-empty {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
-        border-radius: 0px;
         filter: grayscale(20%);
+        border-radius: 0;
     }
 
     .tool-card-thumbnail::after {
         content: "";
         position: absolute;
-        inset: 0; 
+        inset: 0;
         mix-blend-mode: multiply;
-        
-        background: linear-gradient(
-            to bottom, 
-            #575555af 0%, 
-            transparent 25%, 
-            transparent 100%
-        );
-        
-        pointer-events: none; 
+        background: linear-gradient(to bottom, #575555af 0%, transparent 25%, transparent 100%);
+        pointer-events: none;
     }
 
     .tool-card-body {
@@ -236,21 +217,17 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         min-width: 0;
     }
 
-
     .tool-card-title {
-        position: absolute; 
+        position: absolute;
         top: 14cqi;
         right: 13cqi;
         width: 56cqi;
         color: var(--card-title);
         text-align: right;
         text-transform: uppercase;
-
         font-family: 'Citylight';
-        font-size: 14cqi;
+        font-size: var(--title-size);
         font-weight: 100;
-        
-        
     }
 
     .tool-card-body p {
@@ -264,9 +241,8 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         overflow: hidden;
     }
 
-
     .tool-card-stack {
-        position: absolute; 
+        position: absolute;
         bottom: 14cqi;
         left: 12cqi;
         display: flex;
@@ -275,73 +251,99 @@ const isRed = cardSuit === 'heart' || cardSuit === 'diamond';
         gap: 1.6cqi;
     }
 
-    /* Visibility status */
-    .tool-card[data-state="hidden"] { visibility: hidden; pointer-events: none;}
+    /* ── Variant sizing (this replaces the second component's overrides) ── */
+    .tool-card[data-variant="full"] {
+        aspect-ratio: 500 / 750;
+        --notch-w: 14.3cqi;
+        --notch-h: 32cqi;
+        --notch-icon-size: 14.3cqi;
+        --notch-suit-margin: -5cqi -1.6cqi;
+        --rank-size: 20cqi;
+        --title-size: 14cqi;
+        --thumb-height: 68%;
+    }
 
+    .tool-card[data-variant="mini"] {
+        aspect-ratio: 500 / 650;
+        opacity: 0;
+        --notch-w: 12cqi;
+        --notch-h: 27cqi;
+        --notch-icon-size: 11.1cqi;
+        --notch-suit-margin: -4cqi -1.6cqi;
+        --rank-size: 16cqi;
+        --title-size: 13cqi;
+        --thumb-height: 60%;
+    }
+
+    .tool-card[data-variant="full"] .tool-card-content,
+    .tool-card[data-variant="full"] .tool-card-empty {
+        transform: translateY(3cqi);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .tool-card[data-variant="full"][data-state="active"] .tool-card-content:hover {
+            transform: translateY(2cqi);
+        }
+        .tool-card[data-variant="mini"] .tool-card-content:hover {
+            transform: translateY(-2cqi);
+        }
+    }
+
+    /* ── State machine (full deck: empty/hidden/active) ── */
+    .tool-card[data-state="hidden"] { visibility: hidden; pointer-events: none; }
     .tool-card[data-state="empty"] .tool-card-content { display: none; }
     .tool-card[data-state="empty"] .tool-card-empty   { display: flex; }
-
     .tool-card[data-state="active"] .tool-card-content { display: flex; }
     .tool-card[data-state="active"] .tool-card-empty   { display: none; }
 
-
-    .tool-card[data-state="active"] {
+    .tool-card[data-variant="full"][data-state="active"] {
         animation: flipIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        
     }
 
-
-    @keyframes dealCard {
-        0% {
-            opacity: 0;
-        }
-        20% {
-            transform: translateY(-20px) rotate(var(--deal-angle, 0deg)) scale(0.8);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0) rotate(0deg) scale(1);
-            opacity: 1;
-        }
+    /* ── State machine (mini grid: pending/active/leaving/gone) ── */
+    .tool-card[data-variant="mini"][data-state="active"] {
+        animation: flipIn 0.5s ease forwards;
     }
-
+    .tool-card[data-variant="mini"][data-state="gone"] {
+        display: none;
+    }
+    .tool-card[data-variant="mini"][data-state="leaving"] {
+        animation: cardOut 0.22s ease forwards;
+        pointer-events: none;
+    }
 
     @keyframes flipIn {
-        from {
-            transform: translateX(20px) rotateY(-90deg) scale(0.9);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0) rotateY(0deg) scale(1);
-            opacity: 1;
-        }
+        from { transform: translateX(20px) rotateY(-90deg) scale(0.9); opacity: 0; }
+        to   { transform: translateX(0) rotateY(0deg) scale(1); opacity: 1; }
     }
 
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-            transform: rotateY(0deg) scale(1);
-        }
-        to {
-            opacity: 0;
-            transform: rotateY(-90deg) scale(0.9);
-        }
+    @keyframes cardOut {
+        from { opacity: 1; transform: scale(1); }
+        to   { opacity: 0; transform: scale(0.95); }
     }
 
-     /* ── MOBILE ── */
-	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
-        .tool-card-empty,
-        .tool-card-content  {
+    /* ── Mobile ── */
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .tool-card[data-variant="full"] .tool-card-content,
+        .tool-card[data-variant="full"] .tool-card-empty {
             transform: translateY(10px);
         }
+
+        .tool-card[data-variant="mini"] .tool-card-body {
+            padding: 0.50rem 0.50rem 0.4rem;
+        }
+        .tool-card[data-variant="mini"] .tool-card-thumbnail {
+            height: 50%;
+        }
+        .tool-card[data-variant="mini"] .tool-card-body p {
+            font-size: 6cqi;
+            -webkit-line-clamp: 4;
+        }
     }
-
-
 </style>
 
-
 <script>
-    document.querySelectorAll<HTMLElement>('.tool-card[data-href]').forEach(card => {
+    document.querySelectorAll<HTMLElement>('[data-href]').forEach(card => {
         card.addEventListener('click', () => {
             const href = card.dataset.href;
             if (href) window.location.href = href;

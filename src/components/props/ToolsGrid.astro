@@ -1,8 +1,7 @@
 ---
 // ToolsGrid.astro
 import type { CollectionEntry } from 'astro:content';
-import ToolMiniCard from './ToolMiniCard.astro';
-import ToolCard from './ToolCard.astro';
+import ToolCard from '../cards/ToolCard.astro';
 import Icon, { type IconName } from '../widgets/Icon.astro'; // adjust path to wherever Icon.astro actually lives
 
 interface Props {
@@ -62,7 +61,7 @@ const totalTools = entries.length;
 
 <div class="tools-grid" id="tools-grid">
     {entries.map(entry => (
-        <ToolMiniCard entry={entry} />
+        <ToolCard entry={entry} variant="mini" />
     ))}
 </div>
 
@@ -219,7 +218,7 @@ const totalTools = entries.length;
 
     
     if (grid) {
-        const cards = Array.from(grid.querySelectorAll<HTMLElement>('.tool-minicard'));
+        const cards = Array.from(grid.querySelectorAll<HTMLElement>('.tool-card[data-variant="mini"]'));
         const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-pill'));
         const countEl = document.getElementById('result-count');
         const clearBtn = document.getElementById('clear-filters') as HTMLButtonElement | null;

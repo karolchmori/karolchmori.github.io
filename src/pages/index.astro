@@ -16,7 +16,7 @@ import Vignette from '../components/widgets/Vignette.astro';
 import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
 
 import SoftwareChip from '../components/props/SoftwareChip.astro';
-import ToolCard from '../components/props/ToolCard.astro';
+import ToolCard from '../components/cards/ToolCard.astro';
 
 import { getActiveTools } from '../data/ToolLibrary';
 const activeTools = getActiveTools();
@@ -60,11 +60,11 @@ const toolEntries = (await getCollection('tool'))
 						<span class="home-portfolio-title-small">MY</span>TOOLS
 					</a>
 					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
-						<ToolCard index={0}/>
+						<ToolCard index={0} variant="full" />
 					</HorizontalCarousel>
 					<HorizontalCarousel class="tool-card-selected" itemSize='34vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
 						{toolEntries.map((entry, i) => (
-							<ToolCard entry={entry} index={i}/>
+							<ToolCard entry={entry} index={i} variant="full" />
 						))}
 					</HorizontalCarousel>
 
@@ -356,7 +356,6 @@ const toolEntries = (await getCollection('tool'))
 </style>
 
 
-
 <script>
 	const arrow = document.querySelector(".scroll-arrow");
 	const portfolio = document.querySelector(".home-portfolio");
@@ -365,74 +364,71 @@ const toolEntries = (await getCollection('tool'))
 	let changedPlaceholder = false;
 	let cardsLimit = 4;
 
+	const CARD_OUT_MS = 500;
+
 	arrow?.addEventListener("click", () => {
 		portfolio?.scrollIntoView({
-		behavior: "smooth",
-		block: "start",
+			behavior: "smooth",
+			block: "start",
 		});
 	});
 
-	
-
-	window.addEventListener("tool:selected", (e) => { 
-
+	window.addEventListener("tool:selected", (e) => {
 		const { id } = (e as CustomEvent).detail;
-		
 		selectedToolId = id;
 
-		if (selectedToolId && !changedPlaceholder) {
-			const placeholder = document.querySelector('.tool-card-placeholder') as HTMLElement;
-			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
-
-			
-			if (placeholder) {
-				placeholder.style.animation = 'fadeOut 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards';
-				setTimeout(() => {
-					placeholder.style.display = 'none';
-				}, 300); // match animation duration
-			}
-
-			selected.style.display = 'flex';
-		} 
-
 		const allCards = Array.from(document.querySelectorAll<HTMLElement>('.tool-card')).filter(c => c.dataset.software);
-		
-		// Find the ones matching by software
 		const matching = allCards.filter(c => c.dataset.software === id);
+		const rest = allCards.filter(c => c.dataset.software !== id);
 
-		// Hide each that is not matching after the search
-		const rest     = allCards.filter(c => c.dataset.software !== id);
-		//rest.forEach(c => c.dataset.state = 'hidden');
-		rest.forEach((c, i) => {	
+		// Hide non-matching cards right away — no need to wait on the placeholder for this
+		rest.forEach(c => {
 			c.dataset.state = 'hidden';
 			c.style.display = 'none';
 		});
-		
-	
-		// show up to 4 matching as active
-		matching.forEach((c, i) => {
-			c.style.display = i < cardsLimit ? '' : 'none';
-			c.style.setProperty('--card-index', String(i));
-			
-			setTimeout(() => {
-				c.dataset.state = i < cardsLimit ? 'active' : 'hidden';
-			}, i * 300);
-				
-		});
 
-		const selectedTrack = document.querySelector('.tool-card-selected [data-carousel]') as HTMLElement;
-		if (selectedTrack) {
-			selectedTrack.scrollLeft = 0;
+		function revealMatching() {
+			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
+			selected.style.display = 'flex';
+
+			matching.forEach((c, i) => {
+				c.style.display = i < cardsLimit ? '' : 'none';
+				c.style.setProperty('--card-index', String(i));
+
+				setTimeout(() => {
+					c.dataset.state = i < cardsLimit ? 'active' : 'hidden';
+				}, i * 300);
+			});
+
+			const selectedTrack = document.querySelector('.tool-card-selected [data-carousel]') as HTMLElement;
+			if (selectedTrack) {
+				selectedTrack.scrollLeft = 0;
+			}
+
+			requestAnimationFrame(() => requestAnimationFrame(() => {
+				document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(track => {
+					track.dispatchEvent(new Event('scroll'));
+				});
+			}));
 		}
 
-		// After showing/hiding cards, nudge the carousel to remeasure
-		requestAnimationFrame(() => requestAnimationFrame(() => {
-			document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(track => {
-				track.dispatchEvent(new Event('scroll'));
-			});
-		}));
+		if (selectedToolId && !changedPlaceholder) {
+			const placeholder = document.querySelector('.tool-card-placeholder') as HTMLElement;
+			const PLACEHOLDER_OUT_MS = 200;
 
+			if (placeholder) {
+				placeholder.style.animation = 'cardOut 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards';
+				setTimeout(() => {
+					placeholder.style.display = 'none';
+					revealMatching();
+				}, PLACEHOLDER_OUT_MS);
+			} else {
+				revealMatching();
+			}
+
+			changedPlaceholder = true; // you're checking this flag but never setting it — worth fixing too
+		} else {
+			revealMatching();
+		}
 	});
-
-
 </script>
