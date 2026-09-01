@@ -22,7 +22,7 @@ const { showThemeToggle = true } = Astro.props;
 		
 		<a class="hamburger" aria-label="Menu">☰</a>
 		<div class="navigator-pages">
-			{showThemeToggle && <ThemeToggle />}
+			
 			<HeaderLink href="/about-me">About Me</HeaderLink>
 			<DropdownLink label="Work" href="/work" children={[
                             { label: 'Tools',   href: '/work/tools'},
@@ -30,6 +30,7 @@ const { showThemeToggle = true } = Astro.props;
 						]} />
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/contact">Contact</HeaderLink>
+            {showThemeToggle && <ThemeToggle />}
 			<div class="menu-social">
 				<SocialLinks orientation="horizontal" size={30} gap={0.5}/>
 			</div>

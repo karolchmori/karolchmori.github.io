@@ -36,6 +36,7 @@ const { tool } = Astro.props;
         align-items: center;
         justify-content: center;
         aspect-ratio: 1 / 1;
+        position: relative;
     }
 
     .software-chip img {
@@ -44,7 +45,7 @@ const { tool } = Astro.props;
         width: auto;
         height: auto;
         transition: filter 0.3s ease;
-        filter: brightness(0.4);
+        filter: brightness(0.4) saturate(0.7);
         transform: translateY(2px);
 	}
 

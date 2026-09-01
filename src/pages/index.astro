@@ -56,9 +56,7 @@ const toolEntries = (await getCollection('tool'))
 					</div>
 				</section>
 				<section class="home-portfolio">
-					<a class="home-title">
-						<span class="home-title-small">MY</span>TOOLS
-					</a>
+					<a class="home-title">MY TOOLS</a>
 					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 						<ToolCard index={0} variant="full" />
 					</HorizontalCarousel>
@@ -74,9 +72,7 @@ const toolEntries = (await getCollection('tool'))
 
 				</section>
 				<section class="home-credits">
-					<a class="home-title">
-						<span class="home-title-small">LAST</span>CREDITS
-					</a>
+					<a class="home-title">LAST CREDITS</a>
 				</section>
 				<section class="home-ending">
 
@@ -100,7 +96,7 @@ const toolEntries = (await getCollection('tool'))
 	}
 
 	:root {
-        --home-title: #553D45;
+        --home-title: #ceccc9;
     }
 	
 
@@ -132,22 +128,16 @@ const toolEntries = (await getCollection('tool'))
 	.home-title {
 		position: absolute;
         color: var(--home-title); 
-		font-family: 'IBM Plex Sans';
+		font-family: 'Citylight';
 		font-weight: 700;
   		font-style: normal;
 		font-stretch: condensed;
-        font-size: 7vh;
+        font-size: 9vh;
 		
-		filter: opacity(70%);
+		filter: opacity(100%) drop-shadow(0 0 7px var(--color-primary-glow));
 		user-select: none;
 		
 	}
-
-	.home-title-small {
-		font-size: 4.5vh;
-		font-weight: 600;
-	}
-
 
 	.home-hero {
 		position: relative;
@@ -282,7 +272,7 @@ const toolEntries = (await getCollection('tool'))
 
 	
 	.home-portfolio .home-title {
-		bottom: 79%;
+		bottom: 75%;
 		margin-bottom: 0.1em;
 	}
 
@@ -309,7 +299,7 @@ const toolEntries = (await getCollection('tool'))
 	/* ----------------------- CREDITS CONFIG ----------------------- */ 
 	/* -------------------------------------------------------------- */ 
 	.home-credits .home-title {
-		bottom: 79%;
+		bottom: 75%;
 		margin-bottom: 0.1em;
 	}
 

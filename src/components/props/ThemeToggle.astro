@@ -51,7 +51,6 @@
         color: var(--menu-mainbg); 
         
         /* Default state (Light mode): Thumb on the right */
-        transform: translateX(26px);
         transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), filter 0.2s ease;
     }
 
@@ -62,7 +61,7 @@
 
     /* Active state (Dark mode): Thumb slides to the left */
     :global([data-theme="dark"]) .theme-toggle-thumb {
-        transform: translateX(0);
+        transform: translateX(26px);
     }
 
     .theme-icon-light,

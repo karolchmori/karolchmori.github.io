@@ -67,13 +67,13 @@
 	
 	/* NAV COLOURS */ 
 	--menu-logo: #ddd2d7;
-	--menu-title: #cfc0c6;
+	--menu-title: #a38c95;
 	--menu-mainbg: #272226;
-	--menu-secondarybg: #e7dce2;
+	--menu-secondarybg: #29121A;
 
 
 	/* TOOL CARD COLORS */
-	--tool-card-title: #ddd2d7;
+	--tool-card-title: #D2CCCB;
 	--tool-card-bg: #D2CCCB;
 	--tool-card-black: #262124;
 	--tool-card-white: #ddd2d7;
@@ -96,19 +96,17 @@
 	/* ACCENT LEVELS */
 	--page-primary: #e0568b;
 	--menu-accent: #C33F6A;
-	--tool-card-pink: #6b2239;
+	--tool-card-pink: #491d2b;
 	
 	/* COMP COLOURS */
 	--comp-mainbg: #1e1c1e;
 	--comp-secondarybg: #2a282a;
 	--comp-border: #8a8a9633;
 
-	/* NAV COLOURS */ 
-	--menu-secondarybg: #2F1B24;
-
 
 	/* TOOL CARD COLORS */
-	--tool-card-bg: #181818;
+	--tool-card-title: #D2CCCB;
+	--tool-card-bg: #110e11;
 	--tool-card-black: #a89ba0;
 	--tool-card-white:  #2b2b2b;
 }

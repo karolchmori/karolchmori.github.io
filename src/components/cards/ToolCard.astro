@@ -105,6 +105,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         box-sizing: border-box;
         container-type: inline-size;
         container-name: tool-card;
+        
     }
 
     .tool-card-empty {
@@ -184,7 +185,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     .tool-card-information {
         height: 98%;
         overflow: hidden;
-        border: 1.16cqi solid color-mix(in srgb, var(--card-pink) 85%, transparent);
+        border: 1.16cqi solid color-mix(in srgb, var(--card-pink) 95%, transparent);
         border-radius: 2.1cqi;
         border-bottom-right-radius: 8.3cqi;
     }
@@ -210,7 +211,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         position: absolute;
         inset: 0;
         mix-blend-mode: multiply;
-        background: linear-gradient(to bottom, #575555af 0%, transparent 25%, transparent 100%);
+        background: linear-gradient(to bottom, #ddd2d7 0%, transparent 25%, transparent 100%);
         pointer-events: none;
     }
 
@@ -229,8 +230,10 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         text-align: right;
         text-transform: uppercase;
         font-family: 'Citylight';
+        font-weight: 200;
         font-size: var(--title-size);
-        font-weight: 100;
+        letter-spacing: -0.03rem;
+        line-height: 1;
     }
 
     .tool-card-body p {
@@ -262,7 +265,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         --notch-icon-size: 14.3cqi;
         --notch-suit-margin: -5cqi -1.6cqi;
         --rank-size: 20cqi;
-        --title-size: 14cqi;
+        --title-size: 17cqi;
         --thumb-height: 68%;
     }
 
@@ -274,7 +277,7 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
         --notch-icon-size: 11.1cqi;
         --notch-suit-margin: -4cqi -1.6cqi;
         --rank-size: 16cqi;
-        --title-size: 13cqi;
+        --title-size: 15cqi;
         --thumb-height: 60%;
     }
 
