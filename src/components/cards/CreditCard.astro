@@ -55,7 +55,7 @@ const link        = entry?.link;
 
         
         --rCorner: 40px; 
-        --rInner: 30px; 
+        --rInner: 25px; 
 
         mask: 
             radial-gradient(circle var(--rCorner) at 0 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
@@ -111,6 +111,12 @@ const link        = entry?.link;
 
     
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .credit-card {
+            --rCorner: 35px; 
+            --rInner: 20px; 
+        }
+
+
         .credit-card[data-flipped="true"] .credit-card-back {
             opacity: 1;
             pointer-events: auto;
@@ -155,5 +161,5 @@ const link        = entry?.link;
 
     syncToMedia(mq);
     mq.addEventListener('change', syncToMedia); 
-    
+
 </script>
