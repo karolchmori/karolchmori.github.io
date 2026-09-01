@@ -17,7 +17,9 @@ import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
 
 import SoftwareChip from '../components/props/SoftwareChip.astro';
 import ToolCard from '../components/cards/ToolCard.astro';
+import CreditCard from '../components/cards/CreditCard.astro';
 
+import { creditLibrary } from '../data/CreditsLibrary';
 import { getActiveTools } from '../data/ToolLibrary';
 const activeTools = getActiveTools();
 
@@ -27,6 +29,10 @@ const toolEntries = (await getCollection('tool'))
     .filter(entry => entry.data.featured)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+
+const lastCredits = [...creditLibrary]
+	.sort((a, b) => b.year - a.year)
+	.slice(0, 3);
 
 ---
 
@@ -73,6 +79,11 @@ const toolEntries = (await getCollection('tool'))
 				</section>
 				<section class="home-credits">
 					<a class="home-title">LAST CREDITS</a>
+					 <HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+						{lastCredits.map((credit, i) => (
+							<CreditCard entry={credit} index={i} variant="full" />
+						))}
+					</HorizontalCarousel>
 				</section>
 				<section class="home-ending">
 

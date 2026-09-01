@@ -1,0 +1,159 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import StackBadge from '../props/StackBadge.astro';
+import Icon from '../widgets/Icon.astro';
+import type { CreditEntry } from '../../objects/CreditEntry';
+
+interface Props {
+    entry?: CreditEntry ;
+    index?: number;
+    variant?: 'full' | 'mini';
+}
+
+const { entry, index = 0, variant = 'full' } = Astro.props;
+
+const numId       = entry?.id           ?? null;
+const title       = entry?.title        ?? "";
+const type        = entry?.type     ?? "";
+const year        = entry?.year     ?? "";
+const duration    = entry?.duration ?? "";
+const poster      = entry?.posterPath   ?? null;
+const role        = entry?.role     ?? "";
+const link        = entry?.link;
+
+---
+
+<div class="credit-card"
+    data-variant={variant}
+    data-title={title}
+    data-flipped="false"
+>
+    <div class="credit-card-content credit-card-front">
+        {poster && <img src={poster} alt={title} loading="lazy" />}
+
+    </div>
+    <div class="credit-card-content credit-card-back">
+        <h3>{title}</h3>
+        <p>{role}</p>
+        <p>{type} · {year}</p>
+        {duration && <p>{duration}</p>}
+
+    </div>
+
+</div>
+<style>
+    .credit-card {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 2 / 3;
+        overflow: visible;
+        transform-style: preserve-3d;
+        box-sizing: border-box;
+        container-type: inline-size;
+        container-name: credit-card;
+
+        
+        --rCorner: 40px; 
+        --rInner: 30px; 
+
+        mask: 
+            radial-gradient(circle var(--rCorner) at 0 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
+            radial-gradient(circle var(--rCorner) at 100% 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
+            radial-gradient(circle var(--rInner) at 0 70%, transparent var(--rInner), black calc(var(--rInner) + 1px)),
+            radial-gradient(circle var(--rCorner) at 0 100%, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
+            radial-gradient(circle var(--rInner) at 100% 70%, transparent var(--rInner), black calc(var(--rInner) + 1px)),
+            radial-gradient(circle var(--rCorner) at 100% 100%, transparent var(--rCorner), black calc(var(--rCorner) + 1px));
+        
+        mask-composite: intersect;
+    }
+
+    .credit-card-content {
+        position: absolute; 
+        inset: 2%; 
+        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+        transition: opacity 0.3s ease;
+        pointer-events: none; 
+    }
+
+    .credit-card-front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: inherit;
+    }
+
+    .credit-card-front {
+        background-color: #cec4c4;
+        opacity: 1;
+    }
+
+    .credit-card-back {
+        background-color: #111;
+        color: #fff;
+        opacity: 0;
+    }
+
+
+    @media (hover: hover) and (pointer: fine){
+        .credit-card:hover .credit-card-back {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .credit-card:hover .credit-card-front {
+            opacity: 0;
+        }
+    }
+    
+
+    
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+        .credit-card[data-flipped="true"] .credit-card-back {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .credit-card[data-flipped="true"] .credit-card-front {
+            opacity: 0;
+        }
+    }
+
+</style>
+
+<script>
+    const mq = window.matchMedia('(orientation: portrait), (max-aspect-ratio: 9/16)');
+
+    function bindFlip() {
+        document.querySelectorAll<HTMLElement>('.credit-card').forEach(card => {
+            card.addEventListener('click', handleClick);
+        });
+    }
+
+    function unbindFlip() {
+        document.querySelectorAll<HTMLElement>('.credit-card').forEach(card => {
+            card.removeEventListener('click', handleClick);
+            card.dataset.flipped = 'false';
+        });
+    }
+
+    function handleClick(e: Event) {
+        const card = e.currentTarget as HTMLElement;
+        const flipped = card.dataset.flipped === 'true';
+        card.dataset.flipped = String(!flipped);
+    }
+
+    function syncToMedia(e: MediaQueryList | MediaQueryListEvent) {
+        if (e.matches) {
+            bindFlip();
+        } else {
+            unbindFlip();
+        }
+    }
+
+    syncToMedia(mq);
+    mq.addEventListener('change', syncToMedia); 
+    
+</script>
