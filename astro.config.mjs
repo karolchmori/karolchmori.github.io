@@ -66,5 +66,21 @@ export default defineConfig({
                 ],
             },
         },
+        {
+            provider: fontProviders.local(),
+            name: 'Citylight',
+            cssVariable: '--font-citylight',
+            fallbacks: ['serif'],
+            options: {
+                variants: [
+                    {
+                        src: ['./src/assets/fonts/Citylight.woff2'],
+                        weight: 400,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                ],
+            },
+        },
     ],
 });
