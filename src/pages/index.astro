@@ -324,9 +324,26 @@ const lastCredits = [...creditLibrary]
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
 		.home-backcards, .home-maincard {
-			top: 41%;
+			top: 44%;
 		}
 
+
+		.home-maincard img{
+			max-width: 85vw;
+			max-height: 80vh;
+		}
+
+		.home-backcards img {
+			max-width: 95vw;
+			max-height: 85vh;
+		}
+
+		.scroll-arrow {
+			bottom: 17%;
+			left: 47%;
+		}
+
+		
 
 		.home-maincard:hover .home-showreelPlay {
 			opacity: 1;
@@ -343,10 +360,7 @@ const lastCredits = [...creditLibrary]
 			top: 45%;
 		}
 
-		.scroll-arrow {
-			bottom: 20%;
-			left: 47%;
-		}
+		
 
 		.home-social { display: none; }
 
