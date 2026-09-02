@@ -9,7 +9,7 @@ const rawCredits = [
         title: "Some Film",
         type: "Film",
         year: 2024,
-        role: "Lookdev Artist",
+        role: "Lookdev",
         duration: "1h 47m",
         studioPath: "warner-bros",
         link: "https://example.com",

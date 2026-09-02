@@ -34,15 +34,56 @@ const link        = entry?.link;
 
     </div>
     <div class="credit-card-content credit-card-back">
-        <h3>{title}</h3>
-        <p>{role}</p>
-        <p>{type} · {year}</p>
-        {duration && <p>{duration}</p>}
+        <div class="back-header">
+            <span class="back-index">No. {numId}</span>
+        </div>
+        <div class="back-table">
+            <div class="back-row back-row--title">
+                <span class="back-label back-label--title">Title</span>
+                <span class="back-value back-value--title">{title}</span>
+                <span class="back-value back-value--year">{year}</span>
+            </div>
+            <div class="back-row">
+                <div class="back-cell">
+                    <span class="back-label">Type</span>
+                    <span class="back-value">{type}</span>
+                </div>
+                <div class="back-cell">
+                    <span class="back-label">Duration</span>
+                    <span class="back-value">{duration}</span>
+                </div>
+            </div>
+            <div class="back-row">
+                <div class="back-cell">
+                    <span class="back-label">Role</span>
+                    <span class="back-value">{role}</span>
+                </div>
+            </div>
+            <div class="back-row">
+                <a class="back-value back-value--watch" href={link}>Watch</a>
+            </div>
+        </div>
+        
 
     </div>
 
 </div>
+
 <style>
+
+    :root {
+        --card-bg: var(--credit-card-bg);
+        --card-pink: var(--credit-card-pink);
+        --card-black: var(--credit-card-black);
+        --card-white: var(--credit-card-white);
+        --card-title: var(--credit-card-title);
+
+        --rCorner: 40px; 
+        --rInner: 25px; 
+        --opacity: 0.8;
+    }
+
+
     .credit-card {
         position: relative;
         width: 100%;
@@ -53,9 +94,6 @@ const link        = entry?.link;
         container-type: inline-size;
         container-name: credit-card;
 
-        
-        --rCorner: 40px; 
-        --rInner: 25px; 
 
         mask: 
             radial-gradient(circle var(--rCorner) at 0 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
@@ -75,7 +113,7 @@ const link        = entry?.link;
         cursor: pointer;
         user-select: none;
         transition: opacity 0.3s ease;
-        pointer-events: none; 
+        pointer-events: none;
     }
 
     .credit-card-front img {
@@ -91,11 +129,97 @@ const link        = entry?.link;
     }
 
     .credit-card-back {
-        background-color: #111;
-        color: #fff;
+        background-color: var(--card-bg);
+        color: var(--card-black);
         opacity: 0;
+        padding-top: 9cqi !important;
+        padding: 11cqi;
     }
 
+    .back-header {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 5cqi;
+        line-height: 1;
+        margin-bottom: 1cqi;
+        opacity: var(--opacity);
+    }
+
+
+    .back-table {
+        height: 115cqi;
+        flex: 1;
+        display: grid;
+        grid-template-rows: 3fr 2fr 1fr 1fr; 
+        border: 1px solid var(--card-pink);
+        
+    }
+
+    .back-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0cqi 3cqi;
+        border-top: 1px solid var(--card-pink);
+    }
+
+    .back-cell {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+
+    .back-label {
+        font-size: 4.6cqi;
+        text-transform: uppercase;
+        letter-spacing: 0.4cqi;
+        opacity: var(--opacity);
+        margin-bottom: 1cqi;
+    }
+
+    .back-label--title {
+        position: absolute;
+        top: 17cqi;
+        
+    }
+
+    .back-value {
+        font-size: 6cqi;
+    }
+
+    .back-value--title {
+        width: 65cqi;
+        font-size: 11cqi;
+        line-height: 1.15;
+        font-weight: 700;
+        margin-inline: auto;
+        text-transform: uppercase;
+        text-align: center;
+        
+    }
+
+    .back-value--year {
+        position: absolute;
+        line-height: 1.15;
+        top: 18cqi;
+        right: 14cqi;
+    }
+
+    .back-value--watch {
+        width: 65cqi;
+        font-size: 8cqi;
+        line-height: 1.15;
+        font-weight: 400;
+        margin-inline: auto;
+        text-transform: uppercase;
+        text-align: center;
+        text-decoration: underline;
+        opacity: var(--opacity);
+    }
+
+    
 
     @media (hover: hover) and (pointer: fine){
         .credit-card:hover .credit-card-back {

@@ -59,6 +59,7 @@
 	--page-primary: #c65381;
 	--menu-accent: #e0568b;
 	--tool-card-pink: #AF385F;
+	--credit-card-pink: #AF385F;
 
 	/* COMP COLOURS */
 	--comp-mainbg: #ddd2d7;
@@ -77,6 +78,14 @@
 	--tool-card-bg: #D2CCCB;
 	--tool-card-black: #262124;
 	--tool-card-white: #ddd2d7;
+
+
+	/* CREDIT CARD COLORS */
+	--credit-card-title: #D2CCCB;
+	--credit-card-bg: #D2CCCB;
+	--credit-card-border: #92868c;
+	--credit-card-black: #262124;
+	--credit-card-white: #ddd2d7;
 }
 
 
@@ -97,6 +106,7 @@
 	--page-primary: #e0568b;
 	--menu-accent: #C33F6A;
 	--tool-card-pink: #491d2b;
+	--credit-card-pink: #491d2b;
 	
 	/* COMP COLOURS */
 	--comp-mainbg: #1e1c1e;
@@ -109,6 +119,14 @@
 	--tool-card-bg: #110e11;
 	--tool-card-black: #a89ba0;
 	--tool-card-white:  #2b2b2b;
+
+	/* CREDIT CARD COLORS */
+	--credit-card-title: #D2CCCB;
+	--credit-card-bg: #110e11;
+	--credit-card-border: #2b2b2b;
+	--credit-card-black: #a89ba0;
+	--credit-card-white:  #2b2b2b;
+
 }
 
 
