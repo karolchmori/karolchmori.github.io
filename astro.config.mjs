@@ -50,5 +50,21 @@ export default defineConfig({
                 ],
             },
         },
+        {
+            provider: fontProviders.local(),
+            name: 'Barqen',
+            cssVariable: '--font-barqen',
+            fallbacks: ['serif'],
+            options: {
+                variants: [
+                    {
+                        src: ['./src/assets/fonts/Barqen.woff2'],
+                        weight: 400,
+                        style: 'normal',
+                        display: 'swap',
+                    },
+                ],
+            },
+        },
     ],
 });
