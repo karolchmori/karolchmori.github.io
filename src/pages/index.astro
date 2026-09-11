@@ -226,15 +226,16 @@ const lastCredits = [...creditLibrary]
 	.home-showreelPlay {
 		position: absolute;
 		top: 78%;
-		left: 47%;
+		left: 46%;
 		scale: 1.2;
-		filter: drop-shadow(0 0 8px var(--color-primary-glow));
+		rotate: 4deg;
 		pointer-events: auto;
 		cursor: pointer;
 	}
 
 	.home-showreelPlay:hover {
 		scale: 1.3;
+		filter: drop-shadow(0 0 30px #ff7ec771);
 	}
 
 
@@ -287,11 +288,12 @@ const lastCredits = [...creditLibrary]
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
 		.home-maincard {
-			top: 40%;
+			top: 41%;
 		}
 
 		.home-showreelPlay {
-			left: 40%;
+			left: 38%;
+			scale: 1.35;
 		}
 
 
