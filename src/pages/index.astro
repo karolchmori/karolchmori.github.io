@@ -46,14 +46,14 @@ const lastCredits = [...creditLibrary]
 		<div class="home-container">
 			<main>
 				<section class="home-hero">
-					<a class="home-maincard" id="mainCard">
+					<a class="home-maincard" >
 						<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
 						
 					</a>
-					<span class="home-showreelPlay">
+					<span class="home-showreelPlay" id="showreelPlay">
 							<img src={PlayButton.src} alt="" />
 					</span>
-					<VideoModal trigger="#mainCard" platform="vimeo" idVideo={DEMOREEL}/>
+					<VideoModal trigger="#showreelPlay" platform="vimeo" idVideo={DEMOREEL}/>
 				</section>
 				<section class="home-portfolio">
 					<a class="home-title">MY TOOLS</a>
@@ -327,19 +327,12 @@ const lastCredits = [...creditLibrary]
 
 
 <script>
-	const arrow = document.querySelector(".scroll-arrow");
-	const portfolio = document.querySelector(".home-portfolio");
+
 
 	let selectedToolId: string;
 	let changedPlaceholder = false;
 	let cardsLimit = 4;
 
-	arrow?.addEventListener("click", () => {
-		portfolio?.scrollIntoView({
-			behavior: "smooth",
-			block: "start",
-		});
-	});
 
 	window.addEventListener("tool:selected", (e) => {
 		const { id } = (e as CustomEvent).detail;
