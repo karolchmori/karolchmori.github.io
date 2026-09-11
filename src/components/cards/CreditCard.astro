@@ -71,7 +71,8 @@ const link        = entry?.link;
 
 <style>
 
-    :root {
+    .credit-card {
+
         --card-bg: var(--credit-card-bg);
         --card-pink: var(--credit-card-pink);
         --card-black: var(--credit-card-black);
@@ -81,10 +82,8 @@ const link        = entry?.link;
         --rCorner: 40px; 
         --rInner: 25px; 
         --opacity: 0.8;
-    }
 
 
-    .credit-card {
         position: relative;
         width: 100%;
         aspect-ratio: 2 / 3;
@@ -98,9 +97,7 @@ const link        = entry?.link;
         mask: 
             radial-gradient(circle var(--rCorner) at 0 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
             radial-gradient(circle var(--rCorner) at 100% 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
-            radial-gradient(circle var(--rInner) at 0 70%, transparent var(--rInner), black calc(var(--rInner) + 1px)),
             radial-gradient(circle var(--rCorner) at 0 100%, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
-            radial-gradient(circle var(--rInner) at 100% 70%, transparent var(--rInner), black calc(var(--rInner) + 1px)),
             radial-gradient(circle var(--rCorner) at 100% 100%, transparent var(--rCorner), black calc(var(--rCorner) + 1px));
         
         mask-composite: intersect;
