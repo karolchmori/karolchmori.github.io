@@ -10,7 +10,6 @@ import PlayButton from '../assets/icons/AS_PlayButton.svg';
 
 
 import VideoModal from '../components/widgets/VideoModal.astro';
-import ArrowButton from '../components/widgets/ArrowButton.astro';
 import Vignette from '../components/widgets/Vignette.astro';
 import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
 
@@ -223,12 +222,13 @@ const lastCredits = [...creditLibrary]
 		transform: translate(-50%, -50%);
 	}
 
+
 	.home-showreelPlay {
 		position: absolute;
 		top: 81%;
 		left: 47%;
 		scale: 1.5;
-		filter: drop-shadow(0 0 8px #86315a);
+		filter: drop-shadow(0 0 8px var(--color-primary-glow));
 		pointer-events: auto;
 		cursor: pointer;
 	}
