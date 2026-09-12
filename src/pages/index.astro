@@ -456,18 +456,23 @@ const lastCredits = [...creditLibrary]
 	
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
-
+		.home-hero {
+			min-height: 86vh;
+		}
+		
 		.home-hero::before {
 			filter: blur(1.6px) brightness(0.7);
 		}
 
 		.home-ribbon{
 			height: 40px;
+			top: 83vh;
+			transform: rotate(-2deg);
 		}
 
 		.home-hero-container {
 			grid-template-columns: 0.9fr;
-			grid-template-rows: 0.67fr 0.2fr 1fr 0.3fr;
+			grid-template-rows: 0.6fr 0.2fr 1fr 0.2fr;
 			grid-template-areas: 
 				"header"
 				"subhead"
@@ -481,7 +486,7 @@ const lastCredits = [...creditLibrary]
 		.home-header{
 			font-size: 35px;
 			text-align: center;
-			margin-top: 10%;
+			margin-top: 5%;
 			letter-spacing: 2px;
 		}
 
@@ -497,7 +502,7 @@ const lastCredits = [...creditLibrary]
 		}
 
 		.home-subhead{
-			font-size: 17px;
+			font-size: 14px;
 			text-align: center;
 			margin: 0 auto;
 		}
