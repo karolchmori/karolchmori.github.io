@@ -48,7 +48,9 @@ const lastCredits = [...creditLibrary]
 				<div class="overlap-group">
 					<section class="home-hero">
 						<span class="home-header">
-							I turn problems into 
+							I transform <span class="home-header-crossed">
+								problems
+							</span> into 
 							<span class="home-header-sec">
 								tools.
 							</span>
@@ -262,11 +264,29 @@ const lastCredits = [...creditLibrary]
 		font-family: 'Barqen', sans-serif;
 		font-weight: 700;
 		font-size: 100px;
-		line-height: 0.9;
+		line-height: 0.8;
 		letter-spacing: 4px;
 		display: inline-block;
 		transform: rotate(-1deg);
 		text-transform: lowercase;
+		
+	}
+
+	.home-header-crossed {
+		position: relative;
+		display: inline-block;
+	}
+
+	.home-header-crossed::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 40%;
+		height: 9px;
+		background-color: #c2b2b7;
+		transform: translateY(-50%) rotate(3deg);
+		filter: drop-shadow(0 0 5px #05030446);
 	}
 
 	.home-header-sec{
