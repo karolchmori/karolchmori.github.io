@@ -12,10 +12,11 @@ import PlayButton from '../assets/icons/AS_PlayButton.svg';
 import VideoModal from '../components/widgets/VideoModal.astro';
 import Vignette from '../components/widgets/Vignette.astro';
 import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
-
+import HomeRibbon from '../components/props/HomeRibbon.astro';
 import SoftwareChip from '../components/props/SoftwareChip.astro';
 import ToolCard from '../components/cards/ToolCard.astro';
 import CreditCard from '../components/cards/CreditCard.astro';
+
 
 import { creditLibrary } from '../data/CreditsLibrary';
 import { getActiveTools } from '../data/ToolLibrary';
@@ -44,44 +45,52 @@ const lastCredits = [...creditLibrary]
 		
 		<div class="home-container">
 			<main>
-				<section class="home-hero">
-					<a class="home-maincard" >
-						<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
-						
-					</a>
-					<span class="home-showreelPlay" id="showreelPlay">
+				<div class="overlap-group">
+					<section class="home-hero">
+						<h1 class="home-header">I turn problems into tools.</h1>
+						<p class="home-subhead">Always researching, experimenting, and pushing my own limits.</p>
+						<a class="home-maincard" >
+							<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
+						</a>
+						<span class="home-showreelPlay" id="showreelPlay">
 							<img src={PlayButton.src} alt="" />
-					</span>
-					<VideoModal trigger="#showreelPlay" platform="vimeo" idVideo={DEMOREEL}/>
-				</section>
-				<section class="home-portfolio">
-					<a class="home-title">MY TOOLS</a>
-					 <HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
-						<ToolCard index={0} variant="full" />
-					</HorizontalCarousel>
-					<HorizontalCarousel class="tool-card-selected" itemSize='34vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
-						{toolEntries.map((entry, i) => (
-							<ToolCard entry={entry} index={i} variant="full" />
-						))}
-					</HorizontalCarousel>
+						</span>
+						<VideoModal trigger="#showreelPlay" platform="vimeo" idVideo={DEMOREEL}/>
+					</section>
+					<HomeRibbon/>
+				
+					<div class="rest">
+						<section class="home-portfolio">
+							<a class="home-title">MY TOOLS</a>
+							<HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+								<ToolCard index={0} variant="full" />
+							</HorizontalCarousel>
+							<HorizontalCarousel class="tool-card-selected" itemSize='34vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
+								{toolEntries.map((entry, i) => (
+									<ToolCard entry={entry} index={i} variant="full" />
+								))}
+							</HorizontalCarousel>
 
-					<HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
-						{activeTools.map(tool => <SoftwareChip tool={tool} />)}
-					</HorizontalCarousel>
+							<HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
+								{activeTools.map(tool => <SoftwareChip tool={tool} />)}
+							</HorizontalCarousel>
 
-				</section>
-				<section class="home-credits">
-					<a class="home-title">LAST CREDITS</a>
-					 <HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
-						{lastCredits.map((credit, i) => (
-							<CreditCard entry={credit} index={i} variant="full" />
-						))}
-					</HorizontalCarousel>
-				</section>
-				<section class="home-ending">
+						</section>
+						<section class="home-credits">
+							<a class="home-title">LAST CREDITS</a>
+							<HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+								{lastCredits.map((credit, i) => (
+									<CreditCard entry={credit} index={i} variant="full" />
+								))}
+							</HorizontalCarousel>
+						</section>
+						<section class="home-ending">
 
 
-				</section>
+						</section>
+					</div>
+				</div>
+				
 			</main>
 		</div>
 		<Footer class="home-social"/>
@@ -112,22 +121,16 @@ const lastCredits = [...creditLibrary]
 		content: "";
 		position: absolute;
 		inset: 0;
-
-		background-image: url('../assets/BG/BG_MainHome_High.jpg');
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: top center;
-
-		filter: blur(0.7px);
 		transform: scale(1.005);
-
 		z-index: -1;
 	}
 
-	.home-container {
-		position: relative;
-		overflow: hidden;
+
+	.section-ribbon-track :global(.home-suit) {
+		--home-suit-size: 35px;
+		margin-top: -10px;
 	}
+
 
 	.home-title {
 		position: absolute;
@@ -143,9 +146,33 @@ const lastCredits = [...creditLibrary]
 		
 	}
 
-	.home-hero {
+	.overlap-group {
 		position: relative;
-  		min-height: 91vh;
+		isolation: isolate;
+	}
+
+	.home-hero {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+  		min-height: 89vh;
+
+		background-image: url('../assets/BG/BG_MainHome_High_Home_v01.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top center;
+	}
+
+	.rest {
+		position: relative;
+		z-index: 2;
+		background-image: url('../assets/BG/BG_MainHome_High_Sections_v01.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top center;
+		
+		clip-path: polygon(0 2.3%, 100% 0, 100% 100%, 0 100%);
+    	margin-top: -3.5vh;
 	}
 
 	.home-portfolio {
@@ -172,6 +199,7 @@ const lastCredits = [...creditLibrary]
 	}
 
 	.home-ending {
+		position: relative;
 		min-height: 48vh;
 		width: 100%;
 	}
@@ -199,13 +227,35 @@ const lastCredits = [...creditLibrary]
 	/* ------------------------ HERO CONFIG ------------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
+	.home-header{
+		position: absolute;
+		top: 25%;
+		left: 15%;
+		font-family: 'Barqen', sans-serif;
+		font-weight: 400;
+		font-size: 100px;
+		margin: 0 0 22px 0;
+		color: black;
+		width: 40%;
+	}
+	
+	.home-subhead{
+		position: absolute;
+		top: 50%;
+		left: 15%;
+		font-size: 17px;
+		color: rgba(244,239,228,0.68);
+		max-width: 420px;
+		margin: 0 0 38px 0;
+	}
+	
+
 	.home-maincard img{
 		width: auto;
 		height: auto;
 		max-width: 70vw;
 		max-height: 65vh;
 		display: block;
-		rotate: -4deg;
 		filter: drop-shadow(10px 10px 10px #1f0c1594);
 	}
 
@@ -217,16 +267,17 @@ const lastCredits = [...creditLibrary]
 
 	.home-maincard {
 		position: absolute;
-		top: 43%;
-		left: 49%;
+		top: 50%;
+		right: 10%;
+		rotate: 4deg;
 		transform: translate(-50%, -50%);
 	}
 
 
 	.home-showreelPlay {
 		position: absolute;
-		top: 80%;
-		left: 46%;
+		top: 65%;
+		left: 15%;
 		scale: 1.2;
 		rotate: 4deg;
 		pointer-events: auto;

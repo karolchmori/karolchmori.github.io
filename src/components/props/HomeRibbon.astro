@@ -1,0 +1,68 @@
+---
+import Icon from '../widgets/Icon.astro';
+
+
+---
+
+<div class="section-ribbon" aria-hidden="true">
+    <div class="section-ribbon-track">
+        <Icon name="diamond" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TOOL DEVELOPMENT</span>
+        <Icon name="club" size="var(--home-suit-size)" class="home-suit"/>
+        <span>PIPELINE</span>
+        <Icon name="heart" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TECH ART</span>
+        <Icon name="spade" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TOOL DEVELOPMENT</span>
+        <Icon name="diamond" size="var(--home-suit-size)" class="home-suit"/>
+        <span>PIPELINE</span>
+        <Icon name="club" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TECH ART</span>
+        <Icon name="heart" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TOOL DEVELOPMENT</span>
+        <Icon name="spade" size="var(--home-suit-size)" class="home-suit"/>
+        <span>PIPELINE</span>
+        <Icon name="diamond" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TECH ART</span>
+        <Icon name="club" size="var(--home-suit-size)" class="home-suit"/>
+        <span>TOOL DEVELOPMENT</span>
+    </div>
+</div>
+
+<style>
+
+    	/* ---------------------- RIBBON ---------------------- */
+	.section-ribbon {
+		position: absolute;
+		top: 86vh;               
+		left: 50%;
+		width: 100%;
+		transform: translate(-50%, -50%) rotate(-1.3deg);
+		z-index: 3;
+		background: #050304;
+		overflow: hidden;
+		pointer-events: none;
+		display: flex;
+		justify-content: center;
+	}
+
+	.section-ribbon-track {
+		display: flex;
+		align-items: center;
+		width: max-content;
+		white-space: nowrap;
+		gap: 2em;
+		padding: 0;
+		margin-top: 0.6rem;
+		line-height: 1.2;
+		font-size: 45px;
+		font-family: 'Citylight';
+		font-weight: 700;
+		font-stretch: condensed;
+		letter-spacing: 0.05em;
+		
+		color: #A38C95;
+		text-transform: uppercase;
+	}
+
+</style>
