@@ -68,4 +68,16 @@ import Icon from '../widgets/Icon.astro';
 		margin-top: -10px;
 	}
 
+	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+		.section-ribbon-track {
+			font-size: 25px;
+		}
+
+		:global(.home-suit) {
+			--home-suit-size: 25px;
+		}
+
+	}
+
 </style>
