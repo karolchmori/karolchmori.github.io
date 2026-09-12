@@ -47,25 +47,28 @@ const lastCredits = [...creditLibrary]
 			<main>
 				<div class="overlap-group">
 					<section class="home-hero">
-						<span class="home-header">
-							I transform <span class="home-header-crossed">
-								problems
-							</span> into 
-							<span class="home-header-sec">
-								tools.
+						<div class="home-hero-container">
+							<span class="home-header">
+								I transform <br> <span class="home-header-crossed">
+									problems
+								</span> into 
+								<span class="home-header-sec">
+									tools.
+								</span>
 							</span>
-						</span>
-						<div class="cta-row">
-							<div class="home-showreelPlay" id="showreelPlay">
-								<a href="#" class="btn btn-primary">Watch showreel</a>
+							<p class="home-subhead">Always researching, experimenting, and pushing my own limits.</p>
+							<div class="cta-row">
+								<div class="home-showreelPlay" id="showreelPlay">
+									<a href="#" class="btn btn-primary">Watch showreel</a>
+								</div>
+								<a href="#" class="btn btn-secondary">About me</a>
 							</div>
-							<a href="#" class="btn btn-secondary">About me</a>
+							
+							<a class="home-maincard" >
+								<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
+							</a>
 						</div>
 						
-						<p class="home-subhead">Always researching, experimenting, and pushing my own limits.</p>
-						<a class="home-maincard" >
-							<img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
-						</a>
 						
 						<VideoModal trigger="#showreelPlay" platform="vimeo" idVideo={DEMOREEL}/>
 					</section>
@@ -173,10 +176,13 @@ const lastCredits = [...creditLibrary]
         top: 0;
         z-index: 1;
         min-height: 89vh;
-        overflow: hidden; /* Contains the blurred background */
+        overflow: hidden;
+		display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* This creates a separate background layer that can blur independently */
+	
     .home-hero::before {
         content: "";
         position: absolute;
@@ -185,7 +191,7 @@ const lastCredits = [...creditLibrary]
         background-repeat: no-repeat;
         background-size: cover;
         background-position: top center;
-        filter: blur(1.5px) brightness(0.67);
+        filter: blur(1.6px) brightness(1);
         transform: scale(1.05);
         z-index: -1;
     }
@@ -254,22 +260,34 @@ const lastCredits = [...creditLibrary]
 	/* ------------------------ HERO CONFIG ------------------------- */ 
 	/* -------------------------------------------------------------- */ 
 
-	.home-header{
-		position: absolute;
-		top: 16%;
-		left: 15%;
-		width: 30%;
-		color: #c2b2b7;
+	.home-hero-container{
+		display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1.9fr 0.2fr 0.5fr;
+        grid-template-areas: 
+        "header card"
+        "subhead card"
+        "buttons card";
+        align-items: center;
+        max-width: 1150px;
+		max-height: 89vh;
+        
+	}
 
-		font-family: 'Barqen', sans-serif;
-		font-weight: 700;
-		font-size: 100px;
-		line-height: 0.8;
-		letter-spacing: 4px;
-		display: inline-block;
-		transform: rotate(-1deg);
-		text-transform: lowercase;
+	.home-header{
+		grid-area: header;
+        color: #C0B1B5;
+        font-family: 'Barqen', sans-serif;
+        font-weight: 700;
+        font-size: 100px;
+        line-height: 0.85;
+        letter-spacing: 4px;
+        display: inline-block;
+        transform: rotate(-1deg);
+        text-transform: lowercase;
+        text-align: left;
 		
+
 	}
 
 	.home-header-crossed {
@@ -283,13 +301,15 @@ const lastCredits = [...creditLibrary]
 		left: 0;
 		right: 0;
 		top: 40%;
-		height: 9px;
-		background-color: #c2b2b7;
-		transform: translateY(-50%) rotate(3deg);
+		height: 4px;
+		background-color: #C0B1B5;
+		transform: translateY(-10%) rotate(-3deg);
 		filter: drop-shadow(0 0 5px #05030446);
 	}
 
 	.home-header-sec{
+		height: 175px;
+
 		color: #BA4964;
 		font-size: 175px;
 		line-height: 1.2;
@@ -302,27 +322,39 @@ const lastCredits = [...creditLibrary]
              4px -4px 0 #050304,
             -8px  8px 0 #050304,
              8px  8px 0 #050304;
+
+		padding: 0;
 	}
 	
 	.home-subhead{
-		position: absolute;
-		top: 68%;
-		left: 15%;
-		font-size: 17px;
-		color: #f4efe4ad;
-		max-width: 420px;
-		margin: 0 0 38px 0;
+		grid-area: subhead;
+        font-size: 17px;
+        color: #f4efe4ad;
+        max-width: 420px;
+        text-align: left;
+
+		padding-top: -10%;
+		padding: 0;
+		margin: 0;
+
 	}
 
 	.cta-row {
-		position: absolute;
-		top: 78%;
-		left: 15%;
-		display: flex;
-		align-items: center;
-		flex-direction: row;
-		gap: 16px;
+		grid-area: buttons;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: flex-start;
 	}
+
+	.home-maincard {
+		grid-area: card;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(4deg);
+	}
+
 	
 	.btn{
 		display:inline-flex;
@@ -346,20 +378,14 @@ const lastCredits = [...creditLibrary]
 		color: #f4efe4;
 	}
 
-	.home-showreelPlay img {
-		width: auto;
-		height: 14vh;
-	}
-
-
 	.home-showreelPlay {
-		scale: 1.2;
+		scale: 1;
 		pointer-events: auto;
 		cursor: pointer;
 	}
 
 	.home-showreelPlay:hover {
-		scale: 1.3;
+		scale: 1.1;
 		filter: drop-shadow(0 0 30px #ff7ec771);
 	}
 
@@ -373,14 +399,7 @@ const lastCredits = [...creditLibrary]
 		filter: blur(0.5px) drop-shadow(10px 10px 10px #1f0c1594);
 	}
 
-	.home-maincard {
-		position: absolute;
-		top: 50%;
-		right: 10%;
-		rotate: 4deg;
-		transform: translate(-50%, -50%);
-	}
-
+	
 
 	
 
@@ -432,19 +451,41 @@ const lastCredits = [...creditLibrary]
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
-		.home-maincard {
-			top: 43%;
+		.home-hero-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 0.6fr 0.3fr 2fr 0.3fr;
+			grid-template-areas: 
+				"header"
+				"subhead"
+				"card"
+				"buttons";
+			text-align: center;
+			align-items: center;
 		}
 
-		.home-showreelPlay {
-			left: 38%;
-			scale: 1.3;
+		.home-header{
+			font-size: 60px;
+			text-align: center;
+		}
+
+		.home-header-sec{
+			height: 100px;
+			font-size: 100px;
+		}
+
+		.home-subhead{
+			font-size: 17px;
+			text-align: center;
+		}
+
+		.cta-row {
+			justify-content: center;
 		}
 
 
 		.home-maincard img{
-			max-width: 85vw;
-			max-height: 80vh;
+			max-width: 43vw;
+			max-height: 38vh;
 		}
 		
 
