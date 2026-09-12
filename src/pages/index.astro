@@ -457,13 +457,17 @@ const lastCredits = [...creditLibrary]
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
+		.home-hero::before {
+			filter: blur(1.6px) brightness(0.7);
+		}
+
 		.home-ribbon{
 			height: 40px;
 		}
 
 		.home-hero-container {
 			grid-template-columns: 0.9fr;
-			grid-template-rows: 0.6fr 0.3fr 1fr 0.3fr;
+			grid-template-rows: 0.6fr 0.2fr 1fr 0.3fr;
 			grid-template-areas: 
 				"header"
 				"subhead"
@@ -505,15 +509,9 @@ const lastCredits = [...creditLibrary]
 			background-color: #0000ff69;
 		}
 
-		.btn{
-			padding: 10px 25px;
-		}
-
-
 		.home-maincard img{
-			max-width: 48vw;
-			max-height: 43vh;
-			
+			max-width: 50vw;
+			max-height: 45vh;
 		}
 		
 
