@@ -145,10 +145,16 @@ const lastCredits = [...creditLibrary]
 
 
 	.home-ribbon{
-		top: 86vh;  
-		width: 200vw;
+		position: absolute;
+		top: 86vh;
+		left: 0;
+		width: 100%;
+		height: 70px;
 		overflow: hidden;
-		
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		transform: rotate(-1.3deg);
 	}
 	
 
@@ -353,7 +359,7 @@ const lastCredits = [...creditLibrary]
         display: flex;
         justify-content: center;
         align-items: center;
-        transform: rotate(4deg);
+        
 	}
 
 	
@@ -398,6 +404,8 @@ const lastCredits = [...creditLibrary]
 		max-height: 65vh;
 		display: block;
 		filter: blur(0.5px) drop-shadow(10px 10px 10px #1f0c1594);
+		transform: rotate(4deg);
+		margin: -1%;
 	}
 
 	
@@ -450,8 +458,8 @@ const lastCredits = [...creditLibrary]
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
 		.home-hero-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 0.6fr 0.3fr 2fr 0.3fr;
+			grid-template-columns: 0.9fr;
+			grid-template-rows: 0.6fr 0.3fr 1fr 0.3fr;
 			grid-template-areas: 
 				"header"
 				"subhead"
@@ -459,31 +467,51 @@ const lastCredits = [...creditLibrary]
 				"buttons";
 			text-align: center;
 			align-items: center;
+			margin-top: 10%;
 		}
 
 		.home-header{
-			font-size: 60px;
+			font-size: 50px;
 			text-align: center;
+			background-color: #00800085;
 		}
 
 		.home-header-sec{
-			height: 100px;
-			font-size: 100px;
+			height: 80px;
+			font-size: 80px;
 		}
 
 		.home-subhead{
 			font-size: 17px;
 			text-align: center;
+			margin: 0 auto;
+			background-color: #ff00005d;
 		}
 
 		.cta-row {
 			justify-content: center;
+			background-color: #80008080;
+		}
+
+		.home-maincard{
+			background-color: #0000ff69;
+		}
+
+		.btn{
+			display:inline-flex;
+			align-items:center;
+			padding: 10px 25px;
+			font-size: 15px;
+			font-weight: 600;
+			text-decoration: none;
+			cursor: pointer;
 		}
 
 
 		.home-maincard img{
 			max-width: 43vw;
 			max-height: 38vh;
+			
 		}
 		
 
