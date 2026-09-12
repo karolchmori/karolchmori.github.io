@@ -1,0 +1,250 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE, DEMOREEL } from '../../consts';
+
+import MainFrontCard from '../../assets/elements/Main_FrontCard.png';
+import VideoModal from '../widgets/VideoModal.astro';
+---
+
+<div class="home-hero-container">
+    <span class="home-header">
+        I transform <br> <span class="home-header-crossed">
+            problems
+        </span> into 
+        <span class="home-header-sec">
+            tools.
+        </span>
+    </span>
+    <p class="home-subhead">Always researching, experimenting, <br> and pushing my own limits.</p>
+    <div class="cta-row">
+        <div class="home-showreelPlay" id="showreelPlay">
+            <a href="#" class="btn btn-primary">Watch showreel</a>
+        </div>
+        <a href="#" class="btn btn-secondary">Contact</a>
+    </div>
+    
+    <a class="home-maincard" >
+        <img class="home-maincard-bg" src={MainFrontCard.src} alt="" />
+    </a>
+</div>
+
+
+<VideoModal trigger="#showreelPlay" platform="vimeo" idVideo={DEMOREEL}/>
+
+
+
+<style>
+
+	/* -------------------------------------------------------------- */ 
+	/* ------------------------ HERO CONFIG ------------------------- */ 
+	/* -------------------------------------------------------------- */ 
+
+	.home-hero-container{
+		display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1.9fr 0.2fr 0.5fr;
+        grid-template-areas: 
+        "header card"
+        "subhead card"
+        "buttons card";
+        align-items: center;
+        max-width: 1150px;
+		max-height: 89vh;
+        
+	}
+
+	.home-header{
+		grid-area: header;
+        color: #C0B1B5;
+        font-family: 'Barqen', sans-serif;
+        font-weight: 700;
+        font-size: 100px;
+        line-height: 0.85;
+        letter-spacing: 4px;
+        display: inline-block;
+        transform: rotate(-1deg);
+        text-transform: lowercase;
+        text-align: left;
+		
+
+	}
+
+	.home-header-crossed {
+		position: relative;
+		display: inline-block;
+	}
+
+	.home-header-crossed::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 40%;
+		height: 4px;
+		background-color: #C0B1B5;
+		transform: translateY(-10%) rotate(-3deg);
+		filter: drop-shadow(0 0 5px #05030446);
+	}
+
+	.home-header-sec{
+		height: 175px;
+
+		color: #BA4964;
+		font-size: 175px;
+		line-height: 1.2;
+		letter-spacing: 12px;
+		display: inline-block;
+		transform: rotate(-2.5deg);
+		text-transform: uppercase;
+		text-shadow: 
+            -4px -4px 0 #050304,  
+             4px -4px 0 #050304,
+            -8px  8px 0 #050304,
+             8px  8px 0 #050304;
+
+		padding: 0;
+	}
+	
+	.home-subhead{
+		grid-area: subhead;
+        font-size: 21px;
+        color: #f4efe4ad;
+        max-width: 420px;
+        text-align: left;
+
+		padding-top: -10%;
+		padding: 0;
+		margin: 0;
+
+	}
+
+	.cta-row {
+		grid-area: buttons;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: flex-start;
+	}
+
+	.home-maincard {
+		grid-area: card;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+	}
+
+	
+	.btn{
+		display:inline-flex;
+		align-items:center;
+		padding: 15px 25px;
+		border-radius: 15px;
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+		cursor: pointer;
+        text-transform: uppercase;
+	}
+
+	.btn-primary{
+		background: #BA4964;
+		color: #ece5d4;
+	}
+
+
+	.btn-secondary{
+		background: transparent;
+		color: #cebfcc;
+        font-weight: 400;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+	}
+
+	.home-showreelPlay {
+		scale: 1;
+		pointer-events: auto;
+		cursor: pointer;
+	}
+
+	.home-showreelPlay:hover {
+		scale: 1.1;
+		filter: drop-shadow(0 0 30px #ff7ec771);
+	}
+
+
+	.home-maincard img{
+		width: auto;
+		height: auto;
+		max-width: 70vw;
+		max-height: 65vh;
+		display: block;
+		filter: blur(0.5px) drop-shadow(10px 10px 10px #1f0c1594);
+		transform: rotate(4deg);
+		margin: -0.5%;
+	}
+
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+        .home-hero-container {
+			grid-template-columns: 0.9fr;
+			grid-template-rows: 0.6fr 0.2fr 1fr 0.2fr;
+			grid-template-areas: 
+				"header"
+				"subhead"
+				"card"
+				"buttons";
+			text-align: center;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.home-header{
+			font-size: 4.95vh; 
+			text-align: center;
+			margin-top: 4vh;
+			letter-spacing: 2px;
+		}
+
+		.home-header-sec{
+			height: 9.81vh;
+            font-size: 9.81vh;
+			letter-spacing: 8px;
+			text-shadow: 
+				-2px -2px 0 #050304,  
+				2px -2px 0 #050304,
+				-4px  4px 0 #050304,
+				4px  4px 0 #050304;
+		}
+
+		.home-subhead{
+			font-size: 1.96vh;
+			text-align: center;
+			margin: 0 auto;
+			margin-top: -2vh;
+		}
+
+		.cta-row {
+			justify-content: center;
+		}
+
+		.home-maincard{
+			
+		}
+
+		.home-maincard img{
+			max-width: 50vw;
+			max-height: 45vh;
+			filter: drop-shadow(10px 10px 10px #1f0c1554);
+		}
+
+		.btn{
+			padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 1.82vh;
+		}
+		
+
+    }
+
+
+</style>

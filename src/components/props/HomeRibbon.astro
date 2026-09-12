@@ -11,19 +11,19 @@ import Icon from '../widgets/Icon.astro';
         <Icon name="club" size="var(--home-suit-size)" class="home-suit"/>
         <span>PIPELINE</span>
         <Icon name="heart" size="var(--home-suit-size)" class="home-suit"/>
-        <span>TECH ART</span>
+        <span>RESEARCH</span>
         <Icon name="spade" size="var(--home-suit-size)" class="home-suit"/>
         <span>TOOL DEVELOPMENT</span>
         <Icon name="diamond" size="var(--home-suit-size)" class="home-suit"/>
         <span>PIPELINE</span>
         <Icon name="club" size="var(--home-suit-size)" class="home-suit"/>
-        <span>TECH ART</span>
+        <span>RESEARCH</span>
         <Icon name="heart" size="var(--home-suit-size)" class="home-suit"/>
         <span>TOOL DEVELOPMENT</span>
         <Icon name="spade" size="var(--home-suit-size)" class="home-suit"/>
         <span>PIPELINE</span>
         <Icon name="diamond" size="var(--home-suit-size)" class="home-suit"/>
-        <span>TECH ART</span>
+        <span>RESEARCH</span>
         <Icon name="club" size="var(--home-suit-size)" class="home-suit"/>
         <span>TOOL DEVELOPMENT</span>
     </div>
@@ -36,7 +36,8 @@ import Icon from '../widgets/Icon.astro';
 		position: relative;
 		width: 100%;
 		height: 100%;
-		
+
+
 		background: #050304;
 		overflow: hidden;
 		pointer-events: none;
@@ -49,11 +50,12 @@ import Icon from '../widgets/Icon.astro';
 		align-items: center;
 		width: max-content;
 		white-space: nowrap;
-		gap: 2em;
+		
 		padding: 0;
 		margin-top: 0.6rem;
 		line-height: 1.2;
-		font-size: 45px;
+		font-size: 3.9vh;
+		gap: 1.5em;
 		font-family: 'Citylight';
 		font-weight: 700;
 		font-stretch: condensed;
@@ -64,19 +66,17 @@ import Icon from '../widgets/Icon.astro';
 	}
 
 	:global(.home-suit) {
-		--home-suit-size: 35px;
+		--home-suit-size: 3.6vh;
 		margin-top: -10px;
 	}
 
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
 		.section-ribbon-track {
-			font-size: 25px;
 			gap: 0.7em;
 		}
 
 		:global(.home-suit) {
-			--home-suit-size: 25px;
 		}
 
 	}
