@@ -36,6 +36,11 @@ const { showThemeToggle = true } = Astro.props;
 			</div>
 			
 		</div>
+        <div class="header-social">
+            <SocialLinks orientation="horizontal" size={25} gap={0.5}/>
+        </div>
+        
+
 	</nav>
 </header>
 
@@ -79,6 +84,10 @@ const { showThemeToggle = true } = Astro.props;
 
         .header-logo {
             padding-top: 0.35em;
+        }
+        
+        .header-social{
+            display: none;
         }
 
 
