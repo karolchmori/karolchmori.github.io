@@ -222,18 +222,14 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     }
 
     .tool-card-title {
-        position: absolute;
-        top: 15cqi;
-        right: 13cqi;
-        width: 56cqi;
-        color: var(--card-title);
-        text-align: right;
-        text-transform: uppercase;
-        font-family: 'Citylight';
-        font-weight: 200;
+        color: color-mix(in srgb, var(--card-black) 88%, transparent);
         font-size: var(--title-size);
-        letter-spacing: -0.03rem;
+        font-weight: 500;
+        font-family: 'Barqen', sans-serif;
+        letter-spacing: 0.05rem;
         line-height: 1;
+        margin-bottom: 0.3rem;
+        text-transform: lowercase;
     }
 
     .tool-card-body p {
@@ -260,25 +256,25 @@ const cardIcon = index % 2 !== 0 ? CardA : CardB;
     /* ── Variant sizing (this replaces the second component's overrides) ── */
     .tool-card[data-variant="full"] {
         aspect-ratio: 500 / 750;
-        --notch-w: 14.3cqi;
-        --notch-h: 32cqi;
-        --notch-icon-size: 14.3cqi;
+        --notch-w: 12.3cqi;
+        --notch-h: 28cqi;
+        --notch-icon-size: 11.3cqi;
         --notch-suit-margin: -5cqi -1.6cqi;
-        --rank-size: 20cqi;
-        --title-size: 17cqi;
-        --thumb-height: 68%;
+        --rank-size: 17cqi;
+        --title-size: 8cqi;
+        --thumb-height: 60%;
     }
 
     .tool-card[data-variant="mini"] {
         aspect-ratio: 500 / 650;
         opacity: 0;
-        --notch-w: 12cqi;
-        --notch-h: 27cqi;
-        --notch-icon-size: 11.1cqi;
+        --notch-w: 11cqi;
+        --notch-h: 24cqi;
+        --notch-icon-size: 10cqi;
         --notch-suit-margin: -4cqi -1.6cqi;
-        --rank-size: 16cqi;
-        --title-size: 15cqi;
-        --thumb-height: 60%;
+        --rank-size: 13cqi;
+        --title-size: 8.5cqi;
+        --thumb-height: 50%;
     }
 
     .tool-card[data-variant="full"] .tool-card-content,

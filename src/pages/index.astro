@@ -37,7 +37,7 @@ const lastCredits = [...creditLibrary]
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
-		<Header showThemeToggle={true}/>
+		<Header showThemeToggle={false}/>
 		
 		<div class="home-container">
 			<main>
@@ -53,10 +53,12 @@ const lastCredits = [...creditLibrary]
 					<div class="rest">
 						<section class="home-portfolio">
 							<a class="home-title">MY TOOLS</a>
-							<HorizontalCarousel class="tool-card-placeholder" itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+							<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 								<ToolCard index={0} variant="full" />
+								<ToolCard index={1} variant="full" />
+								<ToolCard index={2} variant="full" />
 							</HorizontalCarousel>
-							<HorizontalCarousel class="tool-card-selected" itemSize='34vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
+							<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
 								{toolEntries.map((entry, i) => (
 									<ToolCard entry={entry} index={i} variant="full" />
 								))}
@@ -68,12 +70,15 @@ const lastCredits = [...creditLibrary]
 
 						</section>
 						<section class="home-credits">
-							<a class="home-title">LAST CREDITS</a>
-							<HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
-								{lastCredits.map((credit, i) => (
-									<CreditCard entry={credit} index={i} variant="full" />
-								))}
-							</HorizontalCarousel>
+							<div class="home-credits-container">
+								<a class="home-title">LAST CREDITS</a>
+								<HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+									{lastCredits.map((credit, i) => (
+										<CreditCard entry={credit} index={i} variant="full" />
+									))}
+								</HorizontalCarousel>
+							</div>
+							
 						</section>
 						<section class="home-ending">
 
@@ -84,7 +89,7 @@ const lastCredits = [...creditLibrary]
 				
 			</main>
 		</div>
-		
+		<Footer/>
 		<Vignette />
 	</body>
 </html>
@@ -105,7 +110,7 @@ const lastCredits = [...creditLibrary]
 	}
 
 	:root {
-        --home-title: #ceccc9;
+        --home-title: #BDAEB2;
     }
 	
 
@@ -131,13 +136,11 @@ const lastCredits = [...creditLibrary]
 	.home-title {
 		position: absolute;
         color: var(--home-title); 
-		font-family: 'Citylight';
+		font-family: 'Barqen', sans-serif;
+		text-transform: uppercase;
 		font-weight: 700;
-  		font-style: normal;
-		font-stretch: condensed;
+		letter-spacing: 4px;
         font-size: 9vh;
-		
-		filter: opacity(100%) drop-shadow(0 0 7px var(--color-primary-glow));
 		user-select: none;
 		
 	}
@@ -156,7 +159,6 @@ const lastCredits = [...creditLibrary]
 		display: flex;
         align-items: center;
         justify-content: center;
-		
 		
     }
 
@@ -187,7 +189,7 @@ const lastCredits = [...creditLibrary]
 		transform: rotate(-1.3deg);
 		box-sizing: border-box;
 	}
-	
+
 
 	.rest {
 		position: relative;
@@ -211,6 +213,7 @@ const lastCredits = [...creditLibrary]
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		padding-top: 4vh;
 	}
 
 	.home-credits {
@@ -222,6 +225,12 @@ const lastCredits = [...creditLibrary]
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+	}
+
+	.home-credits-container{
+		max-width: 1550px;
+		width: 90vw;
+		height: 70vh;
 	}
 
 	.home-ending {
@@ -266,6 +275,7 @@ const lastCredits = [...creditLibrary]
         position: absolute;
         bottom: 10%;
 		z-index: 1;
+		
     }
 
 	.home-portfolio :global(.tool-card-placeholder),
