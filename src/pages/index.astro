@@ -52,26 +52,26 @@ const lastCredits = [...creditLibrary]
 				
 					<div class="rest">
 						<section class="home-portfolio">
-							<a class="home-title">MY TOOLS</a>
-							<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
-								<ToolCard index={0} variant="full" />
-								<ToolCard index={1} variant="full" />
-								<ToolCard index={2} variant="full" />
-							</HorizontalCarousel>
-							<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
-								{toolEntries.map((entry, i) => (
-									<ToolCard entry={entry} index={i} variant="full" />
-								))}
-							</HorizontalCarousel>
-
-							<HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
-								{activeTools.map(tool => <SoftwareChip tool={tool} />)}
-							</HorizontalCarousel>
-
+							<div class="home-portfolio-container">
+								<span class="home-title">What I build</span>
+								<p class="home-subhead">For artists and pipelines.</p>
+								<a href="#" class="btn btn-secondary">All tools</a>
+								<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
+									<ToolCard index={0} variant="full" />
+								</HorizontalCarousel>
+								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={2} navigation="buttons" buttonPosition="top" buttonJustify='right'>
+									{toolEntries.map((entry, i) => (
+										<ToolCard entry={entry} index={i} variant="full" />
+									))}
+								</HorizontalCarousel>
+								<HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
+									{activeTools.map(tool => <SoftwareChip tool={tool} />)}
+								</HorizontalCarousel>
+							</div>
 						</section>
 						<section class="home-credits">
 							<div class="home-credits-container">
-								<a class="home-title">LAST CREDITS</a>
+								<span class="home-title">LAST CREDITS</span>
 								<HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
 									{lastCredits.map((credit, i) => (
 										<CreditCard entry={credit} index={i} variant="full" />
@@ -104,10 +104,6 @@ const lastCredits = [...creditLibrary]
 		-webkit-user-select: none;
 	}
 
-	html, body {
-		overflow-x: clip;
-		width: 100%;
-	}
 
 	:root {
         --home-title: #BDAEB2;
@@ -134,13 +130,12 @@ const lastCredits = [...creditLibrary]
 
 
 	.home-title {
-		position: absolute;
+		
         color: var(--home-title); 
 		font-family: 'Barqen', sans-serif;
 		text-transform: uppercase;
 		font-weight: 700;
 		letter-spacing: 4px;
-        font-size: 9vh;
 		user-select: none;
 		
 	}
@@ -203,18 +198,7 @@ const lastCredits = [...creditLibrary]
     	margin-top: -3.5vh;
 	}
 
-	.home-portfolio {
-		position: relative;
-		min-height: 100vh;
-		width: 100%;
-		/*background-color: rgba(72, 255, 0, 0.13);*/
 
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding-top: 4vh;
-	}
 
 	.home-credits {
 		position: relative;
@@ -257,37 +241,109 @@ const lastCredits = [...creditLibrary]
 		padding: 0;
 	}
 
-
 	.home-portfolio {
+		position: relative;
+		min-height: 100vh;
+		width: 100%;
+		background-color: rgba(72, 255, 0, 0.13);
+
 		display: flex;
-		flex-direction: column;
+        align-items: center;
+        justify-content: center;
 	}
 
-	
+	.home-portfolio-container {
+		display: grid;
+        grid-template-columns: 1fr 0.1fr;
+        grid-template-areas: 
+        "header header"
+        "subhead link"
+        "cards cards"
+		"chips chips";
+        align-items: center;
+        width: 80vw;
+		height: 80vh;
+		background-color: rgba(255, 0, 0, 0.253);
+	}
+
+
 	.home-portfolio .home-title {
-		bottom: 75%;
-		margin-bottom: 0.1em;
+		grid-area: header;
+		color: #BA4964;
+		font-size: 100px;
+		line-height: 1.2;
+		letter-spacing: 12px;
+		display: inline-block;
+		transform: rotate(-2deg);
+		text-transform: uppercase;
+		text-shadow: 
+            -4px -4px 0 #050304,  
+             4px -4px 0 #050304,
+            -8px  8px 0 #050304,
+             8px  8px 0 #050304;
+
+		padding: 0;
+
+		
 	}
 
-	
+	.home-portfolio .home-subhead {
+		grid-area: subhead;
+        font-size: 21px;
+        color: #A38C95;
+        max-width: 420px;
+        text-align: left;
 
-	.home-portfolio :global(.home-softwareChips) {
-        position: absolute;
-        bottom: 10%;
-		z-index: 1;
+		padding-top: -10%;
+		padding: 0;
+		margin: 0;
+		background-color: rgba(128, 0, 128, 0.541);
+	}
+
+	.home-portfolio .btn-secondary {
+		grid-area: link;
+	}
+
+	.btn{
+		display:inline-flex;
 		
-    }
+		padding: 15px 25px;
+		border-radius: 15px;
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+		cursor: pointer;
+        text-transform: uppercase;
+	}
+
+
+	.btn-secondary{
+		background: transparent;
+		color: #A38C95;
+        font-weight: 400;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+		text-align: right;
+	}
+
 
 	.home-portfolio :global(.tool-card-placeholder),
 	.home-portfolio :global(.tool-card-selected) {
-        position: absolute;
-        bottom: 28%;
-		z-index: 3;
+		grid-area: cards;
+		height: 53vh;
+		background-color: rgba(0, 0, 255, 0.397);
     }
 	
 	.home-portfolio :global(.tool-card-selected) {
+		grid-area: cards;
         display: none;
     }
+
+	.home-portfolio :global(.home-softwareChips) {
+        grid-area: chips;
+		
+    }
+
 
 	/* -------------------------------------------------------------- */ 
 	/* ----------------------- CREDITS CONFIG ----------------------- */ 
