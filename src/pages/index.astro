@@ -61,9 +61,11 @@ const lastCredits = [...creditLibrary]
 								<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='none'>
 									<ToolCard index={0} variant="full" />
 								</HorizontalCarousel>
-								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={2} navigation='none'>
+								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={1} navigation='none'>
 									{toolEntries.map((entry, i) => (
-										<ToolCard entry={entry} index={i} variant="full" />
+										<div class="fan-item">
+											<ToolCard entry={entry} index={i} variant="full" />
+										</div>
 									))}
 								</HorizontalCarousel>
 								<HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
@@ -283,6 +285,7 @@ const lastCredits = [...creditLibrary]
 		
 		padding-left: 1.5rem;
 		justify-self: center;
+		margin-bottom: -0.9rem;
 	}
 
 	.home-portfolio .home-subhead {
@@ -291,11 +294,12 @@ const lastCredits = [...creditLibrary]
         color: #A38C95;
         max-width: 420px;
         justify-self: center;
-		
+		line-height: 1;
 		padding-top: -10%;
 		padding: 0;
 		margin: 0;
 		padding-left: 1.5rem;
+		margin-bottom:4vh;
 	}
 
 	.home-portfolio .btn-secondary {
@@ -325,26 +329,40 @@ const lastCredits = [...creditLibrary]
 		text-align: right;
 	}
 
+	.fan-item {
+		transform: rotate(var(--rotate, 0deg)) translateY(var(--lift, 0px));;
+		transform-origin: bottom center;
+		transition: transform 0.3s ease;
+		
+	}
+
 
 	.home-portfolio :global(.tool-card-placeholder),
 	.home-portfolio :global(.tool-card-selected) {
 		grid-area: cards;
-		height: 48vh;
+		height: 50vh;
 		min-width: 0;
     	max-width: 100%;
+		
     }
+
+	:global(.tool-card-selected) :global(.carousel-track) {
+	    padding-bottom: 4vh;
+	}
 	
 	.home-portfolio :global(.tool-card-selected) {
 		grid-area: cards;
         display: none;
+		z-index: 1; 
     }
 
 	.home-portfolio :global(.home-softwareChips) {
         grid-area: chips;
-		height: 14vh;
+		height: 13vh;
 		min-width: 0;
     	max-width: 100%;
-		z-index: 1; 
+		margin-top: -1vh;
+		z-index: 2; 
     }
 
 	.home-portfolio :global(.home-chips-band) {
@@ -406,7 +424,7 @@ const lastCredits = [...creditLibrary]
 
 		.home-portfolio .home-title {
 			font-size: 6vh;
-			letter-spacing: 6px;
+			letter-spacing: 5px;
 			text-shadow: 
 				-2px -2px 0 #050304,  
 				2px -2px 0 #050304,
@@ -416,6 +434,11 @@ const lastCredits = [...creditLibrary]
 
 		.home-portfolio .home-subhead {
 			font-size: 18px;
+			margin-bottom: 1vh;
+		}
+
+		.fan-item {
+			transform: none;
 		}
 
 
@@ -447,7 +470,8 @@ const lastCredits = [...creditLibrary]
 
 		// Hide non-matching cards
 		rest.forEach(c => {
-			c.style.display = 'none';
+			const fanItem = c.closest('.fan-item') as HTMLElement | null;
+    		if (fanItem) fanItem.style.display = 'none';
 			c.dataset.state = 'hidden';
 		});
 
@@ -455,9 +479,25 @@ const lastCredits = [...creditLibrary]
 			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
 			selected.style.display = 'flex';
 
+			const visible = matching.slice(0, cardsLimit);
+    		const mid = (visible.length - 1) / 2;
+
 			matching.forEach((c, i) => {
-				c.style.display = i < cardsLimit ? '' : 'none';
+				const isVisible = i < cardsLimit;
+    			const fanItem = c.closest('.fan-item') as HTMLElement | null;
+
+				if (fanItem) fanItem.style.display = isVisible ? '' : 'none';
 				c.style.setProperty('--card-index', String(i));
+
+
+				if (isVisible && fanItem) {
+					const offset = i - mid;
+					const rotate = offset * 3;
+					const lift = Math.pow(offset, 2) * 10;
+					fanItem.style.setProperty('--rotate', `${rotate}deg`);
+					fanItem.style.setProperty('--lift', `${lift}px`);
+					
+				}
 
 				setTimeout(() => {
 					c.dataset.state = i < cardsLimit ? 'active' : 'hidden';
