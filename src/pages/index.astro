@@ -61,7 +61,7 @@ const lastCredits = [...creditLibrary]
 								<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='none'>
 									<ToolCard index={0} variant="full" />
 								</HorizontalCarousel>
-								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={1} navigation='none'>
+								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={0} navigation='none'>
 									{toolEntries.map((entry, i) => (
 										<div class="fan-item">
 											<ToolCard entry={entry} index={i} variant="full" />
