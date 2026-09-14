@@ -69,6 +69,7 @@ const lastCredits = [...creditLibrary]
 								<HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
 									{activeTools.map(tool => <SoftwareChip tool={tool} />)}
 								</HorizontalCarousel>
+								
 							</div>
 						</section>
 						<section class="home-credits">
@@ -282,8 +283,6 @@ const lastCredits = [...creditLibrary]
 		
 		padding-left: 1.5rem;
 		justify-self: center;
-		background-color: #ffd90075;
-		
 	}
 
 	.home-portfolio .home-subhead {
@@ -297,8 +296,6 @@ const lastCredits = [...creditLibrary]
 		padding: 0;
 		margin: 0;
 		padding-left: 1.5rem;
-
-		background-color: #001aff75;
 	}
 
 	.home-portfolio .btn-secondary {
@@ -335,7 +332,6 @@ const lastCredits = [...creditLibrary]
 		height: 48vh;
 		min-width: 0;
     	max-width: 100%;
-		background-color: #ff000075;
     }
 	
 	.home-portfolio :global(.tool-card-selected) {
@@ -348,9 +344,27 @@ const lastCredits = [...creditLibrary]
 		height: 14vh;
 		min-width: 0;
     	max-width: 100%;
-		background-color: #00ff6a75;
-		
+		z-index: 1; 
     }
+
+	.home-portfolio :global(.home-chips-band) {
+		grid-area: chips; 
+		align-self: center;
+		justify-self: center;
+
+		width: 100%; 
+		height: 35%;
+		mix-blend-mode: multiply;
+		mask-image: linear-gradient(to right, 
+									transparent 20%, 
+									black 40%, 
+									black 60%, 
+									transparent 80%);
+		background: #BA4964;
+		opacity: 0.5;
+		z-index: 0;  
+		pointer-events: none;
+	}
 
 
 	/* -------------------------------------------------------------- */ 
