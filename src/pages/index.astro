@@ -58,10 +58,10 @@ const lastCredits = [...creditLibrary]
 									<a href="/work/tools" class="btn btn-secondary">All tools</a>
 								</p>
 		
-								<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='buttons' buttonPosition="bottom" buttonJustify='center'>
+								<HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='none'>
 									<ToolCard index={0} variant="full" />
 								</HorizontalCarousel>
-								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={2} navigation="buttons" buttonPosition="bottom" buttonJustify='center'>
+								<HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={2} navigation='none'>
 									{toolEntries.map((entry, i) => (
 										<ToolCard entry={entry} index={i} variant="full" />
 									))}
@@ -250,6 +250,7 @@ const lastCredits = [...creditLibrary]
 
 	.home-portfolio-container {
 		display: grid;
+		align-content: start; 
         grid-template-areas: 
         "header"
         "subhead"
@@ -278,10 +279,10 @@ const lastCredits = [...creditLibrary]
             -8px  8px 0 #050304,
              8px  8px 0 #050304;
 
-		margin-bottom: -1.4rem;
+		
 		padding-left: 1.5rem;
 		justify-self: center;
-		
+		background-color: #ffd90075;
 		
 	}
 
@@ -296,6 +297,8 @@ const lastCredits = [...creditLibrary]
 		padding: 0;
 		margin: 0;
 		padding-left: 1.5rem;
+
+		background-color: #001aff75;
 	}
 
 	.home-portfolio .btn-secondary {
@@ -329,9 +332,10 @@ const lastCredits = [...creditLibrary]
 	.home-portfolio :global(.tool-card-placeholder),
 	.home-portfolio :global(.tool-card-selected) {
 		grid-area: cards;
-		height: 53vh;
+		height: 48vh;
 		min-width: 0;
     	max-width: 100%;
+		background-color: #ff000075;
     }
 	
 	.home-portfolio :global(.tool-card-selected) {
@@ -341,9 +345,10 @@ const lastCredits = [...creditLibrary]
 
 	.home-portfolio :global(.home-softwareChips) {
         grid-area: chips;
-		height: 15vh;
+		height: 14vh;
 		min-width: 0;
     	max-width: 100%;
+		background-color: #00ff6a75;
 		
     }
 
