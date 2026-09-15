@@ -1,0 +1,284 @@
+---
+
+import SoftwareChip from '../props/SoftwareChip.astro';
+import HorizontalCarousel from '../widgets/HorizontalCarousel.astro';
+import ToolCard from '../cards/ToolCard.astro';
+
+import { getActiveTools } from '../../data/ToolLibrary';
+
+const activeTools = getActiveTools();
+
+
+import { getCollection } from 'astro:content';
+const toolEntries = (await getCollection('tool'))
+    .filter(entry => entry.data.featured)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+---
+
+
+<div class="home-portfolio-container">
+    <span class="home-title">What I build</span>
+    <p class="home-subhead">For artists and pipelines.
+        <a href="/work/tools" class="btn btn-secondary">All tools</a>
+    </p>
+
+    <HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='none'>
+        <ToolCard index={0} variant="full" />
+    </HorizontalCarousel>
+    <HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={0} navigation='none'>
+        {toolEntries.map((entry, i) => (
+            <div class="fan-item">
+                <ToolCard entry={entry} index={i} variant="full" />
+            </div>
+        ))}
+    </HorizontalCarousel>
+    <HorizontalCarousel class="home-softwareChips" itemSize='11vh' gap={1}>
+        {activeTools.map(tool => <SoftwareChip tool={tool} />)}
+    </HorizontalCarousel>
+    
+</div>
+
+<style>
+
+    .home-portfolio-container {
+		display: grid;
+		align-content: start; 
+        grid-template-areas: 
+        "header"
+        "subhead"
+        "cards"
+		"chips";
+        align-items: center;
+		overflow: hidden;
+		height: 82vh;
+		margin-top: 12vh;
+		width: 100vw;
+		max-width: 1900px;
+
+        
+	}
+
+
+	.home-title {
+		grid-area: header;
+        user-select: none;
+		color: #BA4964;
+		font-size: 80px;
+		line-height: 1.2;
+		letter-spacing: 8px;
+		display: inline-block;
+        font-weight: 700;
+        font-family: 'Barqen', sans-serif;
+		text-transform: uppercase;
+		text-shadow: 
+            -4px -4px 0 #050304,  
+             4px -4px 0 #050304,
+            -8px  8px 0 #050304,
+             8px  8px 0 #050304;
+
+		
+		padding-left: 1.5rem;
+		justify-self: center;
+		margin-bottom: -0.9rem;
+
+        
+	}
+
+	.home-subhead {
+		grid-area: subhead;
+        font-size: 21px;
+        color: #A38C95;
+        max-width: 420px;
+        justify-self: center;
+		line-height: 1;
+		padding-top: -10%;
+		padding: 0;
+		margin: 0;
+		padding-left: 1.5rem;
+		margin-bottom:4vh;
+	}
+
+
+
+	.btn{
+		display:inline-flex;
+		padding: 15px 25px;
+		border-radius: 15px;
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+		cursor: pointer;
+        text-transform: uppercase;
+	}
+
+
+	.btn-secondary {
+		background: transparent;
+		color: #A38C95;
+        font-weight: 400;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+		text-align: right;
+        grid-area: link;
+		padding-right: 2rem;
+	}
+
+	.fan-item {
+		transform: rotate(var(--rotate, 0deg)) translateY(var(--lift, 0px));;
+		transform-origin: bottom center;
+		transition: transform 0.3s ease;
+		
+	}
+
+
+	:global(.tool-card-placeholder),
+	:global(.tool-card-selected) {
+		grid-area: cards;
+		height: 52vh;
+		min-width: 0;
+    	max-width: 100%;
+		
+    }
+
+	:global(.tool-card-selected) :global(.carousel-track) {
+	    padding-bottom: 4vh;
+	}
+	
+	:global(.tool-card-selected) {
+		grid-area: cards;
+        display: none;
+		z-index: 1; 
+    }
+
+	:global(.home-softwareChips) {
+        grid-area: chips;
+		height: 13vh;
+		min-width: 0;
+    	max-width: 100%;
+		margin-top: -1vh;
+		z-index: 2; 
+    }
+
+
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+        .home-portfolio-container {
+			height: 78vh;
+		}
+
+
+		.home-title {
+			font-size: 6vh;
+			letter-spacing: 5px;
+			text-shadow: 
+				-2px -2px 0 #050304,  
+				2px -2px 0 #050304,
+				-4px  4px 0 #050304,
+				4px  4px 0 #050304;
+		}
+
+		.home-subhead {
+			font-size: 18px;
+			margin-bottom: 2.5vh;
+		}
+
+		.fan-item {
+			transform: none;
+		}
+
+        :global(.home-softwareChips) {
+            margin-top: -3vh;
+        }
+
+
+    }
+
+
+</style>
+
+
+<script>
+
+
+	let selectedToolId: string;
+	let changedPlaceholder = false;
+	let cardsLimit = 4;
+
+
+	window.addEventListener("tool:selected", (e) => {
+		const { id } = (e as CustomEvent).detail;
+		selectedToolId = id;
+
+		const allCards = Array.from(document.querySelectorAll<HTMLElement>('.tool-card')).filter(c => c.dataset.software);
+		const matching = allCards.filter(c => c.dataset.software === id);
+		const rest = allCards.filter(c => c.dataset.software !== id);
+
+		// Hide non-matching cards
+		rest.forEach(c => {
+			const fanItem = c.closest('.fan-item') as HTMLElement | null;
+    		if (fanItem) fanItem.style.display = 'none';
+			c.dataset.state = 'hidden';
+		});
+
+		function revealMatching() {
+			const selected = document.querySelector('.tool-card-selected') as HTMLElement;
+			selected.style.display = 'flex';
+
+			const visible = matching.slice(0, cardsLimit);
+    		const mid = (visible.length - 1) / 2;
+
+			matching.forEach((c, i) => {
+				const isVisible = i < cardsLimit;
+    			const fanItem = c.closest('.fan-item') as HTMLElement | null;
+
+				if (fanItem) fanItem.style.display = isVisible ? '' : 'none';
+				c.style.setProperty('--card-index', String(i));
+
+
+				if (isVisible && fanItem) {
+					const offset = i - mid;
+					const rotate = offset * 3;
+					const lift = Math.pow(offset, 2) * 10;
+					fanItem.style.setProperty('--rotate', `${rotate}deg`);
+					fanItem.style.setProperty('--lift', `${lift}px`);
+					
+				}
+
+				setTimeout(() => {
+					c.dataset.state = i < cardsLimit ? 'active' : 'hidden';
+				}, i * 300);
+			});
+
+			const selectedTrack = document.querySelector('.tool-card-selected [data-carousel]') as HTMLElement;
+			if (selectedTrack) {
+				selectedTrack.scrollLeft = 0;
+			}
+
+			requestAnimationFrame(() => requestAnimationFrame(() => {
+				document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(track => {
+					track.dispatchEvent(new Event('scroll'));
+				});
+			}));
+		}
+
+		if (selectedToolId && !changedPlaceholder) {
+			const placeholder = document.querySelector('.tool-card-placeholder') as HTMLElement;
+			const PLACEHOLDER_OUT_MS = 200;
+
+			if (placeholder) {
+				placeholder.style.animation = 'cardOut 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards';
+				setTimeout(() => {
+					placeholder.style.display = 'none';
+					revealMatching();
+				}, PLACEHOLDER_OUT_MS);
+			} else {
+				revealMatching();
+			}
+
+			changedPlaceholder = true;
+		} else {
+			revealMatching();
+		}
+	});
+</script>
