@@ -48,10 +48,18 @@ export default function VectorPlayground() {
       const rect = canvas.getBoundingClientRect();
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      setVector({
-        x: (clientX - rect.left) - centerX,
-        y: (clientY - rect.top) - centerY
-      });
+
+      let newX = (clientX - rect.left) - centerX;
+      let newY = (clientY - rect.top) - centerY;
+
+      // Clamp values so the handle stays safely within canvas bounds (with 10px padding)
+      const maxX = centerX - 10;
+      const maxY = centerY - 10;
+
+      newX = Math.max(-maxX, Math.min(maxX, newX));
+      newY = Math.max(-maxY, Math.min(maxY, newY));
+
+      setVector({ x: newX, y: newY });
     };
 
     const onStart = () => { isDragging = true; };
@@ -59,7 +67,6 @@ export default function VectorPlayground() {
     
     const onMove = (e: MouseEvent | TouchEvent) => {
       if (!isDragging) return;
-      // Stops the screen from scrolling while dragging the vector
       e.preventDefault(); 
       
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
@@ -71,7 +78,6 @@ export default function VectorPlayground() {
     window.addEventListener('mouseup', onEnd);
     window.addEventListener('mousemove', onMove);
 
-    // { passive: false } allows e.preventDefault() to block screen scrolling
     canvas.addEventListener('touchstart', onStart, { passive: false });
     window.addEventListener('touchend', onEnd);
     window.addEventListener('touchmove', onMove, { passive: false });
