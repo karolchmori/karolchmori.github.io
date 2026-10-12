@@ -15,6 +15,7 @@ const { entry, index = 0, variant = 'full' } = Astro.props;
 
 const numId       = entry?.id           ?? null;
 const title       = entry?.title        ?? "";
+const studio       = entry?.studio        ?? "";
 const type        = entry?.type     ?? "";
 const year        = entry?.year     ?? "";
 const duration    = entry?.duration ?? "";
@@ -29,41 +30,21 @@ const link        = entry?.link;
     data-title={title}
     data-flipped="false"
 >
-    <div class="credit-card-content credit-card-front">
-        {poster && <img src={poster} alt={title} loading="lazy" />}
-
-    </div>
-    <div class="credit-card-content credit-card-back">
-        <div class="back-header">
-            <span class="back-index">No. {numId}</span>
+    <div class="credit-card-content">
+         <div class="credit-card-header">
+            <i class="credit-card-slot" aria-hidden="true"></i>
+            <span>{studio}</span>
         </div>
-        <div class="back-table">
-            <div class="back-row back-row--title">
-                <span class="back-label back-label--title">Title</span>
-                <span class="back-value back-value--title">{title}</span>
-                <span class="back-value back-value--year">{year}</span>
+        {poster && 
+            <div class="credit-card-poster" >
+                <img src={poster} alt={title} loading="lazy" />
             </div>
-            <div class="back-row">
-                <div class="back-cell">
-                    <span class="back-label">Type</span>
-                    <span class="back-value">{type}</span>
-                </div>
-                <div class="back-cell">
-                    <span class="back-label">Duration</span>
-                    <span class="back-value">{duration}</span>
-                </div>
-            </div>
-            <div class="back-row">
-                <div class="back-cell">
-                    <span class="back-label">Role</span>
-                    <span class="back-value">{role}</span>
-                </div>
-            </div>
-            <div class="back-row">
-                <a class="back-value back-value--watch" href={link}>Watch</a>
-            </div>
-        </div>
         
+        }
+        <span class="credit-card-foot">
+            <span>{role}</span>
+            <span>{year}</span>
+        </span>
 
     </div>
 
@@ -72,215 +53,72 @@ const link        = entry?.link;
 <style>
 
     .credit-card {
-
         --card-bg: var(--credit-card-bg);
         --card-pink: var(--credit-card-pink);
         --card-black: var(--credit-card-black);
         --card-white: var(--credit-card-white);
         --card-title: var(--credit-card-title);
 
-        --rCorner: 40px; 
-        --rInner: 25px; 
-        --opacity: 0.8;
-
-
-        position: relative;
         width: 100%;
-        aspect-ratio: 2 / 3;
+        height: 100%;
         overflow: visible;
         transform-style: preserve-3d;
         box-sizing: border-box;
         container-type: inline-size;
-        container-name: credit-card;
-
-
-        mask: 
-            radial-gradient(circle var(--rCorner) at 0 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
-            radial-gradient(circle var(--rCorner) at 100% 0, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
-            radial-gradient(circle var(--rCorner) at 0 100%, transparent var(--rCorner), black calc(var(--rCorner) + 1px)),
-            radial-gradient(circle var(--rCorner) at 100% 100%, transparent var(--rCorner), black calc(var(--rCorner) + 1px));
-        
-        mask-composite: intersect;
+        container-name: credit-card;        
     }
 
     .credit-card-content {
-        position: absolute; 
-        inset: 2%; 
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 2 / 3.8;
+        border-radius: 3cqi;
+        background: #17140f;
+        color: #f4a6d7;
+        border: 1px solid rgb(255 255 255 / 0.14);
         overflow: hidden;
-        cursor: pointer;
-        user-select: none;
-        transition: opacity 0.3s ease;
-        pointer-events: none;
+        box-shadow: 0 10px 18px rgb(0 0 0 / 0.35);
+
+    }
+    
+    .credit-card-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 4cqi;
+        padding-bottom: 3cqi;
+
+        background: #f4a6d7;
+        color: #1a1a1a;
+    }
+    
+    /* the lanyard slot */
+    .credit-card-slot {
+        width: 15cqi;
+        height: 5cqi;
+        margin-bottom: 1cqi;
+        border-radius: 999px;
+        background: #17140f;
+    }
+    
+    .credit-card-poster {
+        position: relative;
     }
 
-    .credit-card-front img {
+    .credit-card-poster img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: inherit;
+        object-position: center;
     }
-
-    .credit-card-front {
-        background-color: var(--card-bg);
-        opacity: 1;
-    }
-
-    .credit-card-back {
-        background-color: var(--card-bg);
-        color: var(--card-black);
-        opacity: 0;
-        padding-top: 9cqi !important;
-        padding: 11cqi;
-    }
-
-    .back-header {
+    
+    .credit-card-foot {
+        flex: none;
         display: flex;
-        justify-content: flex-end;
-        font-size: 5cqi;
-        line-height: 1;
-        margin-bottom: 1cqi;
-        opacity: var(--opacity);
-    }
-
-
-    .back-table {
-        height: 115cqi;
-        flex: 1;
-        display: grid;
-        grid-template-rows: 3fr 2fr 1fr 1fr; 
-        border: 1px solid var(--card-pink);
-        
-    }
-
-    .back-row {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0cqi 3cqi;
-        border-top: 1px solid var(--card-pink);
-    }
-
-    .back-cell {
-        display: flex;
-        flex-direction: row;
         justify-content: space-between;
-        align-items: baseline;
-    }
-
-
-    .back-label {
-        font-size: 4.6cqi;
-        text-transform: uppercase;
-        letter-spacing: 0.4cqi;
-        opacity: var(--opacity);
-        margin-bottom: 1cqi;
-    }
-
-    .back-label--title {
-        position: absolute;
-        top: 17cqi;
-        
-    }
-
-    .back-value {
-        font-size: 6cqi;
-    }
-
-    .back-value--title {
-        width: 65cqi;
-        font-size: 11cqi;
-        line-height: 1.15;
-        font-weight: 700;
-        margin-inline: auto;
-        text-transform: uppercase;
-        text-align: center;
-        
-    }
-
-    .back-value--year {
-        position: absolute;
-        line-height: 1.15;
-        top: 18cqi;
-        right: 14cqi;
-    }
-
-    .back-value--watch {
-        width: 65cqi;
-        font-size: 8cqi;
-        line-height: 1.15;
-        font-weight: 400;
-        margin-inline: auto;
-        text-transform: uppercase;
-        text-align: center;
-        text-decoration: underline;
-        opacity: var(--opacity);
-    }
-
-    
-
-    @media (hover: hover) and (pointer: fine){
-        .credit-card:hover .credit-card-back {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .credit-card:hover .credit-card-front {
-            opacity: 0;
-        }
+        padding: 0.55rem 0.8rem 0.7rem;
+        border-top: 1px solid rgb(255 255 255 / 0.12);
     }
     
-
-    
-    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
-        .credit-card {
-            --rCorner: 35px; 
-            --rInner: 20px; 
-        }
-
-
-        .credit-card[data-flipped="true"] .credit-card-back {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .credit-card[data-flipped="true"] .credit-card-front {
-            opacity: 0;
-        }
-    }
-
 </style>
 
-<script>
-    const mq = window.matchMedia('(orientation: portrait), (max-aspect-ratio: 9/16)');
-
-    function bindFlip() {
-        document.querySelectorAll<HTMLElement>('.credit-card').forEach(card => {
-            card.addEventListener('click', handleClick);
-        });
-    }
-
-    function unbindFlip() {
-        document.querySelectorAll<HTMLElement>('.credit-card').forEach(card => {
-            card.removeEventListener('click', handleClick);
-            card.dataset.flipped = 'false';
-        });
-    }
-
-    function handleClick(e: Event) {
-        const card = e.currentTarget as HTMLElement;
-        const flipped = card.dataset.flipped === 'true';
-        card.dataset.flipped = String(!flipped);
-    }
-
-    function syncToMedia(e: MediaQueryList | MediaQueryListEvent) {
-        if (e.matches) {
-            bindFlip();
-        } else {
-            unbindFlip();
-        }
-    }
-
-    syncToMedia(mq);
-    mq.addEventListener('change', syncToMedia); 
-
-</script>

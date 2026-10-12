@@ -1,6 +1,7 @@
 export interface CreditEntry {
     id: number;
     title: string;
+    studio: string;
     type: 'Film' | 'Series' | 'Short' | 'Commercial' | 'Game';
     year: number;
     role: string;
