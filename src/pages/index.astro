@@ -21,6 +21,11 @@ const lastCredits = [...creditLibrary]
 	.sort((a, b) => b.year - a.year)
 	.slice(0, 3);
 
+const layouts = [
+	{ drop: 9,  rot: -1.5 },
+	{ drop: 24, rot: 0 },
+	{ drop: 14,  rot: 1 },
+];
 ---
 
 <!doctype html>
@@ -55,12 +60,24 @@ const lastCredits = [...creditLibrary]
 
 						<section class="home-credits">
 							<div class="home-credits-container">
-								<span class="home-title">Recent Credits</span>
-								<HorizontalCarousel itemSize='34vh' gap={2} navigation='buttons' buttonPosition="top" buttonJustify='right'>
-									{lastCredits.map((credit, i) => (
-										<CreditCard entry={credit} index={i} variant="full" />
-									))}
-								</HorizontalCarousel>
+								<div class="credits-intro">
+									<span class="home-title">Recent Credits</span>
+									<p class="credits-text">Studios and productions I've been part of.</p>
+									<a href="/credits" class="home-blog-btn">All credits</a>
+								</div>
+								<div class="credits-board">
+									{lastCredits.map((credit, i) => {
+										const l = layouts[i % layouts.length];
+										return (
+											<div
+												class="credit-slot"
+												style={`--drop:${l.drop}em; --rot:${l.rot}deg; --m-rot:${i % 2 === 0 ? -2.5 : 2.5}deg; --m-shift:${i % 2 === 0 ? -6 : 6}px`}
+											>
+												<CreditCard entry={credit} index={i} variant="full" />
+											</div>
+										);
+									})}
+								</div>
 							</div>
 							
 						</section>
@@ -114,15 +131,14 @@ const lastCredits = [...creditLibrary]
 
 
 	.home-title {
-		
         color: var(--home-title); 
 		font-family: 'Barqen', sans-serif;
 		text-transform: uppercase;
 		font-weight: 700;
 		letter-spacing: 4px;
 		user-select: none;
-		
 	}
+
 
 	.overlap-group {
 		position: relative;
@@ -186,22 +202,75 @@ const lastCredits = [...creditLibrary]
 
 	.home-credits {
 		position: relative;
-		min-height: 80vh;
-
+		min-height: 70vh;
+		padding: 0;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-
 	}
 
-	.home-credits-container{
-		height: 70vh;
+	.home-credits-container {
+		width: 100%;
+		max-width: 1400px;
+		padding-inline: 3vw;
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: minmax(260px, 28%) 1fr;
+		align-items: start;
 	}
+
+	.credits-intro {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.9rem;
+		text-align: left;
+		padding-top: 16vh;
+	}
+
+	.credits-text {
+		margin: 0;
+		font-size: 17px;
+		font-weight: 300;
+		color: #C0B1B5;
+	}
+
+	.credits-board {
+		--slot-w: clamp(170px, 14vw, 240px);   /* was 17vw, up to 270px */
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: flex-start;
+		gap: clamp(50px, 7vw, 60px);          /* the space between badges */
+		width: 100%;
+	}
+
+	.credit-slot {
+		position: relative;
+		flex: none;
+		width: var(--slot-w);
+		margin-top: var(--drop);
+		/* swing from the point where the strap meets the ceiling */
+		transform-origin: 50% calc(0px - var(--drop));
+		transform: rotate(var(--rot));
+	}
+
+	/* the lanyard */
+	.credit-slot::before {
+		content: "";
+		position: absolute;
+		bottom: 100%;
+		left: 44%;
+		width: 1.6rem;
+		height: var(--drop);
+		border-radius: 2px;
+		background: linear-gradient(to bottom, transparent 0%, #6b5a60 70%);
+	}
+	
 
 	.home-ending {
 		position: relative;
-		min-height: 48vh;
+		min-height: 58vh;
 	}
 
 	section {
@@ -318,6 +387,42 @@ const lastCredits = [...creditLibrary]
 
 		.home-title {
 			font-size: 6.5vh;
+		}
+
+		
+		.home-credits {
+			padding: 6vh 0 8vh;
+		}
+
+		.home-credits-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 3rem;
+		}
+
+		.credits-intro {
+			align-items: center;
+			text-align: center;
+			padding-top: 0;
+		}
+
+		.credits-board {
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 3.5rem;
+		}
+
+		.credit-slot {
+			width: min(78vw, 300px);
+			margin-top: 0;
+			transform-origin: center;
+			transform: translateX(var(--m-shift)) rotate(var(--m-rot));
+		}
+
+		.credit-slot::before {
+			display: none;
 		}
 
 
