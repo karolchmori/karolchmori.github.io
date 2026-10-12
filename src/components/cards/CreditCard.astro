@@ -9,9 +9,10 @@ interface Props {
     entry?: CreditEntry ;
     index?: number;
     variant?: 'full' | 'mini';
+    posterMargin?: string;
 }
 
-const { entry, index = 0, variant = 'full' } = Astro.props;
+const { entry, index = 0, variant = 'full', posterMargin='10cqi' } = Astro.props;
 
 const numId       = entry?.id           ?? null;
 const title       = entry?.title        ?? "";
@@ -22,6 +23,7 @@ const duration    = entry?.duration ?? "";
 const poster      = entry?.posterPath   ?? null;
 const role        = entry?.role     ?? "";
 const link        = entry?.link;
+const typeColor = entry?.color ?? '#f4a6d7';
 
 ---
 
@@ -29,22 +31,23 @@ const link        = entry?.link;
     data-variant={variant}
     data-title={title}
     data-flipped="false"
+    style={`--poster-margin: ${posterMargin}; --type-color: ${typeColor}`}
 >
     <div class="credit-card-content">
-         <div class="credit-card-header">
-            <i class="credit-card-slot" aria-hidden="true"></i>
-            <span>{studio}</span>
-        </div>
         {poster && 
             <div class="credit-card-poster" >
                 <img src={poster} alt={title} loading="lazy" />
             </div>
         
         }
-        <span class="credit-card-foot">
-            <span>{role}</span>
-            <span>{year}</span>
-        </span>
+
+         <div class="credit-card-header">
+            <i class="credit-card-slot" aria-hidden="true"></i>
+            <div class="credit-card-meta">
+                <span>{studio}</span>
+                <span>{role}</span>
+            </div>
+        </div>
 
     </div>
 
@@ -69,40 +72,63 @@ const link        = entry?.link;
     }
 
     .credit-card-content {
-        display: flex;
-        flex-direction: column;
-        aspect-ratio: 2 / 3.8;
+        position: relative;  
+        aspect-ratio: 2 / 3;
         border-radius: 3cqi;
         background: #17140f;
-        color: #f4a6d7;
         border: 1px solid rgb(255 255 255 / 0.14);
         overflow: hidden;
         box-shadow: 0 10px 18px rgb(0 0 0 / 0.35);
 
     }
+
     
     .credit-card-header {
+        position: relative;
+        z-index: 1;
+        flex: none;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding-top: 4cqi;
-        padding-bottom: 3cqi;
-
-        background: #f4a6d7;
-        color: #1a1a1a;
+        padding-bottom: 2cqi;
+        padding-inline: 3cqi;
+        box-shadow: 0 5px 5px #00000046;
+        background: var(--type-color);
+        color: #fbf6f8;
     }
-    
-    /* the lanyard slot */
+
+    .credit-card-meta {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 4cqi;
+    }
+
     .credit-card-slot {
-        width: 15cqi;
+        width: 20cqi;
         height: 5cqi;
         margin-bottom: 1cqi;
         border-radius: 999px;
         background: #17140f;
     }
+
     
     .credit-card-poster {
-        position: relative;
+        position: absolute;
+        inset: var(--poster-margin) 0 0 0; 
+        z-index: 0;
+    }
+
+    .credit-card-poster::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(#ffffff07, #ffffff07),
+            linear-gradient(to bottom, transparent 0%, transparent 87%, #161212da 95%, #161212f1 100%);
+            
     }
 
     .credit-card-poster img {
@@ -110,15 +136,12 @@ const link        = entry?.link;
         height: 100%;
         object-fit: cover;
         object-position: center;
+        display: block;
+        
     }
+
+
     
-    .credit-card-foot {
-        flex: none;
-        display: flex;
-        justify-content: space-between;
-        padding: 0.55rem 0.8rem 0.7rem;
-        border-top: 1px solid rgb(255 255 255 / 0.12);
-    }
     
 </style>
 

@@ -9,4 +9,5 @@ export interface CreditEntry {
     posterPath?: string;
     studioPath?: string;
     link?: string;
+    color?: string;
 }
