@@ -10,4 +10,5 @@ export interface CreditEntry {
     studioPath?: string;
     link?: string;
     color?: string;
+    titlePos: 'Top' | 'Bottom';
 }

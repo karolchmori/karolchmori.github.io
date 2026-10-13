@@ -140,9 +140,8 @@ const layouts = [
     }
 
 
-
-    /* the lanyard */
-    .credit-slot::before {
+    .credit-slot::before,
+    .credit-slot::after {
         content: "";
         position: absolute;
         bottom: 100%;
@@ -150,9 +149,10 @@ const layouts = [
         width: 2.3vh;
         height: var(--drop);
         border-radius: 2px;
-
+        border: 1px solid rgba(0, 0, 0, 0.25);
+ 
         background:
-            /* woven texture: a thin dark line every 4px */
+            /* woven texture: a thin dark line every 8px */
             repeating-linear-gradient(
                 to bottom,
                 rgba(0, 0, 0, 0.28) 0px,
@@ -169,11 +169,25 @@ const layouts = [
                 rgba(0, 0, 0, 0.25) 100%
             ),
             /* base color */
-            #6b5a60;
-
-        /* fade the top out (replaces the old transparent -> color gradient) */
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 70%);
-                mask-image: linear-gradient(to bottom, transparent 0%, #000 70%);
+            var(--strap-color);
+ 
+        /* fade the top out */
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+    }
+    
+    .credit-slot::before {
+        --strap-color: #7a676e;
+        z-index: -1;
+    }
+ 
+    /* shorter strap, tilted outward from the same point, sits in front of the straight one */
+    .credit-slot::after {
+        --strap-color: #4a3d436e;
+        transform-origin: 50% 100%;
+        transform: rotate(7deg);
+        z-index: -2;
+        opacity: 100%;
     }
 
 
