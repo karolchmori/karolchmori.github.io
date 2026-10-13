@@ -9,9 +9,9 @@ const lastCredits = [...creditLibrary]
 	.slice(0, 3);
 
 const layouts = [
-	{ drop: 9,  rot: -1.5 },
-	{ drop: 24, rot: 0 },
-	{ drop: 14,  rot: 1 },
+	{ drop: 7,  rot: -1.5 },
+	{ drop: 19, rot: 0 },
+	{ drop: 12,  rot: 1 },
 ];
 
 ---
@@ -23,7 +23,7 @@ const layouts = [
     <div class="credits-intro">
         <span class="home-title">Recent Credits</span>
         <p class="credits-text">Studios and productions I've been part of.</p>
-        <a href="/credits" class="home-blog-btn">All credits</a>
+        <a href="/work/credits" class="home-blog-btn">All credits</a>
     </div>
     <div class="credits-board">
         {lastCredits.map((credit, i) => {
@@ -85,7 +85,7 @@ const layouts = [
         flex-direction: column;
         align-items: flex-start;
         gap: 0.9rem;
-        text-align: left;
+        text-align: center;
         padding-top: 16vh;
     }
 
@@ -101,9 +101,8 @@ const layouts = [
         display: flex;
         flex-direction: row;
         justify-content: center;
-        align-items: flex-start;
         gap: 40px; 
-        width: 100%;
+        
     }
 
     .credit-slot {
