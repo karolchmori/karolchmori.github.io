@@ -10,9 +10,10 @@ interface Props {
     index?: number;
     variant?: 'full' | 'mini';
     posterMargin?: string;
+    sleevePadding?: string;
 }
 
-const { entry, index = 0, variant = 'full', posterMargin='10cqi' } = Astro.props;
+const { entry, index = 0, variant = 'full', posterMargin='10cqi', sleevePadding='3cqi' } = Astro.props;
 
 const numId       = entry?.id           ?? null;
 const title       = entry?.title        ?? "";
@@ -31,26 +32,30 @@ const typeColor = entry?.color ?? '#f4a6d7';
     data-variant={variant}
     data-title={title}
     data-flipped="false"
-    style={`--poster-margin: ${posterMargin}; --type-color: ${typeColor}`}
+    style={`--poster-margin: ${posterMargin}; --sleeve-padding: ${sleevePadding}; --type-color: ${typeColor}`}
 >
     <span class="credit-card-clip" aria-hidden="true"></span>
-    <div class="credit-card-content">
-        {poster && 
-            <div class="credit-card-poster" >
-                <img src={poster} alt={title} loading="lazy" />
-            </div>
-        
-        }
 
-         <div class="credit-card-header">
-            <i class="credit-card-slot" aria-hidden="true"></i>
-            <div class="credit-card-meta">
-                <span>{studio}</span>
-                <span>{role}</span>
+    <div class="credit-card-sleeve">
+        <div class="credit-card-content">
+            {poster && 
+                <div class="credit-card-poster" >
+                    <img src={poster} alt={title} loading="lazy" />
+                </div>
+            
+            }
+
+            <div class="credit-card-header">
+                <i class="credit-card-slot" aria-hidden="true"></i>
+                <div class="credit-card-meta">
+                    <span>{studio}</span>
+                    <span>{role}</span>
+                </div>
             </div>
+
         </div>
-
     </div>
+    
 
 </div>
 
@@ -73,6 +78,38 @@ const typeColor = entry?.color ?? '#f4a6d7';
         container-name: credit-card;        
     }
 
+    .credit-card-sleeve {
+        position: relative;
+        padding: var(--sleeve-padding);
+        border-radius: 7cqi;
+        background: rgb(235 235 240 / 0.10);
+        border: 1.5px solid rgb(235 235 240 / 0.25);
+        box-shadow: 0 10px 18px rgb(0 0 0 / 0.15);
+        box-sizing: border-box;
+
+    }
+
+    /* glare streaks across the plastic */
+    .credit-card-sleeve::before,
+    .credit-card-sleeve::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        border-radius: inherit;
+    }
+ 
+    .credit-card-sleeve::before {
+        background: rgb(255 255 255 / 0.07);
+        clip-path: polygon(27% 0, 55% 0, 1% 92%, 1% 72%);
+    }
+ 
+    .credit-card-sleeve::after {
+        background: rgb(255 255 255 / 0.02);
+        clip-path: polygon(64% 0, 73% 0, 0 100%, 0 94%);
+    }
+
     .credit-card-content {
         position: relative;  
         aspect-ratio: 2 / 3;
@@ -87,10 +124,10 @@ const typeColor = entry?.color ?? '#f4a6d7';
     .credit-card-clip {
         position: absolute;
         z-index: 2;
-        top: -12.5cqi;                 /* sticks out above the badge */
+        top: -8cqi;                 /* sticks out above the badge */
         left: 50%;
         width: 8cqi;
-        height: 20cqi;                /* bottom end lands inside the slot */
+        height: 19cqi;                /* bottom end lands inside the slot */
         transform: translateX(-50%);
         border-radius: 1.5cqi;
         background: #ebe6e8;
