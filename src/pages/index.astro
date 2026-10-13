@@ -8,24 +8,12 @@ import "../styles/animations.css";
 import Vignette from '../components/widgets/Vignette.astro';
 import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
 import HomeRibbon from '../components/props/HomeRibbon.astro';
-import CreditCard from '../components/cards/CreditCard.astro';
+
 
 import HomeHero from '../components/pages/home-hero.astro';
 import HomePortfolio from '../components/pages/home-portfolio.astro';
+import HomeCredits from '../components/pages/home-credits.astro';
 
-import { creditLibrary } from '../data/CreditsLibrary';
-
-
-
-const lastCredits = [...creditLibrary]
-	.sort((a, b) => b.year - a.year)
-	.slice(0, 3);
-
-const layouts = [
-	{ drop: 9,  rot: -1.5 },
-	{ drop: 24, rot: 0 },
-	{ drop: 14,  rot: 1 },
-];
 ---
 
 <!doctype html>
@@ -59,26 +47,7 @@ const layouts = [
 						</section>
 
 						<section class="home-credits">
-							<div class="home-credits-container">
-								<div class="credits-intro">
-									<span class="home-title">Recent Credits</span>
-									<p class="credits-text">Studios and productions I've been part of.</p>
-									<a href="/credits" class="home-blog-btn">All credits</a>
-								</div>
-								<div class="credits-board">
-									{lastCredits.map((credit, i) => {
-										const l = layouts[i % layouts.length];
-										return (
-											<div
-												class="credit-slot"
-												style={`--drop:${l.drop}em; --rot:${l.rot}deg; --m-rot:${i % 2 === 0 ? -2.5 : 2.5}deg; --m-shift:${i % 2 === 0 ? -6 : 6}px`}
-											>
-												<CreditCard entry={credit} index={i} variant="full" />
-											</div>
-										);
-									})}
-								</div>
-							</div>
+							<HomeCredits/>
 							
 						</section>
 						<section class="home-ending">
@@ -198,74 +167,26 @@ const layouts = [
     	margin-top: -3.5vh;
 	}
 
+	
+	.home-portfolio {
+		position: relative;
+		display: flex;
+        align-items: center;
+        justify-content: center;
+		margin-bottom: 6vh;
+	}
+
 
 
 	.home-credits {
 		position: relative;
-		min-height: 70vh;
-		padding: 0;
+		
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-	}
-
-	.home-credits-container {
-		width: 100%;
-		max-width: 1400px;
-		padding-inline: 3vw;
-		box-sizing: border-box;
-		display: grid;
-		grid-template-columns: minmax(260px, 28%) 1fr;
-		align-items: start;
-	}
-
-	.credits-intro {
-		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.9rem;
-		text-align: left;
-		padding-top: 16vh;
+		
 	}
 
-	.credits-text {
-		margin: 0;
-		font-size: 17px;
-		font-weight: 300;
-		color: #C0B1B5;
-	}
-
-	.credits-board {
-		--slot-w: clamp(170px, 14vw, 240px);
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: flex-start;
-		gap: 40px; 
-		width: 100%;
-	}
-
-	.credit-slot {
-		position: relative;
-		flex: none;
-		width: var(--slot-w);
-		margin-top: var(--drop);
-		/* swing from the point where the strap meets the ceiling */
-		transform-origin: 50% calc(0px - var(--drop));
-		transform: rotate(var(--rot));
-	}
-
-	/* the lanyard */
-	.credit-slot::before {
-		content: "";
-		position: absolute;
-		bottom: 100%;
-		left: 46.5%;
-		width: 1.1rem;
-		height: var(--drop);
-		border-radius: 2px;
-		background: linear-gradient(to bottom, transparent 0%, #6b5a60 70%);
-	}
 	
 
 	.home-ending {
@@ -291,15 +212,6 @@ const layouts = [
 		padding: 0;
 	}
 
-	.home-portfolio {
-		position: relative;
-		display: flex;
-        align-items: center;
-        justify-content: center;
-		margin-bottom: 6vh;
-	}
-
-	
 
 	.home-blog-container {
 		background-color: #0e080a8c;
@@ -339,15 +251,6 @@ const layouts = [
 	}
 
 
-
-
-	/* -------------------------------------------------------------- */ 
-	/* ----------------------- CREDITS CONFIG ----------------------- */ 
-	/* -------------------------------------------------------------- */ 
-	.home-credits .home-title {
-		bottom: 75%;
-		margin-bottom: 0.1em;
-	}
 
 
 
@@ -399,37 +302,7 @@ const layouts = [
 			padding: 6vh 0 8vh;
 		}
 
-		.home-credits-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 3rem;
-		}
-
-		.credits-intro {
-			align-items: center;
-			text-align: center;
-			padding-top: 0;
-		}
-
-		.credits-board {
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			gap: 3.5rem;
-		}
-
-		.credit-slot {
-			width: min(78vw, 300px);
-			margin-top: 0;
-			transform-origin: center;
-			transform: translateX(var(--m-shift)) rotate(var(--m-rot));
-		}
-
-		.credit-slot::before {
-			display: none;
-		}
-
+		
 
 	}
 
