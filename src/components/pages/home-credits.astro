@@ -10,7 +10,7 @@ const lastCredits = [...creditLibrary]
 
 const layouts = [
 	{ drop: 7,  rot: -1.5 },
-	{ drop: 19, rot: 0 },
+	{ drop: 17, rot: 0 },
 	{ drop: 12,  rot: 1 },
 ];
 
@@ -20,11 +20,10 @@ const layouts = [
 
 
 <div class="home-credits-container">
-    <div class="credits-intro">
-        <span class="home-title">Recent Credits</span>
-        <p class="credits-text">Studios and productions I've been part of.</p>
-        <a href="/work/credits" class="home-blog-btn">All credits</a>
-    </div>
+    <span class="home-title">Recent Credits</span>
+    <p class="home-subhead">Projects and collaborations.
+        <a href="/work/credits" class="btn btn-secondary">All credits</a>
+    </p>
     <div class="credits-board">
         {lastCredits.map((credit, i) => {
             const l = layouts[i % layouts.length];
@@ -43,19 +42,22 @@ const layouts = [
 
 <style>
 
-
     .home-credits-container {
-        width: 100vw;
-        max-width: 1900px;
-        height: 70vh;
-        padding: 0;
-        padding-inline: 3vw;
-        box-sizing: border-box;
         display: grid;
-        grid-template-columns: minmax(260px, 28%) 1fr;
         align-items: start;
+        grid-template-columns: 1fr 1.8fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+        "header badges"
+        "subhead badges";
+        align-items: center;
+        overflow: visible;
+        height: 90vh;
+        width: 100vw;
+        max-width: 1800px;
         
     }
+
 
     .home-title {
         grid-area: header;
@@ -70,37 +72,60 @@ const layouts = [
         text-transform: uppercase;
         text-shadow: 
             -4px -4px 0 #050304,  
-                4px -4px 0 #050304,
+            4px -4px 0 #050304,
             -8px  8px 0 #050304,
-                8px  8px 0 #050304;
+            8px  8px 0 #050304;
 
-        
-        padding-left: 1.5rem;
+        align-self: end;
         justify-self: center;
-        margin-bottom: -0.9rem;
-    }
-
-    .credits-intro {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.9rem;
         text-align: center;
-        padding-top: 16vh;
     }
 
-    .credits-text {
-        margin: 0;
-        font-size: 17px;
-        font-weight: 300;
-        color: #C0B1B5;
+    
+    .home-subhead {
+        grid-area: subhead;
+        font-size: 21px;
+        color: #A38C95;
+		line-height: 1;
+		padding: 0;
+		margin: 0;
+        
+        margin-top: -0.6rem;
+
+        align-self: start;
+        justify-self: center; 
     }
+
+    .btn{
+		display:inline-flex;
+		padding: 15px 25px;
+		border-radius: 15px;
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+		cursor: pointer;
+        text-transform: uppercase;
+	}
+
+    .btn-secondary {
+		background: transparent;
+		color: #A38C95;
+        font-weight: 400;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+		text-align: right;
+        grid-area: link;
+	}
+
+
 
     .credits-board {
-        --slot-w: 300px;
+        grid-area: badges;
+        --slot-w: 32vh;
         display: flex;
+        align-self: start;  
+        justify-self: start;
         flex-direction: row;
-        justify-content: center;
         gap: 40px; 
         
     }
@@ -114,47 +139,101 @@ const layouts = [
         transform: rotate(var(--rot));
     }
 
+
+
     /* the lanyard */
     .credit-slot::before {
         content: "";
         position: absolute;
         bottom: 100%;
         left: 46.5%;
-        width: 1.1rem;
+        width: 2.3vh;
         height: var(--drop);
         border-radius: 2px;
-        background: linear-gradient(to bottom, transparent 0%, #6b5a60 70%);
+
+        background:
+            /* woven texture: a thin dark line every 4px */
+            repeating-linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.28) 0px,
+                rgba(0, 0, 0, 0.28) 1px,
+                transparent 1px,
+                transparent 8px
+            ),
+            /* soft edge shading so it reads as a flat strap */
+            linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.25) 0%,
+                transparent 18%,
+                transparent 82%,
+                rgba(0, 0, 0, 0.25) 100%
+            ),
+            /* base color */
+            #6b5a60;
+
+        /* fade the top out (replaces the old transparent -> color gradient) */
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 70%);
+                mask-image: linear-gradient(to bottom, transparent 0%, #000 70%);
     }
-	
 
 
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
         .home-credits-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 3rem;
+			height: auto;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+            grid-template-areas:
+                "header"
+                "subhead"
+                "badges";
+            row-gap: 1rem;
+            align-items: center;
 		}
 
-		.credits-intro {
-			align-items: center;
-			text-align: center;
-			padding-top: 0;
+		.home-title {
+			font-size: 6vh;
+			letter-spacing: 5px;
+			text-shadow: 
+				-2px -2px 0 #050304,  
+				2px -2px 0 #050304,
+				-4px  4px 0 #050304,
+				4px  4px 0 #050304;
 		}
+
+        .home-subhead {
+			font-size: 18px;
+            margin-top: -1.5rem;
+			margin-bottom: 0;
+            padding-left: 0.7rem;
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            justify-self: center; 
+		}
+
+        .btn{
+            padding: 15px 15px;
+        }
+
 
 		.credits-board {
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			gap: 3.5rem;
+			justify-self: center;
+            align-self: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
 		}
 
 		.credit-slot {
-			width: min(78vw, 300px);
+			width: 70vw;
 			margin-top: 0;
 			transform-origin: center;
 			transform: translateX(var(--m-shift)) rotate(var(--m-rot));
 		}
+
+        .credit-slot :global(.credit-card-clip) {
+            display: none;
+        }
 
 		.credit-slot::before {
 			display: none;
