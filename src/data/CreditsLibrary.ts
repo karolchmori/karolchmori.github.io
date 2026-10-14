@@ -7,7 +7,7 @@ const TYPE_COLORS: Record<CreditEntry['type'], string> = {
     Film: '#c65370',
     Series: '#9a5a8f',
     Short: '#a8472a',
-    Commercial: '#46749a',
+    Commercial: '#46749a', 
     Game: '#587848',
 };
 
@@ -19,11 +19,10 @@ const rawCredits = [
         type: "Film",
         year: 2024,
         role: "Tool Dev",
-        duration: "2m",
         posterPath: "TalesOfTheEast_Poster_LOW.jpg",
         studioPath: "warner-bros",
         link: "https://example.com",
-        titlePos: "Bottom",
+        posterMargin: "9cqi",
     },
     {
         id: 2,
@@ -32,11 +31,10 @@ const rawCredits = [
         type: "Short",
         year: 2025,
         role: "Tool Dev",
-        duration: "2m",
         posterPath: "HereBeDragons_Poster_LOW.jpg",
         studioPath: "warner-bros",
         link: "https://example.com",
-        titlePos: "Top",
+        posterMargin: "19cqi",
     },
     {
         id: 3,
@@ -45,11 +43,10 @@ const rawCredits = [
         type: "Short",
         year: 2025,
         role: "Tool Dev",
-        duration: "2m",
         posterPath: "PaperThin_Poster_LOW.jpg",
         studioPath: "warner-bros",
         link: "https://example.com",
-        titlePos: "Top",
+        posterMargin: "18cqi",
     },
 
 ] as const;

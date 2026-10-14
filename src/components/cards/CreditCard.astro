@@ -9,22 +9,21 @@ interface Props {
     entry?: CreditEntry ;
     index?: number;
     variant?: 'full' | 'mini';
-    posterMargin?: string;
     sleevePadding?: string;
 }
 
-const { entry, index = 0, variant = 'full', posterMargin='10cqi', sleevePadding='3cqi' } = Astro.props;
+const { entry, index = 0, variant = 'full', sleevePadding='3cqi' } = Astro.props;
 
 const numId       = entry?.id           ?? null;
 const title       = entry?.title        ?? "";
 const studio       = entry?.studio        ?? "";
 const type        = entry?.type     ?? "";
 const year        = entry?.year     ?? "";
-const duration    = entry?.duration ?? "";
 const poster      = entry?.posterPath   ?? null;
 const role        = entry?.role     ?? "";
 const link        = entry?.link;
 const typeColor = entry?.color ?? '#f4a6d7';
+const posterMargin = entry?.posterMargin ?? '10cqi';
 
 ---
 
@@ -48,8 +47,7 @@ const typeColor = entry?.color ?? '#f4a6d7';
             <div class="credit-card-header">
                 <i class="credit-card-slot" aria-hidden="true"></i>
                 <div class="credit-card-meta">
-                    <span>{studio}</span>
-                    <span>{role}</span>
+                    <span>{studio} ~ {role}</span>
                 </div>
             </div>
 
@@ -67,6 +65,7 @@ const typeColor = entry?.color ?? '#f4a6d7';
         --card-black: var(--credit-card-black);
         --card-white: var(--credit-card-white);
         --card-title: var(--credit-card-title);
+        --clip-color: #55525a;
 
         position: relative;  
         width: 100%;
@@ -129,31 +128,73 @@ const typeColor = entry?.color ?? '#f4a6d7';
 
     }
 
+    /* ---------- the clip ----------
+   ::before = top rectangle where the straps enter
+   ::after  = short neck + body that widens toward the bottom      */
     .credit-card-clip {
+        /* all shades are derived from --clip-color */
+        --clip-light: color-mix(in srgb, var(--clip-color), white 35%);
+        --clip-dark:  color-mix(in srgb, var(--clip-color), black 30%);
+        --clip-edge:  color-mix(in srgb, var(--clip-color), black 45%);
+        --clip-slit:  color-mix(in srgb, var(--clip-color), black 60%);
+        --clip-shade: linear-gradient(
+            to right,
+            var(--clip-dark) 0%,
+            var(--clip-light) 22%,
+            var(--clip-color) 65%,
+            var(--clip-dark) 100%
+        );
+
         position: absolute;
-        z-index: 2;
-        top: -11cqi;                 /* sticks out above the badge */
+        z-index: 4;
+        top: -17cqi;
         left: 50%;
-        width: 8cqi;
-        height: 19cqi;                /* bottom end lands inside the slot */
+        width: 12cqi;
+        height: 28.5cqi;
         transform: translateX(-50%);
-        border-radius: 1.5cqi;
-        background: #ebe6e8;
-        box-shadow: 0 0.6cqi 1.2cqi rgb(0 0 0 / 0.35);
+        pointer-events: none;
+
+        /* thin outline that follows the shape, then the soft drop shadow */
+        filter:
+            drop-shadow(0 0 0.2cqi var(--clip-edge))
+            drop-shadow(0 0.6cqi 0.9cqi rgb(0 0 0 / 0.35));
     }
 
-    /* the wider head where the strap attaches */
+    /* top rectangle */
     .credit-card-clip::before {
         content: "";
         position: absolute;
         top: 0;
         left: 50%;
-        width: 14cqi;
-        height: 7cqi;
+        width: 12cqi;
+        height: 9.5cqi;
         transform: translateX(-50%);
-        border-radius: 1.5cqi;
-        background: #ebe6e8;
+        border-radius: 0.8cqi;
+        background:
+            linear-gradient(var(--clip-slit) 0 0) 50% 0 / 70% 0.9cqi no-repeat,
+            var(--clip-shade);
     }
+
+    /* neck + body */
+    .credit-card-clip::after {
+        content: "";
+        position: absolute;
+        top: 9cqi;
+        left: 0;
+        width: 100%;
+        height: 16cqi;
+        background: var(--clip-shade);
+        clip-path: polygon(
+            32% 0, 68% 0,
+            79% 19%,
+            99% 92%,
+            95% 100%,
+            5% 100%,
+            1% 92%,
+            21% 19%
+        );
+    }
+ 
 
     
     .credit-card-header {
@@ -189,7 +230,7 @@ const typeColor = entry?.color ?? '#f4a6d7';
     
     .credit-card-poster {
         position: absolute;
-        inset: var(--poster-margin) 0 0 0; 
+        padding-top: var(--poster-margin);
         z-index: 0;
     }
 
