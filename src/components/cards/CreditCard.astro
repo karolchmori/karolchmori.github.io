@@ -45,11 +45,9 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
             }
 
             <div class="credit-card-header">
+                <span class="credit-card-studio">{studio}</span>
                 <i class="credit-card-slot" aria-hidden="true"></i>
-                <div class="credit-card-meta">
-                    <span>{studio}</span>
-                    <span>{role}</span>
-                </div>
+                <span class="credit-card-role">{role}</span>
             </div>
 
         </div>
@@ -202,12 +200,15 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
         position: relative;
         z-index: 1;
         flex: none;
-        display: flex;
-        flex-direction: column;
+        box-sizing: border-box;
+        min-height: 17cqi; 
+
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 20cqi minmax(0, 1fr);
+        column-gap: 3cqi;
         align-items: center;
-        padding-top: 4cqi;
-        padding-bottom: 2cqi;
-        padding-inline: 3cqi;
+
+        padding: 4cqi 3cqi 3cqi;
         box-shadow: 0 5px 5px #00000046;
         background: var(--type-color);
         color: #fbf6f8;
@@ -223,9 +224,30 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
     .credit-card-slot {
         width: 20cqi;
         height: 5cqi;
-        margin-bottom: 1cqi;
         border-radius: 999px;
         background: #17140f;
+        margin-top: -4cqi;
+    }
+
+    .credit-card-header .credit-card-studio,
+    .credit-card-header .credit-card-role {
+        margin-top: 0; 
+        font-size: 5cqi;
+        line-height: 1.05;
+        text-wrap: balance; 
+        text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+    }
+
+    .credit-card-header .credit-card-studio {
+        grid-column: 1;
+        justify-self: start;
+        text-align: left;
+    }
+
+    .credit-card-header .credit-card-role {
+        grid-column: 3;
+        justify-self: end;
+        text-align: right;
     }
 
     
