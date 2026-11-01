@@ -20,7 +20,7 @@ const layouts = [
 
 
 <div class="home-credits-container">
-    <span class="home-title">Recent Credits</span>
+    <span class="home-title">Recent Work</span>
     <p class="home-subhead">Projects and collaborations.
         <a href="/work/credits" class="btn btn-secondary">All credits</a>
     </p>
@@ -54,8 +54,7 @@ const layouts = [
         overflow: visible;
         height: 90vh;
         width: 100vw;
-        max-width: 1800px;
-        
+        max-width: 1500px;
     }
 
 
@@ -64,21 +63,21 @@ const layouts = [
         user-select: none;
         color: #BA4964;
         font-size: 80px;
-        line-height: 1.2;
+        line-height: 1.1;
         letter-spacing: 8px;
         display: inline-block;
         font-weight: 700;
         font-family: 'Barqen', sans-serif;
         text-transform: uppercase;
         text-shadow: 
-            -4px -4px 0 #050304,  
-            4px -4px 0 #050304,
-            -8px  8px 0 #050304,
-            8px  8px 0 #050304;
+            -3px -3px 0 #050304,  
+             3px -3px 0 #050304,
+            -6px  6px 0 #050304,
+             6px  6px 0 #050304;
 
         align-self: end;
         justify-self: center;
-        text-align: center;
+        text-align: left;
     }
 
     
@@ -91,14 +90,21 @@ const layouts = [
 		margin: 0;
         
         margin-top: -0.6rem;
+        
 
         align-self: start;
-        justify-self: center; 
+        justify-self: left;
+
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        text-align: left; 
+        min-width: 0;
     }
 
     .btn{
 		display:inline-flex;
-		padding: 15px 25px;
+		padding: 10px 15px;
 		border-radius: 15px;
 		font-size: 15px;
 		font-weight: 600;
@@ -121,12 +127,12 @@ const layouts = [
 
     .credits-board {
         grid-area: badges;
-        --slot-w: 32vh;
+        --slot-w: 27vh;
         display: flex;
         align-self: start;  
         justify-self: start;
         flex-direction: row;
-        gap: 40px; 
+        gap: 30px; 
         
     }
 
@@ -216,7 +222,7 @@ const layouts = [
 
         .home-subhead {
 			font-size: 18px;
-            margin-top: -1.5rem;
+            margin-top: -2rem;
 			margin-bottom: 0;
             padding-left: 0.7rem;
             display: flex;
@@ -239,7 +245,7 @@ const layouts = [
 		}
 
 		.credit-slot {
-			width: 70vw;
+			width: 60vw;
 			margin-top: 0;
 			transform-origin: center;
 			transform: translateX(var(--m-shift)) rotate(var(--m-rot));

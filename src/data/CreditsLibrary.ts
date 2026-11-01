@@ -15,13 +15,13 @@ const rawCredits = [
     {
         id: 1,
         title: "Tales of the East",
-        studio: "Cartoon Surfers",
+        studio: "Cartoon Survivors",
         type: "Film",
         year: 2024,
         role: "Tool Dev",
         posterPath: "TalesOfTheEast_Poster_LOW.jpg",
         studioPath: "warner-bros",
-        link: "https://example.com",
+        link: "https://www.youtube.com/watch?v=Zu03J3Tu9J0",
         posterMargin: "9cqi",
     },
     {
@@ -33,7 +33,7 @@ const rawCredits = [
         role: "Tool Dev",
         posterPath: "HereBeDragons_Poster_LOW.jpg",
         studioPath: "warner-bros",
-        link: "https://example.com",
+        link: "",
         posterMargin: "19cqi",
     },
     {
@@ -45,7 +45,7 @@ const rawCredits = [
         role: "Tool Dev",
         posterPath: "PaperThin_Poster_LOW.jpg",
         studioPath: "warner-bros",
-        link: "https://example.com",
+        link: "",
         posterMargin: "18cqi",
     },
 

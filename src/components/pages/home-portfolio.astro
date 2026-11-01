@@ -23,10 +23,10 @@ const toolEntries = (await getCollection('tool'))
         <a href="/work/tools" class="btn btn-secondary">All tools</a>
     </p>
 
-    <HorizontalCarousel class="tool-card-placeholder" itemSize='32vh' gap={2} navigation='none'>
+    <HorizontalCarousel class="tool-card-placeholder" itemSize='30vh' gap={2} navigation='none'>
         <ToolCard index={0} variant="full" />
     </HorizontalCarousel>
-    <HorizontalCarousel class="tool-card-selected" itemSize='32vh' gap={0} navigation='none'>
+    <HorizontalCarousel class="tool-card-selected" itemSize='30vh' gap={0} navigation='none'>
         {toolEntries.map((entry, i) => (
             <div class="fan-item">
                 <ToolCard entry={entry} index={i} variant="full" />
@@ -71,10 +71,10 @@ const toolEntries = (await getCollection('tool'))
         font-family: 'Barqen', sans-serif;
 		text-transform: uppercase;
 		text-shadow: 
-            -4px -4px 0 #050304,  
-             4px -4px 0 #050304,
-            -8px  8px 0 #050304,
-             8px  8px 0 #050304;
+            -3px -3px 0 #050304,  
+             3px -3px 0 #050304,
+            -6px  6px 0 #050304,
+             6px  6px 0 #050304;
 
 		
 		padding-left: 1.5rem;

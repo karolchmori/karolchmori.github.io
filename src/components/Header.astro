@@ -37,7 +37,7 @@ const { showThemeToggle = true } = Astro.props;
 			
 		</div>
         <div class="header-social">
-            <SocialLinks orientation="horizontal" size={25} gap={0.5}/>
+            <SocialLinks orientation="horizontal" size={25} gap={0.7}/>
         </div>
         
 
@@ -71,6 +71,11 @@ const { showThemeToggle = true } = Astro.props;
 
     .hamburger  { display: none;  user-select: none;}
     .menu-social { display: none; }
+
+    .header-social {
+        margin-top: -1rem;
+        margin-right: -1rem;
+    }
 
     /* -------------------------------------------------------------- */ 
     /* ------------------- PHONE MODIFICATIONS ---------------------- */ 
