@@ -8,11 +8,10 @@ import type { CreditEntry } from '../../objects/CreditEntry';
 interface Props {
     entry?: CreditEntry ;
     index?: number;
-    variant?: 'full' | 'mini';
     sleevePadding?: string;
 }
 
-const { entry, index = 0, variant = 'full', sleevePadding='3cqi' } = Astro.props;
+const { entry, index = 0, sleevePadding='3cqi' } = Astro.props;
 
 const numId       = entry?.id           ?? null;
 const title       = entry?.title        ?? "";
@@ -28,7 +27,6 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
 ---
 
 <div class="credit-card"
-    data-variant={variant}
     data-title={title}
     data-flipped="false"
     style={`--poster-margin: ${posterMargin}; --sleeve-padding: ${sleevePadding}; --type-color: ${typeColor}`}
@@ -127,7 +125,7 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
 
     }
 
-    /* ---------- the clip ----------
+    /* ---------- THE CLIP ----------
    ::before = top rectangle where the straps enter
    ::after  = short neck + body that widens toward the bottom      */
     .credit-card-clip {
@@ -210,8 +208,8 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
 
         padding: 4cqi 3cqi 3cqi;
         box-shadow: 0 5px 5px #00000046;
-        background: var(--type-color);
-        color: #fbf6f8;
+        background: color-mix(in srgb, var(--type-color), rgb(85, 7, 55) 10%);
+        color: #ECE5D4;
     }
 
     .credit-card-meta {
@@ -229,13 +227,17 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
         margin-top: -4cqi;
     }
 
+    /* -------------------- TITLE -------------------- */
+
     .credit-card-header .credit-card-studio,
     .credit-card-header .credit-card-role {
         margin-top: 0; 
         font-size: 5cqi;
         line-height: 1.05;
         text-wrap: balance; 
-        text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 4.2cqi;
     }
 
     .credit-card-header .credit-card-studio {
@@ -250,6 +252,8 @@ const posterMargin = entry?.posterMargin ?? '10cqi';
         text-align: right;
     }
 
+
+    /* -------------------- POSTER -------------------- */
     
     .credit-card-poster {
         position: absolute;

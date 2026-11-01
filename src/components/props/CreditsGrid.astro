@@ -1,0 +1,258 @@
+---
+import CreditCard from '../cards/CreditBadge.astro';
+import type { CreditEntry } from '../../objects/CreditEntry';
+import Icon, { type IconName } from '../widgets/Icon.astro';
+
+interface Props { entries: CreditEntry[]; }
+const { entries } = Astro.props;
+
+const uniqueSorted = (values: string[]) =>
+    [...new Set(values)].sort((a, b) => a.localeCompare(b));
+
+const typeOptions   = uniqueSorted(entries.map(e => e.type).filter(Boolean));
+
+const rawFilterGroups: { key: string; label: string; icon: IconName; options: string[] }[] = [
+    { key: 'type',   label: 'Type',   icon: 'club',    options: typeOptions }
+];
+const filterGroups = rawFilterGroups.filter(group => group.options.length > 0);
+const totalEntries = entries.length;
+---
+
+<div class="filter-container">
+    {filterGroups.map(group => (
+        <div class="filter-row" data-group={group.key}>
+            <span class="filter-label">
+                <span class="suit-icon" aria-hidden="true">
+                    <Icon name={group.icon} size={20} />
+                </span>
+                {group.label}
+            </span>
+            <div class="filter-options">
+                {group.options.map(value => (
+                    <button type="button" class="filter-pill" data-group={group.key} data-value={value}>
+                        {value}
+                    </button>
+                ))}
+            </div>
+        </div>
+    ))}
+
+    <div class="filter-foot">
+        <span class="result-count" id="result-count" data-total={totalEntries}>
+            {totalEntries} of {totalEntries} entries match
+        </span>
+        <button type="button" class="clear-btn" id="clear-filters">Clear filters</button>
+    </div>
+</div>
+
+<div class="credits-grid" id="credits-grid">
+    {entries.map(entry => (
+        <CreditCard entry={entry}/>
+    ))}
+</div>
+
+<style>
+    .filter-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+        background: var(--page-mainbg);
+        border: 1px solid var(--page-border);
+        border-radius: 12px;
+        padding: 1rem 1.25rem 0.9rem;
+        user-select: none;
+    }
+
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid var(--page-border);
+    }
+
+    .filter-label {
+        flex: 0 0 auto;
+        min-width: 6.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--page-secondaryfont);
+    }
+
+    .suit-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.15rem;
+        height: 1.15rem;
+        border-radius: 50%;
+        color: var(--page-fourfont);
+        flex: none;
+    }
+
+    .filter-row[data-group="type"] .suit-icon {
+        color: var(--page-primary);
+    }
+
+    .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .filter-pill {
+        position: relative;
+        font: inherit;
+        font-size: 0.8rem;
+        padding: 0.35rem 0.85rem;
+        border-radius: 10px;
+        border: 0px solid;
+        background: var(--comp-secondarybg);
+        color: var(--page-mainfont);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    }
+
+    .filter-pill:hover {
+        background: color-mix(in srgb, var(--comp-secondarybg) 90%, var(--page-fourfont));
+        transform: translateY(-1px);
+    }
+
+
+    .filter-pill.is-active {
+        background: var(--page-primary);
+        color: white;
+        box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--page-primary) 50%, transparent);
+    }
+
+
+    .filter-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .result-count {
+        font-size: 0.75rem;
+        color: var(--page-secondaryfont);
+    }
+
+    .clear-btn {
+        background: none;
+        border: none;
+        font: inherit;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--page-secondaryfont);
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+        transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .clear-btn:hover {
+        color: var(--page-primary);
+        border-color: var(--page-primary);
+    }
+
+    .clear-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    .credits-grid {
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 1rem;
+        row-gap: 3rem; 
+        column-gap: 0.8rem;
+    }
+
+    .credits-grid :global(.credit-card-clip) {
+        display: none;
+    }
+
+    @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+        .filter-container {
+            padding: 0.75rem 1rem 0.65rem;
+        }
+
+        .filter-label {
+            min-width: 5rem;
+        }
+
+        .filter-pill {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.65rem;
+        }
+
+
+        .credits-grid { 
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 0.9rem;
+            row-gap: 2.5rem;
+        }
+
+        
+    }
+</style>
+
+<script>
+    const grid = document.getElementById('credits-grid');
+    if (grid) {
+        const cards = Array.from(grid.querySelectorAll<HTMLElement>('.credit-card'));
+        const pills = Array.from(document.querySelectorAll<HTMLButtonElement>('.pill'));
+        const active = new Set<string>();
+
+        const matches = (c: HTMLElement) => active.size === 0 || active.has(c.dataset.type ?? '');
+
+        const reveal = (card: HTMLElement, i = 0) => {
+            card.style.animationDelay = `${i * 80}ms`;
+            card.dataset.state = 'active';
+            card.dataset.seen = 'true';
+        };
+
+        const io = new IntersectionObserver((items) => {
+            items
+                .filter(e => e.isIntersecting)
+                .map(e => e.target as HTMLElement)
+                .filter(c => c.dataset.seen !== 'true' && matches(c))
+                .sort((a, b) => cards.indexOf(a) - cards.indexOf(b))
+                .forEach((c, i) => { reveal(c, i); io.unobserve(c); });
+        }, { threshold: 0.33 });
+
+        cards.forEach(c => io.observe(c));
+
+        function apply() {
+            let n = 0;
+            cards.forEach(c => {
+                if (matches(c)) {
+                    if (c.dataset.state === 'gone') {
+                        if (c.dataset.seen === 'true') reveal(c, n++);
+                        else { delete c.dataset.state; io.observe(c); } // back to pending
+                    }
+                } else {
+                    io.unobserve(c);
+                    c.dataset.state = 'gone';
+                }
+            });
+        }
+
+        pills.forEach(p => p.addEventListener('click', () => {
+            const v = p.dataset.value!;
+            p.classList.toggle('is-active');
+            active.has(v) ? active.delete(v) : active.add(v);
+            apply();
+        }));
+    }
+</script>

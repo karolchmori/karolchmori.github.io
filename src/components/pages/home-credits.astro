@@ -1,5 +1,5 @@
 ---
-import CreditCard from '../cards/CreditCard.astro';
+import CreditBadge from '../cards/CreditBadge.astro';
 import { creditLibrary } from '../../data/CreditsLibrary';
 
 
@@ -32,7 +32,7 @@ const layouts = [
                     class="credit-slot"
                     style={`--drop:${l.drop}em; --rot:${l.rot}deg; --m-rot:${i % 2 === 0 ? -2.5 : 2.5}deg; --m-shift:${i % 2 === 0 ? -6 : 6}px`}
                 >
-                    <CreditCard entry={credit} index={i} variant="full" />
+                    <CreditBadge entry={credit} index={i}/>
                 </div>
             );
         })}
