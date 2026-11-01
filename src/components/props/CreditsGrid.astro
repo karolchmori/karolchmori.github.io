@@ -211,7 +211,9 @@ const totalEntries = entries.length;
     const grid = document.getElementById('credits-grid');
     if (grid) {
         const cards = Array.from(grid.querySelectorAll<HTMLElement>('.credit-card'));
-        const pills = Array.from(document.querySelectorAll<HTMLButtonElement>('.pill'));
+        const pills = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-pill'));
+        const countEl = document.getElementById('result-count');
+        const clearBtn = document.getElementById('clear-filters') as HTMLButtonElement | null;
         const active = new Set<string>();
 
         const matches = (c: HTMLElement) => active.size === 0 || active.has(c.dataset.type ?? '');
@@ -233,19 +235,25 @@ const totalEntries = entries.length;
 
         cards.forEach(c => io.observe(c));
 
+        function updateFoot() {
+            if (countEl) countEl.textContent = `${cards.filter(matches).length} of ${cards.length} entries match`;
+            if (clearBtn) clearBtn.disabled = active.size === 0;
+        }
+
         function apply() {
             let n = 0;
             cards.forEach(c => {
                 if (matches(c)) {
                     if (c.dataset.state === 'gone') {
                         if (c.dataset.seen === 'true') reveal(c, n++);
-                        else { delete c.dataset.state; io.observe(c); } // back to pending
+                        else { delete c.dataset.state; io.observe(c); }
                     }
                 } else {
                     io.unobserve(c);
                     c.dataset.state = 'gone';
                 }
             });
+            updateFoot();
         }
 
         pills.forEach(p => p.addEventListener('click', () => {
@@ -254,5 +262,13 @@ const totalEntries = entries.length;
             active.has(v) ? active.delete(v) : active.add(v);
             apply();
         }));
+
+        clearBtn?.addEventListener('click', () => {
+            pills.forEach(p => p.classList.remove('is-active'));
+            active.clear();
+            apply();
+        });
+
+        updateFoot();
     }
 </script>

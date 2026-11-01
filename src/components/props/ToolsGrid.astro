@@ -38,12 +38,7 @@ const totalTools = entries.length;
             </span>
             <div class="filter-options">
                 {group.options.map(value => (
-                    <button
-                        type="button"
-                        class="filter-pill"
-                        data-group={group.key}
-                        data-value={value}
-                    >
+                    <button type="button" class="filter-pill" data-group={group.key} data-value={value}>
                         {value}
                     </button>
                 ))}
