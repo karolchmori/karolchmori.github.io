@@ -12,7 +12,7 @@ const uniqueSorted = (values: string[]) =>
 const typeOptions   = uniqueSorted(entries.map(e => e.type).filter(Boolean));
 
 const rawFilterGroups: { key: string; label: string; icon: IconName; options: string[] }[] = [
-    { key: 'type',   label: 'Type',   icon: 'club',    options: typeOptions }
+    { key: 'type',   label: 'Type',   icon: 'heart',    options: typeOptions }
 ];
 const filterGroups = rawFilterGroups.filter(group => group.options.length > 0);
 const totalEntries = entries.length;
@@ -134,7 +134,6 @@ const totalEntries = entries.length;
         box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--page-primary) 50%, transparent);
     }
 
-
     .filter-foot {
         display: flex;
         align-items: center;
@@ -181,6 +180,22 @@ const totalEntries = entries.length;
         display: none;
     }
 
+    .credits-grid :global(.credit-card:not([data-state])) {
+        opacity: 0;
+        transform: translateY(1.5rem) scale(0.96);
+    }
+    .credits-grid :global(.credit-card[data-state="active"]) {
+        animation: credit-in 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .credits-grid :global(.credit-card[data-state="gone"]) {
+        display: none;
+    }
+
+    @keyframes credit-in {
+        from { opacity: 0; transform: translateY(1.5rem) scale(0.96); }
+        to   { opacity: 1; transform: none; }
+    }
+
     @media (orientation: portrait), (max-aspect-ratio: 9/16) {
 
         .filter-container {
@@ -200,7 +215,7 @@ const totalEntries = entries.length;
         .credits-grid { 
             grid-template-columns: repeat(2, 1fr);
             column-gap: 0.9rem;
-            row-gap: 2.5rem;
+            row-gap: 0.9rem;
         }
 
         
