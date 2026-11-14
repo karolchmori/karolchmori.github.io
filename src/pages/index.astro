@@ -9,10 +9,9 @@ import Vignette from '../components/widgets/Vignette.astro';
 import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
 import HomeRibbon from '../components/props/HomeRibbon.astro';
 
-
-
 import HomeHero from '../components/pages/home-hero.astro';
 import HomePortfolio from '../components/pages/home-portfolio.astro';
+import HomeBlog from '../components/pages/home-blog.astro';
 import HomeCredits from '../components/pages/home-credits.astro';
 import HomeFooter from '../components/pages/home-footer.astro';
 
@@ -25,160 +24,181 @@ import HomeFooter from '../components/pages/home-footer.astro';
 	</head>
 	<body>
 		<Header showThemeToggle={false}/>
-		
+
 		<div class="home-container">
-			<main>
-				<div class="overlap-group">
-					<section class="home-hero">
-						<HomeHero/>
-					</section>
-					<div class="home-ribbon">
-						<HomeRibbon/>
-					</div>
-					
-				
-					<div class="rest">
+			<main class="stack">
+				<section class="layer-1">
+					<HomeHero/>
+				</section>
+
+				<section class="layer-2">
+					<div class="l2-content">
+						<div class="home-ribbon">
+							<HomeRibbon/>
+						</div>
 						<section class="home-portfolio">
 							<HomePortfolio/>
 						</section>
 						<section class="home-blog">
-							<div class="home-blog-container">
-								<p class="home-blog-text">I'm into computer graphics and the math behind it — I write about it on the blog.</p>
-  								<a href="/blog" class="home-blog-btn">Explore more</a>
-							</div>
+							<HomeBlog/>
 						</section>
+						<div class="l2-last">
+							<section class="home-credits">
+								<HomeCredits/>
+							</section>
+						</div>
 
-						<section class="home-credits">
-							<HomeCredits/>
-							
-						</section>
-						<section class="home-footer">
-							<HomeFooter/>
-							
-
-						</section>
+						<!-- Layer 3 lives INSIDE the container of the pinned credits, so the credits
+						     stay pinned for as long as layer 3 is sliding over them (no spacer needed). -->
+						<div class="layer-3-wrap">
+							<section class="layer-3">
+								<div class="home-ribbon home-ribbon--reverse">
+									<HomeRibbon/>
+								</div>
+								<section class="home-footer">
+									<HomeFooter/>
+								</section>
+							</section>
+						</div>
 					</div>
-				</div>
-				
+				</section>
+
 			</main>
 		</div>
 		<Footer/>
 		<Vignette />
+
+
 	</body>
 </html>
 
 
-<style> 
+<style>
+
+	/* the rotated ribbon pokes out of the viewport; "clip" (unlike "hidden") doesn't break sticky */
+	html, body {
+		overflow-x: clip;
+	}
 
 	body {
+		margin: 0;
+		padding: 0;
 		-webkit-tap-highlight-color: transparent;
 		-webkit-user-drag: none;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
 	}
 
-
 	:root {
-        --home-title: #BDAEB2;
-    }
-	
+		--home-title: #BDAEB2;
+		--l3-height: 60vh;   /* height of layer 3 = how much of the screen it covers at the end of the page */
+	}
 
+	/* -------------------------------------------------------------- */
+	/* ------------------------- LAYER 1 ---------------------------- */
+	/* -------------------------------------------------------------- */
+	.layer-1 {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		height: 90vh;
+		display: grid;
+		place-items: center;
+	}
 
-	/* -------------------------------------------------------------- */ 
-	/* ---------------------- MAIN SECTIONS ------------------------- */ 
-	/* -------------------------------------------------------------- */ 
-	.home-container::before {
+	.layer-1::before {
 		content: "";
 		position: absolute;
 		inset: 0;
-		transform: scale(1);
+		background-image: url('../assets/BG/BG_MainHome_High_Home_v01.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top center;
+		filter: blur(1.6px) brightness(1);
+		transform: scale(1.0);
 		z-index: -1;
-		
 	}
 
-	.home-container{
-		width: 100%;
+	/* -------------------------------------------------------------- */
+	/* ------------------------- LAYER 2 ---------------------------- */
+	/* -------------------------------------------------------------- */
+	.layer-2 {
+		position: relative;
+		z-index: 2;
+		margin-top: -5vh;
+		/* Background now lives on the layer itself, so it scrolls with the content */
+		background-color: rgb(22, 17, 19);
+		background-image: url('../assets/BG/BG_MainHome_High_Sections_v01.jpg');
+		background-size: cover;
+		background-position: top center;
+		background-repeat: no-repeat;
+		clip-path: polygon(0 5vh, 100% 0, 100% 100%, 0 100%);
 	}
+
+	.l2-content {
+		position: relative;
+		padding: 2rem 2rem 0;   /* no bottom padding: layer 3 ends flush with the page */
+	}
+
+	/* The credits are pinned. They stay put while layer 3 (which is inside the
+	   same container) slides over them. Everything before them scrolls normally. */
+	.l2-last {
+		position: sticky;
+		top: 0;  /* 0 when it fits; negative (set by the script) when taller than the screen */
+		min-height: 70vh;
+
+		/* The pinned block carries its own copy of the background, so the credits and
+		   their background stay still together while layer 3 slides over them. */
+		margin: 0 -2rem;          /* full-bleed: cancels .l2-content's side padding */
+		padding: 0 2rem;
+		background-color: rgb(22, 17, 19);
+		background-image: url('../assets/BG/BG_MainHome_High_Sections_v01.jpg');
+		/* The script sets these so this copy shows exactly the same part of the image
+		   as layer 2's background does at this spot (no visible seam). */
+		background-size: var(--l2-bg-size, cover);
+		background-position: var(--l2-bg-pos, center top);
+		background-repeat: no-repeat;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
 	
 
-
-	.home-title {
-        color: var(--home-title); 
-		font-family: 'Barqen', sans-serif;
-		text-transform: uppercase;
-		font-weight: 700;
-		letter-spacing: 4px;
-		user-select: none;
-	}
-
-
-	.overlap-group {
-		position: relative;
-		isolation: isolate;
-	}
-
-	.home-hero {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        min-height: 89vh;
-        overflow: hidden;
-		display: flex;
-        align-items: center;
-        justify-content: center;
-		
-    }
-
-
-    .home-hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: url('../assets/BG/BG_MainHome_High_Home_v01.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: top center;
-        filter: blur(1.6px) brightness(1);
-        transform: scale(1.0);
-        z-index: -1;
-    }
-
-	.home-ribbon{
+	/* Ribbon: positioned from the top of layer 2 (.l2-content), right under the slanted edge */
+	.home-ribbon {
 		position: absolute;
-		top: 86vh;
-		left: 0.1%;
+		top: 2vh;                                   /* tweak between 1.5vh and 3vh if needed */
+		left: 0;
 		width: 100%;
 		height: 5.4vh;
 		overflow: hidden;
 		z-index: 10;
 		display: flex;
 		align-items: center;
-		transform: rotate(-1.3deg);
+		transform: rotate(-1.3deg);                 /* fallback */
+		transform: rotate(atan2(-5vh, 100vw));      /* matches the clip-path slope on any screen */
 		box-sizing: border-box;
 	}
 
-
-	.rest {
-		position: relative;
-		z-index: 2;
-		background-image: url('../assets/BG/BG_MainHome_High_Sections_v01.jpg');
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: top center;
-		
-		clip-path: polygon(0 2.3%, 100% 0, 100% 100%, 0 100%);
-    	margin-top: -3.5vh;
+	/* Same ribbon, opposite tilt: used at the top of layer 3, follows its slanted edge */
+	.home-ribbon.home-ribbon--reverse {
+		transform: rotate(1.3deg);                  /* fallback */
+		transform: rotate(atan2(5vh, 100vw));       /* matches layer 3's clip-path slope */
 	}
 
-	
 	.home-portfolio {
 		position: relative;
 		display: flex;
-        align-items: center;
-        justify-content: center;
+		flex-direction: column;
+		align-items: center;
 		margin-bottom: 6vh;
 	}
 
+	/* Blog band: full-bleed, cancels the side padding of .l2-content */
+	.home-blog {
+		margin: 0 -8vw;
+	}
 
 
 	.home-credits {
@@ -188,24 +208,49 @@ import HomeFooter from '../components/pages/home-footer.astro';
 		flex-direction: column;
 	}
 
+	/* -------------------------------------------------------------- */
+	/* ------------------------- LAYER 3 ---------------------------- */
+	/* -------------------------------------------------------------- */
+	.layer-3-wrap {
+		position: relative;
+		z-index: 3;
+		margin: 0 -2rem;   /* sits right after the credits; -2rem cancels .l2-content's side padding */
+	}
+
+	.layer-3 {
+		position: relative;   /* anchor for the ribbon */
+		min-height: var(--l3-height);
+		clip-path: polygon(0 0, 100% 5vh, 100% 100%, 0 100%);   /* high on the left, low on the right */
+		background: rgb(73, 62, 67);
+	}
 
 	.home-footer {
+		padding-top: calc(3rem + 6vh);   /* extra 6vh keeps the content clear of the ribbon */
 		position: relative;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 	}
-	
+
+	/* -------------------------------------------------------------- */
+	/* ------------------------- SHARED ----------------------------- */
+	/* -------------------------------------------------------------- */
+	.home-container {
+		width: 100%;
+	}
+
+	.home-title {
+		color: var(--home-title);
+		font-family: 'Barqen', sans-serif;
+		text-transform: uppercase;
+		font-weight: 700;
+		letter-spacing: 4px;
+		user-select: none;
+	}
 
 	section {
 		display: block;
 		scroll-snap-align: start;
-	}
-
-
-	body {
-		margin: 0;
-		padding: 0;
 	}
 
 	main {
@@ -215,75 +260,19 @@ import HomeFooter from '../components/pages/home-footer.astro';
 		padding: 0;
 	}
 
-
-	.home-blog-container {
-		background-color: #0e080a8c;
-		padding: 28px 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 90px;
-		flex-wrap: wrap;
-	}
-	
-
-	.home-blog-text {
-		margin: 0;
-		font-size: 19px;
-		font-weight: 300;
-		color: #C0B1B5;
-		text-align: center;
-	}
-
-	.home-blog-btn {
-		background-color: #BA4964;
-		color: #ece5d4;
-		border: none;
-		padding: 8px 30px;
-		border-radius: 6px;
-		font-size: 16px;
-		font-weight: 500;
-		letter-spacing: 0.5px;
-		text-decoration: none;
-		cursor: pointer;
-		white-space: nowrap;
-	}
-
-	.home-blog-btn:hover {
-		opacity: 0.9;
-	}
-
-
-
-
-
-	/* -------------------------------------------------------------- */ 
-	/* ------------------- PHONE MODIFICATIONS ---------------------- */ 
-	/* -------------------------------------------------------------- */ 
-	
-
+	/* -------------------------------------------------------------- */
+	/* ------------------- PHONE MODIFICATIONS ---------------------- */
+	/* -------------------------------------------------------------- */
 	@media (orientation: portrait), (max-aspect-ratio: 9/16) {
-		
-		.home-hero {
-			min-height: 86vh;
-		}
-		
-		.home-hero::before {
+
+		.layer-1::before {
 			filter: blur(1.6px) brightness(0.7);
 		}
 
-		.rest {
-			clip-path: polygon(0 1.2%, 100% 0, 100% 100%, 0 100%);
-			margin-top: -3.5vh;
-		}
-
-		.home-ribbon{
-			top: 83vh;
-			transform: rotate(-5deg);
-		}
+		/* ribbon needs no override: the atan2() rule follows the portrait slope */
 
 		.home-blog-container {
-			padding: 22px 40px;
+			padding: 22px 8vw;
 			gap: 11px;
 		}
 
@@ -295,20 +284,51 @@ import HomeFooter from '../components/pages/home-footer.astro';
 			font-size: 14px;
 		}
 
-
 		.home-title {
 			font-size: 6.5vh;
 		}
 
-		
 		.home-credits {
 			padding: 6vh 0 8vh;
 		}
-
-		
-
 	}
 
 </style>
 
+<script>
+	const el = document.querySelector<HTMLElement>('.l2-last');
+	const layer2 = document.querySelector<HTMLElement>('.layer-2');
+	const wrap = document.querySelector<HTMLElement>('.layer-3-wrap');
 
+	if (el && layer2 && wrap) {
+		let imgW = 0;
+		let imgH = 0;
+		const bgUrl = getComputedStyle(layer2).backgroundImage.match(/url\(["']?(.*?)["']?\)/)?.[1];
+		if (bgUrl) {
+			const img = new Image();
+			img.onload = () => {
+				imgW = img.naturalWidth;
+				imgH = img.naturalHeight;
+				update();
+			};
+			img.src = bgUrl;
+		}
+
+		const update = () => {
+			if (!imgW || !imgH) return;
+			const W = layer2.clientWidth;
+			const H = layer2.clientHeight;
+			const scale = Math.max(W / imgW, H / imgH);
+			const sw = imgW * scale;
+			const sh = imgH * scale;
+			const naturalTop = wrap.offsetTop - el.offsetHeight;
+			el.style.setProperty('--l2-bg-size', `${sw}px ${sh}px`);
+			el.style.setProperty('--l2-bg-pos', `${(W - sw) / 2}px ${-naturalTop}px`);
+		};
+
+		window.addEventListener('resize', update);
+		window.addEventListener('load', update);
+		const ro = new ResizeObserver(update);
+		ro.observe(layer2);
+	}
+</script>
