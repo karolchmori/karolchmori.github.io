@@ -1,0 +1,288 @@
+---
+// ContactTicket.astro
+// Contact section: a tilted ticket that is one link.
+// Horizontal on desktop, vertical on phones (max-width: 640px).
+// The stub peels on hover/focus anywhere on the ticket; a click goes to `href`.
+//
+// <ContactTicket
+//   href="mailto:you@example.com"
+//   bodyImg="/ticket-body.svg"          stubImg="/ticket-stub.svg"
+//   bodyImgVertical="/ticket-body-v.svg" stubImgVertical="/ticket-stub-v.svg"
+// />
+//
+// Without images, a flat color panel is shown in both layouts.
+const {
+  href = "/contact",
+  kicker = "Valid for one project",
+  label = "Contact",
+  ariaLabel = "Contact me",
+  bodyImg,
+  stubImg,
+  bodyImgVertical,
+  stubImgVertical,
+} = Astro.props;
+
+const hasBody = bodyImg || bodyImgVertical;
+const hasStub = stubImg || stubImgVertical;
+---
+
+<div class="contact">
+  <a class="ticket" href={href} aria-label={ariaLabel}>
+    <div class="body">
+      {hasBody ? (
+        <picture>
+          {bodyImgVertical && <source media="(max-width: 640px)" srcset={bodyImgVertical} />}
+          <img src={bodyImg ?? bodyImgVertical} alt="" />
+        </picture>
+      ) : (
+        <div class="placeholder"></div>
+      )}
+    </div>
+
+    <div class:list={["stub", { "art-h": !!stubImg, "art-v": !!stubImgVertical }]}>
+      {hasStub && (
+        <picture class="stub-art">
+          {stubImgVertical && <source media="(max-width: 640px)" srcset={stubImgVertical} />}
+          <img src={stubImg ?? stubImgVertical} alt="" />
+        </picture>
+      )}
+      <span class="kicker">{kicker}</span>
+      <span class="label">
+        {label}
+        <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </span>
+    </div>
+  </a>
+</div>
+
+<style>
+    .contact {
+        --paper: #d9d0d0;
+        --stub: #cdbfc1;
+        --ink: #1c1519;
+        --pink: #c8486b;
+        --art-bg: #bfb0b3;
+        --notch: 13px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1rem 2rem;
+    }
+
+    /* ---------- ticket (horizontal, default) ---------- */
+    .ticket {
+        display: flex;
+        width: min(1040px, 100%);
+        aspect-ratio: 640 / 240;
+        color: var(--ink);
+        text-decoration: none;
+        transform: rotate(0.7deg);
+        filter: drop-shadow(0 14px 22px rgb(0 0 0 / 0.5));
+    }
+    .ticket:focus-visible {
+        outline: 3px solid var(--pink);
+        outline-offset: 8px;
+        border-radius: 14px;
+    }
+
+    .body {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        background: var(--paper);
+        border-radius: 14px 0 0 14px;
+        overflow: hidden;
+        /* half-circle notches where the perforation meets the edge */
+        -webkit-mask:
+        radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000),
+        radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000);
+        -webkit-mask-composite: source-in;
+        mask:
+        radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000),
+        radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000);
+        mask-composite: intersect;
+    }
+    .body picture,
+    .body img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .placeholder {
+        position: absolute;
+        inset: 14px 0 14px 14px;
+        background: var(--art-bg);
+        border: 1.5px solid var(--pink);
+        border-right: 0;
+        border-radius: 6px 0 0 6px;
+    }
+
+    /* ---------- stub ---------- */
+    .stub {
+        position: relative;
+        flex: 0 0 23.5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.1rem 1rem 1.1rem 1.3rem;
+        background: var(--stub);
+        border-radius: 0 14px 14px 0;
+        transform-origin: 0 100%; /* hinge on the bottom of the perforation */
+        transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+        animation: wiggle 4s 1.5s ease-in-out infinite;
+        -webkit-mask:
+        radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000),
+        radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000);
+        -webkit-mask-composite: source-in;
+        mask:
+        radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000),
+        radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000);
+        mask-composite: intersect;
+    }
+    /* dashed perforation, drawn in CSS unless your stub art already has it */
+    .stub:not(.art-h)::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 14px;
+        bottom: 14px;
+        width: 2px;
+        background: repeating-linear-gradient(
+        to bottom, var(--ink) 0 5px, transparent 5px 11px
+        );
+        opacity: 0.6;
+    }
+
+    .stub-art {
+        position: absolute;
+        inset: 0;
+        display: block;
+    }
+    .stub-art img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .kicker,
+    .label {
+        position: relative; /* sits above the stub art */
+    }
+
+    .kicker {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        max-width: 15ch;
+        opacity: 0.8;
+    }
+    .label {
+        align-self: flex-end;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: var(--font-display, "Bebas Neue", Impact, sans-serif);
+        font-size: clamp(1.5rem, 4.6vw, 2.3rem);
+        line-height: 1;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ink); /* dark text for contrast, pink on the arrow only */
+    }
+    .label svg {
+        color: var(--pink);
+        transition: transform 0.25s ease;
+    }
+
+    /* ---------- the peel: hover or focus anywhere on the ticket ---------- */
+    .ticket:hover .stub,
+    .ticket:focus-visible .stub {
+        animation: none;
+        transform: rotate(5deg);
+    }
+    .ticket:active .stub {
+        transform: rotate(8deg);
+        transition-duration: 0.12s;
+    }
+    .ticket:hover .label svg,
+    .ticket:focus-visible .label svg {
+        transform: translateX(4px);
+    }
+
+    /* idle hint so touch users (no hover) still see it can be pulled */
+    @keyframes wiggle {
+        0%, 55%, 100% { transform: rotate(0); }
+        62% { transform: rotate(3deg); }
+        70% { transform: rotate(-1deg); }
+        78% { transform: rotate(2.5deg); }
+        88% { transform: rotate(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .stub { animation: none; transition: none; }
+        .label svg { transition: none; }
+    }
+
+    /* ---------- vertical layout for phones ---------- */
+    @media (max-width: 640px) {
+        .ticket {
+            flex-direction: column;
+            width: min(250px, 100%);
+            aspect-ratio: 250 / 400;
+        }
+
+        .body {
+            border-radius: 14px 14px 0 0;
+            -webkit-mask:
+            radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000),
+            radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000);
+            -webkit-mask-composite: source-in;
+            mask:
+            radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000),
+            radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000);
+            mask-composite: intersect;
+        }
+        .placeholder {
+            inset: 14px 14px 0 14px;
+            border-bottom: 0;
+            border-right: 1.5px solid var(--pink);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .stub {
+            flex: 0 0 20%;
+            padding: 1.1rem 1.3rem;
+            border-radius: 0 0 14px 14px;
+            transform-origin: 0 0; /* hinge on the left end of the perforation */
+            -webkit-mask:
+            radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000),
+            radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000);
+            -webkit-mask-composite: source-in;
+            mask:
+            radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000),
+            radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000);
+            mask-composite: intersect;
+        }
+        /* horizontal dashed perforation instead of the vertical one */
+        .stub:not(.art-h)::before { content: none; }
+        .stub:not(.art-v)::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 14px;
+            right: 14px;
+            height: 2px;
+            background: repeating-linear-gradient(
+            to right, var(--ink) 0 5px, transparent 5px 11px
+            );
+            opacity: 0.6;
+        }
+
+        .kicker { font-size: 0.8rem; max-width: 18ch; }
+        .label { font-size: 2rem; }
+    }
+</style>

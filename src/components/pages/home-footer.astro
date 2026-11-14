@@ -1,0 +1,98 @@
+---
+import TearableTicket from '../../components/props/TearableTicket.astro';
+
+
+
+
+---
+
+<div class="home-footer-container">
+    <p class="home-subhead">Got a problem?</p>
+    <span class="home-title">Let's transform it</span>
+    <TearableTicket/>
+
+
+</div>
+
+
+<style>
+
+    .home-footer-container {
+        display: grid;
+        align-content: start;
+        grid-template-areas:
+            "subhead"
+            "header";
+        align-items: center;
+        overflow: visible;
+
+        min-height: 75vh;  
+        width: 100%;     
+        max-width: 1500px;
+        padding-bottom: 2rem;
+    }
+
+
+	.home-title {
+		grid-area: header;
+        user-select: none;
+		color: #BA4964;
+		font-size: 100px;
+		line-height: 1.2;
+		letter-spacing: 8px;
+		display: inline-block;
+        font-weight: 700;
+        font-family: 'Barqen', sans-serif;
+		text-transform: uppercase;
+		text-shadow: 
+            -4px -4px 0 #050304,  
+             4px -4px 0 #050304,
+            -8px  8px 0 #050304,
+             8px  8px 0 #050304;
+
+		
+		justify-self: center;
+        text-align: center;
+		margin-bottom: -0.9rem;
+        margin-top: -1.5rem;
+        transform: rotate(-1deg);
+	}
+
+
+	.home-subhead {
+		grid-area: subhead;
+        color: #C0B1B5;
+        font-family: 'Barqen', sans-serif;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 0.85;
+        letter-spacing: 4px;
+        display: inline-block;
+        transform: rotate(-0.5deg);
+        text-transform: lowercase;
+        justify-self: center;
+	}
+
+        @media (orientation: portrait), (max-aspect-ratio: 9/16) {
+
+		.home-title {
+			font-size: 7vh;
+			letter-spacing: 3px;
+            margin-top: 0rem;
+			text-shadow: 
+				-2px -2px 0 #050304,  
+				2px -2px 0 #050304,
+				-4px  4px 0 #050304,
+				4px  4px 0 #050304;
+		}
+
+        .home-subhead {
+			font-size: 18px;
+            padding-left: 0.7rem;
+		}
+
+    }
+
+
+
+</style>

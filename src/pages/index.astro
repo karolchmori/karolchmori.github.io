@@ -10,9 +10,11 @@ import HorizontalCarousel from '../components/widgets/HorizontalCarousel.astro';
 import HomeRibbon from '../components/props/HomeRibbon.astro';
 
 
+
 import HomeHero from '../components/pages/home-hero.astro';
 import HomePortfolio from '../components/pages/home-portfolio.astro';
 import HomeCredits from '../components/pages/home-credits.astro';
+import HomeFooter from '../components/pages/home-footer.astro';
 
 ---
 
@@ -50,8 +52,9 @@ import HomeCredits from '../components/pages/home-credits.astro';
 							<HomeCredits/>
 							
 						</section>
-						<section class="home-ending">
-
+						<section class="home-footer">
+							<HomeFooter/>
+							
 
 						</section>
 					</div>
@@ -180,19 +183,19 @@ import HomeCredits from '../components/pages/home-credits.astro';
 
 	.home-credits {
 		position: relative;
-		
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		
 	}
 
-	
 
-	.home-ending {
+	.home-footer {
 		position: relative;
-		min-height: 58vh;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
 	}
+	
 
 	section {
 		display: block;
