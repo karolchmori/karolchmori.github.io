@@ -1,7 +1,7 @@
 ---
 import CreditBadge from '../cards/CreditBadge.astro';
 import { creditLibrary } from '../../data/CreditsLibrary';
-
+import HorizontalCarousel from '../widgets/HorizontalCarousel.astro';
 
 
 const lastCredits = [...creditLibrary]
@@ -16,7 +16,6 @@ const layouts = [
 
 ---
 
-
 <div class="home-credits-container">
     <span class="home-title">Recent Work</span>
     <p class="home-subhead">Projects and collaborations.
@@ -26,14 +25,22 @@ const layouts = [
         {lastCredits.map((credit, i) => {
             const l = layouts[i % layouts.length];
             return (
-                <div
-                    class="credit-slot"
-                    style={`--drop:${l.drop}em; --rot:${l.rot}deg; --m-rot:${i % 2 === 0 ? -2.5 : 2.5}deg; --m-shift:${i % 2 === 0 ? -6 : 6}px`}
-                >
+                <div class="credit-slot"
+                    style={`--drop:${l.drop}em; --rot:${l.rot}deg; --m-rot:${i % 2 === 0 ? -2.5 : 2.5}deg; --m-shift:${i % 2 === 0 ? -6 : 6}px`}>
                     <CreditBadge entry={credit} index={i}/>
                 </div>
             );
         })}
+    </div>
+
+    <div class="credits-carousel">
+        <HorizontalCarousel itemSize="32vh" gap={2} navigation="buttons">
+            {lastCredits.map((credit, i) => (
+                <div class="credit-slot-mobile">
+                    <CreditBadge entry={credit} index={i}/>
+                </div>
+            ))}
+        </HorizontalCarousel>
     </div>
 </div>
 
@@ -131,6 +138,10 @@ const layouts = [
         flex-direction: row;
         gap: 30px; 
         
+    }
+
+    .credits-carousel {
+        display: none;
     }
 
     .credit-slot {
@@ -234,19 +245,20 @@ const layouts = [
 
 
 		.credits-board {
-			justify-self: center;
-            align-self: center;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-		}
+            display: none;
+        }
 
-		.credit-slot {
-			width: 60vw;
-			margin-top: 0;
-			transform-origin: center;
-			transform: translateX(var(--m-shift)) rotate(var(--m-rot));
-		}
+        .credits-carousel {
+            display: block;
+            grid-area: badges;
+            width: 100vw;
+            min-width: 0; /* lets the grid child shrink so the carousel can scroll */
+        }
+
+        .credit-slot-mobile :global(.credit-card-clip) {
+            display: none;
+        }
+
 
         .credit-slot :global(.credit-card-clip) {
             display: none;

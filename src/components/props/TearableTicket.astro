@@ -77,7 +77,7 @@ const hasStub = stubImg || stubImgVertical;
         aspect-ratio: 640 / 240;
         color: var(--ink);
         text-decoration: none;
-        transform: rotate(0.7deg);
+        transform: rotate(-1deg);
         filter: drop-shadow(0 14px 22px rgb(0 0 0 / 0.5));
     }
     .ticket:focus-visible {
@@ -150,9 +150,7 @@ const hasStub = stubImg || stubImgVertical;
         top: 14px;
         bottom: 14px;
         width: 2px;
-        background: repeating-linear-gradient(
-        to bottom, var(--ink) 0 5px, transparent 5px 11px
-        );
+        background: repeating-linear-gradient( to bottom, var(--ink) 0 5px, transparent 5px 11px );
         opacity: 0.6;
     }
 
